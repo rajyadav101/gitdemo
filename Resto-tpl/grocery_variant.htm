@@ -1,0 +1,8 @@
+  <div ng-if="menuitem.variant.length && !menuitem.variant.attribute.length">
+  	<select name="selected_grocery_option" id="selected_grocery_option" ng-model="selected_grocery_option" ng-change="SelectedGroceryChnage(selected_grocery_option, menuitem.id)" ng-init="InitSelectedGroceryChnage(menuitem.variant[0], menuitem.id); selected_grocery_option = menuitem.variant[0]" ng-options="value.name for (key, value) in menuitem.variant" ng-required="required"> 
+  	</select>
+
+  	<a href="" class="product-add-to-cart product-cart-item-update" data="{{menuitem.id}}" ng-click="cart.addItem(menuitem.id + SelectedGrocery(menuitem.id)['groceryID'], menuitem.title + '-' + SelectedGrocery(menuitem.id)['name'], SelectedGrocery(menuitem.id)['price'], product_qty, 
+  	menuitem.image_url, menuitem.id, SelectedGrocery(menuitem.id)['groceryID'], null, categorys.id, null, null, null, null, null)">{{restaurant.translated_text.add}}<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+  </a>
+</div>

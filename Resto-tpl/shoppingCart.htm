@@ -1,0 +1,267 @@
+﻿<div class="col-md-3 angular-cart">
+
+    <div class="">
+        <!-- items -->
+        <div class="angular-cart-section">
+            <div class="upper-cart-details-section">
+                <!-- header -->
+
+
+                <div class="preorder-section">
+
+                    <div ng-repeat="restaurant in restaurants">
+                        <div ng-if="restaurant.rest_open == 1">
+                            <div ng-if="restaurant.order_settings.allow_advance_delivery == 1">
+
+                                <div ng-if="restaurant.order_settings.advance_order_delivery_min_days == 0 && restaurant.order_settings.pre_order_only == 0">
+                                    <input type="radio" ng-model="preorder_option" value="0" ng-change="calculatePreorderDates(preorder_option);
+                                                cart.clearItems();
+                                                tips = 0" ng-init="preorder_option = CurrentOption" id="ordernow-input"> 
+                                    <label for="ordernow-input">{{restaurant.translated_text.order_now}}</label>
+
+                                    <input type="radio" ng-model="preorder_option" value="1" ng-change="calculatePreorderDates(preorder_option);
+                                                cart.clearItems();
+                                                tips = 0" ng-init="preorder_option = CurrentOption;
+                                                            calculatePreorderDates(preorder_option);" id="preorder-input"> 
+                                    <label for="preorder-input">{{restaurant.translated_text.pre_order_text}}</label>
+                                </div>
+
+                                <div ng-if="restaurant.order_settings.advance_order_delivery_min_days > 0 || restaurant.order_settings.pre_order_only == 1" class="preorder-select-radio">
+                                    <input type="radio" ng-model="preorder_option" value="1" ng-change="calculatePreorderDates(preorder_option);
+                                                tips = 0" ng-init="preorder_option = true;
+                                                            calculatePreorderDates(preorder_option);" id="preorder-input-only"> 
+                                    <label ng-if="restaurant.id != '8364'" class="pre-order-text" for="preorder-input-only">{{restaurant.translated_text.pre_order_text}}</label>
+                                    <label ng-if="restaurant.id == '8364'" class="pre-order-text" for="preorder-input-only">{{restaurant.translated_text.order_time}}</label>
+                                </div>
+
+                                <div ng-if="preorder_option == '1'">
+
+
+                                    <input type="text" class="form-control datepicker-date-input" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" ng-click="opened = true" min-date="minDate" max-date="maxDate" ng-change="changeSelect(dt, selected_preorder_time);
+                                                calculatePreorderTime(dt);
+                                                SelectedPreorderDate(dt);
+                                                selected_preorder_time = preorder_times[0];
+                                                SelectedPreorderTime(selected_preorder_time);" datepicker-options="dateOptions" date-disabled="shouldDateBeDisabled(date, mode)" ng-required="true" close-text="Close" ng-readonly='true' />
+
+
+                                    <select ng-model="selected_preorder_time" ng-change="SelectedPreorderTimeChange(selected_preorder_time);" class="select-your-pre-time">
+                                        <!-- <option value="0">Select Time</option> -->
+                                        <option value="{{preorder_time}}" ng-selected ="{{preorder_time == Full_Time}}" ng-repeat="preorder_time in preorder_times"
+                                                >{{preorder_time}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div ng-repeat="restaurant in restaurants">
+                    <div class="angular-cart-section-header-top">
+
+                        <span>{{restaurant.translated_text.order_detail}}</span>
+                    </div>
+                    <!-- empty cart message -->
+                    <div ng-hide="cart.getTotalCount() > 0" >
+                        <div class="angular-cart-empty" colspan="4">
+                            {{restaurant.translated_text.your_cart_empty}}
+                        </div>
+                    </div>
+                </div>
+                <!-- cart items -->
+                <div class="angular-cart-product-rows">
+                    <div ng-repeat="item in cart.items| orderBy:reverse" class="angular-cart-product-row">
+
+                        <div class="angular-quantity-section" ng-model="item.quantity" ng-change="cart.saveItems()">
+                            {{item.quantity}}
+                        </div>
+
+                        <div class="angular-product-image">
+                            <img ng-src="{{item.image_url}}">
+                        </div>
+
+
+                        <div class="angular-cart-product-name angular-cart-product-name-indi" data="{{item.productid}}">
+
+                            <span ng-repeat="restaurant in restaurants" class="school-date" ng-if="restaurant.school == 1">{{item.school_date}}: </span>
+                            <span ng-bind-html="item.name | html"></span>
+
+                            <div class="combo-cart-product-section">
+                                <div ng-repeat="(key, value) in item.Combo">
+                                    <div class="combo-cart-name" ng-bind-html="value.comboItemName | html"></div>
+
+                                    <div ng-repeat="comboradio in item.ComboRadio[key]">
+                                        <div class="angular-cart-attribute-title">{{comboradio.AttrName}}</div>
+                                        <span class="angular-cart-attribute-name">{{comboradio.OptionName}}</span>
+                                    </div>
+
+                                    <div ng-repeat="(key, value) in item.ComboCheckbox[key].OptionName">
+                                        <div class="angular-cart-attribute-title" ng-if="value.length > 0">{{key}}</div>
+                                        <div ng-repeat="attrname in value">
+                                            <span class="angular-cart-attribute-name">{{attrname}}</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="" ng-repeat="attrRadioSelect in item.atrrTitle">
+                                <div class="angular-cart-attribute-title"> {{attrRadioSelect.attrTitle}}</div>
+                                <div class="angular-cart-attribute-name">{{attrRadioSelect.name}}</div>
+                            </div>
+
+                            <div ng-repeat="(key, value) in item.chekboxAttr">
+                                <div class="angular-cart-attribute-title" ng-if="value.totalCheck > 0">{{value.attrTitle}}</div>
+                                <div ng-repeat="attrcheck in item.chekboxAttr[key]" class="angular-cart-attribute-name">
+                                    {{attrcheck.optionTitle}}
+                                </div>
+                            </div>
+
+                            <div ng-repeat="(key, value) in item.incrementAttr">
+                                <div class="angular-cart-attribute-title" ng-if="value.totalQty > 0">{{value.attrTitle}}</div>
+                                <div ng-repeat="attrincrement in item.incrementAttr[key]" class="angular-cart-attribute-name" ng-if="attrincrement.optionTitle.length > 0">
+                                    {{attrincrement.optionTotalQty}} x {{attrincrement.optionTitle}}
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="angular-cart-product-quantity-section">
+                            <div class="input-append">
+                                <div class="angular-cart-product-quantity-add-delete">
+
+                                    <button 
+                                        class="btn btn-success angular-cart-product-quantity-add" type="button" 
+                                        ng-disabled="item.quantity >= 1000"
+                                        ng-click="cart.addItem(item.id, item.name, item.price, +1)"><img src="/angular/img/plus.png" style="margin-right:3px;" ><i class="fa fa-plus-circle" aria-hidden="true" style="display: none;"></i></button>
+                                    <button 
+                                        class="btn btn-inverse angular-cart-product-quantity-delete" type="button" 
+                                        ng-disabled="item.quantity <= item.minqty"
+                                        ng-click="cart.addItem(item.id, item.name, item.price, -1)"><img src="/angular/img/minus.png" style="margin-right:3px;"><i class="fa fa-minus-circle" aria-hidden="true" style="display: none;"></i></button>
+
+                                </div>
+                                <div class="angular-cart-product-remove" title="remove from cart">
+                                    <a href="" ng-click="cart.addItem(item.id, item.name, item.price, -10000000)" >
+                                        <img src="/angular/img/trash.png"><i class="fa fa-trash-o" aria-hidden="true" style="display: none;"></i>
+                                    </a>
+                                </div>
+
+                                <div class="angular-cart-product-edit" title="edit item">
+                                    <a href="" ng-click="cart.editItem(item.id, item.name, item.price, item.quantity)" >
+                                        <img src="/angular/img/edit.png">
+                                    </a>
+                                </div>
+
+                            </div>
+
+                            <div class="angular-cart-product-price"><div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span></div>{{item.price * item.quantity| number:2}}</div>
+
+                        </div>
+
+
+
+                        <div class="angular-cart-product-order-comment"> 
+                            <div ng-if="item.itemcomment.length" class="angular-cart-product-order-comment-title">
+                                <span><div ng-repeat="restaurant in restaurants">{{restaurant.translated_text.note}}:</div></span>
+                            </div>
+                            <span class="angular-cart-product-order-comment-section">{{item.itemcomment}}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- footer -->
+                <div ng-repeat="restaurant in restaurants">
+                    <div class="angular-cart-section-footer">
+                        <div class="angular-cart-product-name"><b>{{restaurant.translated_text.sub_total}}</b></div>
+                        <div class="angular-cart-product-total-quantity"><b>{{cart.getTotalCount()}}</b></div>
+                        <div class="angular-cart-product-price"><b><div class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span></div>{{cart.getTotalPrice() | number:2}}</b></div>
+                    </div>
+
+                    <!-- tip feature -->
+                    <div ng-if="restaurant.order_settings.tip_enable == 1">
+                        <div class="angular-cart-tip-section-footer">
+                            <div class="angular-cart-tip-name"><b>{{restaurant.translated_text.tip}}</b></div>
+                            <div class="angular-cart-tip-input-box"><div class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span></div>
+                                <input type="text" name="number" maxlength="3" only-digits ng-model="tip.tips" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="1" min="0" ng-disabled="cart.getTotalCount() < 1" ng-change="TipCalculate(tip.tips);"><div ng-show = "restaurant.profile_id == 1469" class="tip-add-minus">
+                                    <button class="btn btn-success angular-cart-product-quantity-add" type="button" ng-click="tip.tips = tip.tips + 1"><img src="/angular/img/theme23/add.png"></button>
+                                    <button class="btn btn-inverse angular-cart-product-quantity-add" type="button" 
+                                            ng-click="tip.tips = tip.tips - 1" ng-disabled="tip.tips < 3"><img src="/angular/img/theme23/minus.png"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- tip feature ended-->
+                    </div>
+                </div>
+                <div class="bottom-cart-details-section">
+                    <div ng-repeat="restaurant in restaurants">
+                        <div class="angular-cart-min-order-amount" ng-show="restaurants[0].order_settings.min_order_amount > cart.getTotalPrice()">
+                            <div class="currency-sign">{{restaurant.translated_text.min_order_amount}}: <span ng-bind-html="restaurant.currency_sign | html"></span></div><div ng-if="MinimumOrderAmountArea == null" class="minimum_order_amount-div">{{restaurants[0].order_settings.min_order_amount| number:2}}</div>
+                            <div class="minimum_order_amount-div" ng-if="MinimumOrderAmountArea != null">{{MinimumOrderAmountArea| number:2}}</div>
+                        </div>
+
+                        <div class="angular-cart-order">
+                            <div ng-repeat="profileID in restaurants">
+                                <div ng-if="preorder_option == '1' && MinimumOrderAmountArea == null">
+                                    <button 
+                                        class="btn btn-block angular-cart-order-now" 
+                                        ng-click="showOverlay(); cart.cartorderlist(tip.tips, profileID.id, profileID.profile_id, profileID.language, dt, Full_Time, profileID.session_id);"
+                                        ng-disabled="cart.getTotalCount() < 1 || restaurants[0].order_settings.min_order_amount > cart.getTotalPrice() || selected_preorder_time == 0 || PreOrderCloseTime == 1">
+                                        {{restaurant.translated_text.order}}
+                                    </button>
+                                </div>
+                                <div ng-if="(preorder_option == '0' || restaurant.rest_open == 0) && MinimumOrderAmountArea == null">
+                                    <button 
+                                        class="btn btn-block angular-cart-order-now" 
+                                        ng-click="showOverlay(); cart.cartorderlist(tip.tips, profileID.id, profileID.profile_id, profileID.language, null, null, profileID.session_id);"
+                                        ng-disabled="cart.getTotalCount() < 1 || restaurants[0].order_settings.min_order_amount > cart.getTotalPrice()" >
+                                        {{restaurant.translated_text.order}}
+                                    </button>
+                                </div>
+                                <div ng-if="preorder_option == '1' && MinimumOrderAmountArea != null">
+                                    <button 
+                                        class="btn btn-block angular-cart-order-now" 
+                                        ng-click="showOverlay(); cart.cartorderlist(tip.tips, profileID.id, profileID.profile_id, profileID.language, dt, Full_Time, profileID.session_id);"
+                                        ng-disabled="cart.getTotalCount() < 1 || MinimumOrderAmountArea > cart.getTotalPrice() || selected_preorder_time == 0 || PreOrderCloseTime == 1">
+                                        {{restaurant.translated_text.order}}
+                                    </button>
+                                </div>
+                                <div ng-if="(preorder_option == '0' || restaurant.rest_open == 0) && MinimumOrderAmountArea != null">
+                                    <button 
+                                        class="btn btn-block angular-cart-order-now" 
+                                        ng-click="showOverlay(); cart.cartorderlist(tip.tips, profileID.id, profileID.profile_id, profileID.language, null, null, profileID.session_id);"
+                                        ng-disabled="cart.getTotalCount() < 1 || MinimumOrderAmountArea > cart.getTotalPrice()" >
+                                        {{restaurant.translated_text.order}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="angular-cart-clear">
+                            <button 
+                                class="btn btn-block btn-danger" 
+                                ng-click="cart.clearItems();
+                                        ClearTipData()" 
+                                ng-disabled="cart.getTotalCount() < 1" >
+                                <i class="icon-trash icon-white" /> {{restaurant.translated_text.clear_cart}}
+                            </button>
+                        </div> 
+
+
+                        <div ng-if="restaurant.profile_id == 14826" class="cook-order-text">
+                            <span>Cook to order notice:</span> Consuming raw or under-cooked meat, poultry, seafood or eggs may increase your risk of food born illness.
+                        </div>
+                        <div ng-if="restaurant.profile_id == 21892 || restaurant.profile_id == 28403" class="cook-order-text">                            
+                            If you would like to TIP your delivery person by Credit Card, please add it to the order NOW.  Delivery person will not require any signature and cannot add any tip to your credit card at the time of delivery.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>

@@ -1,0 +1,94 @@
+<div class="container section-start">
+    <div class="section-start-child">
+        <header class="header-section">
+            <div class="header-section-restaurant">
+                <div class="left-corner"></div>
+                <div class="right-corner"></div>
+                <div class="header-restaurant-logo">
+                    <span>{{info.profile_name}}</span>
+                    <img ng-src="{{info.image_url}}"/>
+                </div>
+                <div class="header-login-section">
+
+
+
+                    <div ng-if="user.logged_in == 0">
+                        <button class="btn btn-primary btn-lg header-login-button page-login-create" data-dismiss="modal" data-toggle="modal" data-target="#CreateAccountModal" ng-if="info.como.allow_register == 1 && info.como.is_como == 1">
+                            {{info.translated_text.create_account}}
+                        </button>
+
+                        <button class="btn btn-primary btn-lg header-login-button page-login-login" data-toggle="modal" data-target="#myModalNorm" ng-click="loginvalidate_field()" ng-if="(info.como.allow_register == 1 && info.como.is_como == 1) || info.como.is_como == 0">
+                            {{info.translated_text.login}}
+                        </button>
+                        <!--                        <span ng-if="info.como.is_como == 1" class="page-login-create-separate">
+                                                    &nbsp;/&nbsp;
+                                                </span>-->
+
+
+                    </div>
+                    <div ng-if="user.logged_in == 1">
+
+                        <div class="angular-logout-section" ng-mouseenter="show = true" ng-mouseleave="show = false">
+                            <div class="angular-user-login-details">
+                                <div class="angular-user-login-img">
+                                    <img ng-src="{{user.user_info.image_url}}">
+                                </div>
+                                <div class="angular-user-login-name">
+                                    {{info.translated_text.hi_msg}} {{user.user_info.first_name}}
+                                </div>
+                            </div>
+                            <div class="angular-user-login-divs-section" ng-show="show" ng-if="info.como.is_como == 0 || info.como.allow_logout == 1">
+                                <div class="arrow-widget"></div>
+                                <div class="angular-user-login-divs">
+                                    <a  ng-if="info.como.is_como != 1" href="/user/{{user.user_id}}/myprofile"><div class="user-info-link">{{info.translated_text.my_profile}}</div></a>
+                                    <a ng-if="info.como.is_como != 1 && info.order_settings.show_coupons == 1" href="/user/{{user.user_id}}/mycoupons" ng-if="restaurant.profile_id != 12606"><div class="user-info-link">{{info.translated_text.my_coupon}}</div></a>
+                                    <a  ng-if="info.como.is_como != 1" href="/user/{{user.user_id}}/orders"><div class="user-info-link">{{info.translated_text.my_orders}}</div></a>
+                                    <a ng-if="info.como.is_como == 0 || info.como.allow_logout == 1" href="javascript:void(0)" class="angular-logout-button user-info-link" ng-click="cart.clearItems();
+                                        logoutvalidate()">{{info.translated_text.logout}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+        <section class="container-section">
+            <div class="msg-text-chooser" ng-if="info.profile_id == 13558">
+                If you are looking to order for both Breakfast & Lunch, then please complete the order first of either breakfast or lunch and then order the other.
+            </div>
+            <div class="order-type-selection">
+                <div ng-repeat="ChooseRestaurants in selection">
+                    <div class="restaurants-title" ng-if="info.profile_id != 9438 && info.profile_id != 14821">
+                        {{info.chooser_title_text}}
+                    </div>
+                    <div class="restaurants-title" ng-if="info.profile_id == 9438">
+                        Select your menu
+                    </div>
+                    <div class="restaurants-title" ng-if="info.profile_id == 14821">
+                        Select your order type
+                    </div>
+                    <div class="" ng-repeat="ChooseRestaurant in ChooseRestaurants.locations">
+                        <div class="restaurant-ind-selection">
+                            <div class="restaurant-ind-image">
+                                <img ng-src="{{ChooseRestaurant.image_url}}">
+                            </div>
+                            <div class="restaurant-ind-details">
+                                <div class="restaurant-ind-title">
+                                    {{ChooseRestaurant.title}}
+                                </div>
+                                <div class="restaurant-ind-description">
+                                    {{ChooseRestaurant.description}}
+                                </div>
+                                <div class="restaurant-ind-link" ng-click="LoadRestaurantPage(ChooseRestaurant.id)">
+                                    Go to menu
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </section>
+        <div ng-include="'/' + folder_name + '/partials/front_login.htm'"> </div>
+    </div>
+</div>

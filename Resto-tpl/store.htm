@@ -1,0 +1,691 @@
+<div class="angular-ordering-page">
+    <div class="angular-ordering-page-section">
+
+        <div class="animationload">
+            <div class="loader"></div>
+        </div>
+
+        <div ng-switch="theme_id">
+
+            <!-- language switcher -->
+            <div ng-repeat="restaurant in restaurants">
+                <div ng-if="restaurant.profile_id == '9408'">
+                    <div class="select-you-language">
+                        <span>{{restaurant.translated_text.site_language}}</span>
+                        <div class="nation-flag">
+                            <a href="/en/onlineorder/zigzwaterloo100"><img src="/angular/img/english.png" title="English" ng-class="{true: 'active', false: 'inactive'}[restaurant.language == 'en']"></a>
+                            <a href="/fr/onlineorder/zigzwaterloo100"><img src="/angular/img/france.png" title="French" ng-class="{true: 'active', false: 'inactive'}[restaurant.language == 'fr']"></a>
+                            <a href="/he/onlineorder/zigzwaterloo100"><img src="/angular/img/dutch.png" title="Hebrew" ng-class="{true: 'active', false: 'inactive'}[restaurant.language == 'nl']"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="restaurant.profile_id == '16575'">
+                    <div class="select-you-language">
+                        <span>{{restaurant.translated_text.site_language}}</span>
+                        <div class="nation-flag">
+                            <a href="/en/onlineorder/italiano{{ query_parameter()}}"><img src="/angular/img/english.png" title="English" ng-class="{true: 'active', false: 'inactive'}[restaurant.language == 'en']"></a>
+                            <a href="/fr/onlineorder/italiano{{ query_parameter()}}"><img src="/angular/img/france.png" title="French" ng-class="{true: 'active', false: 'inactive'}[restaurant.language == 'fr']"></a>
+                            <!--<a href="/nl/onlineorder/italiano{{ query_parameter() }}"><img src="/angular/img/dutch.png" title="Dutch" ng-class="{true: 'active', false: 'inactive'}[restaurant.language == 'nl']"></a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- language switcher ended -->
+
+            <!-- header print -->
+            <div ng-include src="'/'+folder_name+'/partials/header.htm'" class="header-html"> 
+            </div>
+            <!-- header print End-->
+
+            <!-- grocery slider -->
+            <div class="grocery-slider" ng-repeat="restaurant in restaurants" ng-if="restaurant.grocery == 1 && restaurant.header_images.length > 0">
+                <div id="carousel-generic" class="carousel slide" data-ride="carousel">
+                    <!-- Wrapper for slides -->
+                    <ul class="carousel-inner" role="listbox">
+
+
+                        <li ng-repeat="img_url in restaurant.header_images" ng-class='{active:$first}' class="item ">
+                            <img ng-src="{{img_url}}"/>
+                        </li> 
+
+                    </ul>
+
+                    <!-- Controls -->
+
+                    <a data-slide="prev" data-target="#carousel-generic" ng-non-bindable class="left carousel-control"><</a>
+                    <a data-slide="next" data-target="#carousel-generic" ng-non-bindable class="right carousel-control">></a>
+
+                </div>
+            </div>
+            <!-- grocery slider ended -->
+
+
+
+            <div class="restaurant-content-section">
+                <div class="page-alert-msg">
+                    <div ng-repeat="restaurant in restaurants">
+                        <!-- Alert Msg for forget password -->
+                        <div ng-if="restaurant.show_msg == 1">
+                            <div class="page-alert-msg-text">
+                                {{restaurant.msg_text}}
+                            </div>
+                        </div>
+                        <div ng-if="restaurant.profile_id == '17162' && selected_delivery_area != ''">
+                            <div class="page-alert-msg-text">
+                                Selected Store : {{selected_delivery_area}}
+                            </div>
+                        </div>
+                        <!-- Alert Msg for forget password Ended -->
+
+                        <!-- restaurant close text -->
+                        <div class="restaurant-closed-text-section">
+                            <div ng-if="restaurant.rest_open == 1">
+                                <div ng-if="restaurant.timings_set == 1 && preorder_option == '0'">
+                                    <div ng-init = "timing_validate(restaurant.timings)">
+                                        <div ng-if="restaurant_open_now == 0">
+                                            <div ng-if="restaurant.order_settings.allow_advance_delivery == 1">
+                                                <span>{{restaurant.translated_text.restaurant_is_closed_pre}}</span>
+                                            </div>
+                                            <div ng-if="restaurant.order_settings.allow_advance_delivery == 0">
+                                                <span>{{restaurant.translated_text.restaurant_is_closed}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="(restaurant.timings_set == 2 && preorder_option == '0')">
+                                    <div ng-if="restaurant.order_settings.allow_advance_delivery == 1">
+                                        <span>{{restaurant.translated_text.restaurant_is_closed_pre}}</span>
+                                    </div>
+                                    <div ng-if="restaurant.order_settings.allow_advance_delivery == 0">
+                                        <span>{{restaurant.translated_text.restaurant_is_closed}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="restaurant.rest_open == 0">
+
+                                <span ng-bind-html="restaurant.translated_text.temporary_closed | html"></span>
+                            </div>
+                        </div>
+                        <!-- restaurant close text ended-->
+
+                        <!-- clear cart for drupal logout -->
+                        <div ng-if="restaurant.empty_cart == 1">
+                            <div ng-init="cart.clearItems();
+                                        ClearTipData()">
+                            </div>
+                        </div>
+                        <div ng-if="restaurant.rest_open == 0">
+                            <div ng-init="cart.clearItems();
+                                        ClearTipData()">
+                            </div>
+                        </div>
+                        <div ng-if="BrowserPrifileIDHtml != BrowserRestaurantProfileHtml">
+                            <div ng-init="cart.clearItems();
+                                        ClearTipData()">
+                            </div>
+                        </div>
+                        <!-- clear cart for drupal logout Ended -->
+                    </div>
+                </div>
+
+                <div class="show-banner">
+                    <!-- <img src="/angular/img/banner.png"> -->
+                </div>
+
+                <div class="row page-menu-render" id="page-menu-render-id">
+                    <div class="col-md-9 restaurant-level">
+
+                        <!-- Parent Category print -->
+                        <div class="parent-category-section">
+                            <div ng-repeat="restaurant in restaurants" ng-if="restaurant.parent_menu.length > 0 && restaurant.grocery == 0 && restaurant.school == 0">
+                                <div class="parent-category-name">{{restaurant.translated_text.category}}</div>
+                                <div ng-repeat="parent_category in restaurant.parent_menu" class="parent-category-title-section">
+                                    <div class="parent-category-title" ng-class="{active:$first}" ng-click="ParentCategory(parent_category.id)">
+                                        {{parent_category.title}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Parent Category print Ended -->
+
+                        <div ng-switch-when="17">
+                            <div class="row">
+                                <div class="col-md-3 restaurant-level-category">
+                                    <div ng-repeat="restaurant in restaurants">
+
+                                        <!-- Category print -->
+                                        <div ng-include="'/' + folder_name + '/partials/category.htm'"> 
+                                        </div>
+                                        <!-- Category print End-->
+                                    </div>
+                                </div>
+                                <div class="col-md-9 restaurant-level-product">
+                                    <!-- Product print -->
+                                    <div ng-include="'/' + folder_name + '/partials/product.htm'"> 
+                                    </div>
+                                    <!-- Product print End-->
+                                    <div ng-repeat="menuitem in categorys.menu_item">
+                                        <div ng-if="menuitem.combo == 0">
+                                            <div ng-include="'/' + folder_name + '/partials/variant.htm'" ng-if="selectedMenuItemId == menuitem.id" class="angular-popup-attr"> 
+                                            </div>
+                                        </div>
+                                        <div ng-if="menuitem.combo == 1">
+                                            <div class="angular-popup-attr" ng-if="selectedMenuItemId == menuitem.id" ng-include="'/' + folder_name + '/partials/combo.htm'">
+                                            </div>
+                                        </div>
+                                    </div>       
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-switch-when="18">
+                            <div class="row">
+                                <div class="col-md-3 restaurant-level-category">
+                                    <div ng-repeat="restaurant in restaurants">
+
+                                        <!-- Category print -->
+                                        <div ng-include="'/' + folder_name + '/partials/category.htm'"> 
+                                        </div>
+                                        <!-- Category print End-->
+                                    </div>
+                                </div>
+                                <div class="col-md-9 restaurant-level-product">
+                                    <!--global search print -->
+                                    <div ng-repeat="restaurant in restaurants">
+
+
+                                        <div ng-if="restaurant.order_settings.show_global_search || restaurant.profile_id == 29765 || restaurant.profile_id == 21892 || restaurant.profile_id == 10832">
+                                            <input type="text" global-search class="product-search-input-box ng-pristine ng-valid ng-scope ng-touched" placeholder="Search Products">  
+                                            <div ng-if="show_global_search_result" ng-include="'/' + folder_name + '/partials/product18_all.htm'"> 
+                                            </div>
+                                            <div ng-repeat="current_menu in filtered_menu">
+                                                <div ng-if="show_global_search_result" ng-repeat="menuitem in current_menu.menu_item">
+                                                    <div ng-if="menuitem.combo == 0">
+                                                        <div ng-include="'/' + folder_name + '/partials/variant.htm'" ng-if="selectedMenuItemId == menuitem.id" class="angular-popup-attr"> 
+                                                        </div>
+                                                    </div>
+                                                    <div ng-if="menuitem.combo == 1">
+                                                        <div class="angular-popup-attr" ng-if="selectedMenuItemId == menuitem.id" ng-include="'/' + folder_name + '/partials/combo.htm'">
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                        </div>      
+                                    </div>
+                                    <!--global search end -->
+                                    <!-- Product print -->
+                                    <div ng-if="!show_global_search_result" ng-include="'/' + folder_name + '/partials/product18.htm'"> 
+                                    </div>
+                                    <!-- Product print End-->
+                                    <div ng-if="!show_global_search_result" ng-repeat="menuitem in categorys.menu_item">
+                                        <div ng-if="menuitem.combo == 0">
+                                            <div ng-include="'/' + folder_name + '/partials/variant.htm'" ng-if="selectedMenuItemId == menuitem.id" class="angular-popup-attr"> 
+                                            </div>
+                                        </div>
+                                        <div ng-if="menuitem.combo == 1">
+                                            <div class="angular-popup-attr" ng-if="selectedMenuItemId == menuitem.id" ng-include="'/' + folder_name + '/partials/combo.htm'">
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-switch-when="19">
+                            <div class="row">
+                                <div class="col-md-3 restaurant-level-category">
+                                    <div ng-repeat="restaurant in restaurants">
+
+                                        <!-- Category print -->
+                                        <div ng-include="'/' + folder_name + '/partials/category.htm'"> 
+                                        </div>
+                                        <!-- Category print End-->
+                                    </div>
+                                </div>
+                                <div class="col-md-9 restaurant-level-product">
+                                    <div class="restaurant-level-product-19">
+                                        <div class="restaurant-level-product-19-section">
+                                            <!-- Product print -->
+                                            <div ng-include="'/' + folder_name + '/partials/product_19.htm'"> 
+                                            </div>
+                                            <!-- Product print End-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-switch-when="20">
+                            <div class="row">
+
+                                <div class="restaurant-level-category restaurant-level-category-20">
+                                    <div ng-repeat="restaurant in restaurants">
+                                        <!-- Category print -->
+                                        <div ng-include="'/' + folder_name + '/partials/category_20.htm'"> 
+                                        </div>
+                                        <!-- Category print End-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 restaurant-level-product">
+                                    <div class="restaurant-level-product-20">
+                                        <div class="restaurant-level-product-20-section">
+                                            <!-- Product print -->
+                                            <div ng-include="'/' + folder_name + '/partials/product_20.htm'"> 
+                                            </div>
+                                            <!-- Product print End-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-switch-when="21">
+                            <div class="row">
+                                <div class="restaurant-level-category restaurant-level-category-21">
+                                    <div ng-repeat="restaurant in restaurants">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 restaurant-level-product">
+                                    <div class="restaurant-level-product-21">
+                                        <div class="restaurant-level-product-21-section">
+                                            <!--global search print -->
+                                            <div ng-repeat="restaurant in restaurants">
+                                                <div ng-if="restaurant.order_settings.show_global_search" class="product-search-input-box-clear-div">
+                                                    <input type="text" global-search class="product-search-input-box-clear ng-pristine ng-valid ng-scope ng-touched" placeholder="Search Products" id='clearSearch'>  
+
+                                                    <button class="clear"  ng-click="clearSearch()">
+                                                        <span class="">Clear</span>
+                                                    </button>  
+
+
+                                                    <div ng-if="show_global_search_result" ng-include="'/' + folder_name + '/partials/product21_all.htm'"> 
+                                                    </div>
+                                                    <div ng-repeat="current_menu in filtered_menu">
+                                                        <div ng-if="show_global_search_result" ng-repeat="menuitem in current_menu.menu_item">
+                                                            <div ng-if="menuitem.combo == 0">
+                                                                <div ng-include="'/' + folder_name + '/partials/variant.htm'" ng-if="selectedMenuItemId == menuitem.id" class="angular-popup-attr"> 
+                                                                </div>
+                                                            </div>
+                                                            <div ng-if="menuitem.combo == 1">
+                                                                <div class="angular-popup-attr" ng-if="selectedMenuItemId == menuitem.id" ng-include="'/' + folder_name + '/partials/combo.htm'">
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+                                                </div>      
+                                            </div>
+                                            <!--global search end -->
+
+
+                                            <!-- Product print -->
+                                            <div ng-repeat="restaurant in restaurants">
+                                                <div ng-if="!show_global_search_result" ng-include="'/' + folder_name + '/partials/product21.htm'"> 
+                                                </div>
+                                            </div>
+                                            <!-- Product print End-->
+                                            <div ng-if="!show_global_search_result" ng-repeat="menuitem in categorys.menu_item">
+
+                                                <div ng-if="menuitem.combo == 0">
+                                                    <div ng-include="'/' + folder_name + '/partials/variant.htm'" ng-if="selectedMenuItemId == menuitem.id" class="angular-popup-attr"> 
+                                                    </div>  
+                                                </div>
+
+                                                <div ng-if="menuitem.combo == 1">
+                                                    <div class="angular-popup-attr" ng-if="selectedMenuItemId == menuitem.id" ng-include="'/' + folder_name + '/partials/combo.htm'">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-switch-when="22">
+                            <div class="row">
+                                <div class="col-md-12 restaurant-level-product">
+                                    <div class="restaurant-level-product-22">
+                                        <div class="restaurant-level-product-22-section">
+
+
+                                            <!--global search print -->
+                                            <div ng-repeat="restaurant in restaurants">
+                                                <div ng-if="restaurant.order_settings.show_global_search" class="product-search-input-box-clear-div">
+                                                    <input type="text" global-search class="product-search-input-box-clear ng-pristine ng-valid ng-scope ng-touched" placeholder="Search Products" id='clearSearch'>  
+
+                                                    <button class="clear"  ng-click="clearSearch()">
+                                                        <span class="">Clear</span>
+                                                    </button>  
+
+
+                                                    <div ng-if="show_global_search_result" ng-include="'/' + folder_name + '/partials/product22_all.htm'"> 
+                                                    </div>
+                                                    <div ng-repeat="current_menu in filtered_menu">
+                                                        <div ng-if="show_global_search_result" ng-repeat="menuitem in current_menu.menu_item">
+
+                                                            <div ng-include="'/' + folder_name + '/partials/variant.htm'" ng-if="selectedMenuItemId == menuitem.id" class="angular-popup-attr"> 
+                                                            </div>
+                                                            <div class="angular-popup-attr" ng-if="selectedMenuItemId == menuitem.id" ng-include="'/' + folder_name + '/partials/combo.htm'">
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+                                                </div>      
+                                            </div>
+                                            <!--global search end -->
+
+
+                                            <!-- Product print -->
+                                            <div ng-repeat="restaurant in restaurants">
+                                                <div ng-if="!show_global_search_result" ng-include="'/' + folder_name + '/partials/product22.htm'"> 
+                                                </div>
+                                            </div>
+                                            <!-- Product print End-->
+                                            <div ng-if="!show_global_search_result" ng-repeat="menuitem in categorys.menu_item">
+
+                                                <div ng-include="'/' + folder_name + '/partials/variant.htm'" ng-if="selectedMenuItemId == menuitem.id" class="angular-popup-attr"> 
+                                                </div>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-switch-when="23">
+                            <div class="row">
+                                <div class="col-md-3 restaurant-level-category">
+                                    <div ng-repeat="restaurant in restaurants">
+
+                                        <!-- Category print -->
+                                        <div ng-include="'/' + folder_name + '/partials/grocery_category.htm'" class="restaurant-category-section"> 
+                                        </div>
+                                        <!-- Category print End-->
+                                    </div>
+                                </div>
+                                <div class="col-md-9 restaurant-level-product">
+
+                                    <!-- Product print -->
+                                    <div class="restaurant-product-section">
+                                        <input type="text" global-search class="product-search-input-box ng-pristine ng-valid ng-scope ng-touched" placeholder="Search Products">  
+
+                                        <div ng-if="!show_global_search_result" ng-include="'/' + folder_name + '/partials/grocery_product.htm'" > 
+                                        </div>      
+                                        <div ng-if="show_global_search_result" ng-include="'/' + folder_name + '/partials/grocery_product_all.htm'"> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-switch-when="24">
+                            <div class="row">
+                                <div class="col-md-3 restaurant-level-category">
+                                    <div ng-repeat="restaurant in restaurants">
+
+                                        <!-- Category print -->
+                                        <div ng-include="'/' + folder_name + '/partials/school_parent_category.htm'"> 
+                                        </div>
+                                        <!-- Category print End-->
+                                    </div>
+                                </div>
+                                <div class="col-md-9 restaurant-level-product">
+                                    <!-- Product print -->
+                                    <div ng-repeat="restaurant in restaurants">
+                                        <div ng-include="'/' + folder_name + '/partials/product24.htm'"> 
+                                        </div>
+                                    </div>
+                                    <!-- Product print End-->
+                                    <div ng-repeat="menuitem in categorys.menu_item">
+                                        <div ng-if="menuitem.combo == 0">
+                                            <div ng-include="'/' + folder_name + '/partials/variant.htm'" ng-if="selectedMenuItemId == menuitem.id" class="angular-popup-attr"> 
+                                            </div>
+                                        </div>
+                                        <div ng-if="menuitem.combo == 1">
+                                            <div class="angular-popup-attr" ng-if="selectedMenuItemId == menuitem.id" ng-include="'/' + folder_name + '/partials/combo.htm'">
+                                            </div>
+                                        </div>
+                                    </div>       
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div ng-repeat="restaurant in restaurants" class="page-alert-msg" >
+                        <div ng-if="restaurant.profile_id != '17162' && selected_delivery_area != ''" >
+
+                            <div class="selected-store-back" >
+                                <span class="page-alert-msg-text">
+                                    Selected Area : {{selected_delivery_area}}
+                                </span>
+                                <button class="btn btn-primary btn-lg angular-login-button page-login-login selected-delivery-button" ng-click="backToLocation()" >
+                                    Change
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ShoppingCart print -->
+                    <div ng-include="'/' + folder_name + '/partials/shoppingCart.htm'" class="angular-cart-section-div"> </div>
+                    <div ng-include="'/' + folder_name + '/partials/login.htm'"> </div>
+                    <!-- ShoppingCart print -->
+                </div>
+                <div ng-repeat="restaurant in restaurants">
+                    <div class="powered-by-restolabs"><a href="{{restaurant.brand_info.website}}" target="_blank"><img ng-src="{{restaurant.brand_info.power_by_logo}}"></a></div>
+                    <div class="olive-adr" ng-if="restaurant.profile_id == 33479">
+                        <div class="one-three"><a href="tel:04 451 1164" class="olive-tel"></a></div>
+                        <div class="one-three"><div class="come-dine"></div></div>
+                        <div class="one-three"><a href="mailto:info@breadandolives.ae" class="mail-olive"></a></div>
+                    </div>
+                    <button ng-if="restaurant.profile_id == 17162" id="back_to_top_scroll"  value="Scroll To Top" style="display: none;"><span></span></button>
+                    <div ng-if="restaurant.profile_id == 9898">
+                        <div class="theme-controller">
+                            <div class="controller-section" ng-click="zeusThemeSwitch()">
+                                <i class="fa fa-cogs"></i>
+                            </div>
+                            <div class="zeus-controller-data open">
+                                <div class="switcher-title">
+                                    Select your Theme
+                                </div>
+                                <div class="switcher-value">
+                                    <span class="theme1 theme-name" ng-click="zeustheme1()">Pizzeria</span>
+                                    <span class="theme2 theme-name" ng-click="zeustheme2()">Classic</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="restaurant.profile_id == 16575">
+                        <div class="theme-controller">
+                            <div class="controller-section" ng-click="zeusThemeSwitch()">
+                                <i class="fa fa-cogs"></i>
+                            </div>
+                            <div class="zeus-controller-data open">
+                                <div class="switcher-title">
+                                    Select your Theme
+                                </div>
+                                <div class="switcher-value">
+                                    <span class="theme1 theme-name" ng-click="restodemo1()">Pizzeria</span>
+                                    <span class="theme2 theme-name" ng-click="restodemo2()">Classic</span>
+                                    <span class="theme3 theme-name" ng-click="restodemo3()">Elegante</span>
+                                    <!--<span class="theme4 theme-name" ng-click="restodemo4()">Classic With Images</span>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- promotion coupons -->
+                    <div ng-if="restaurant.promo_msg.enabled == 1">
+                        <div class="promotion-section">
+                            <div class="promotion-top"></div>
+                            <div class="promotion-section-child">
+                                <div class="promotion-section-div">
+
+                                    <div class="promotion-left-section" ng-if="restaurant.promo_msg.image_set == 1">
+                                        <img ng-src="{{restaurant.promo_msg.image_url}}">
+                                    </div>
+                                    <div class="promotion-right-section">
+                                        <span class="promotion-title" ng-bind-html="restaurant.promo_msg.title | html"></span>
+                                        <span class="promotion-subtitle" ng-bind-html="restaurant.promo_msg.message | html">J</span>
+                                    </div>
+                                </div>
+                                <div class="promotion-close-button">
+                                    <i class="fa fa-close"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- promotion coupons ended-->
+
+                    <!-- Como popup check-->
+                    <div class="como-popup-section" ng-if="restaurant.como_popup == 1">
+                        <div class="como-popoup-div">
+                            <div class="combo-popup-title">
+                                Mobile Number
+                            </div>
+                            <div class="como-popup-data">
+                                <form name="como" ng-submit="UpdateComoMobileNumber(como_phone)">
+                                    <input type="number" name="como_phone" ng-model="como_phone" placeholder="Enter your mobile number" required>
+                                    <div class="como-popup-buttons">
+                                        <button type="submit" ng-disabled="como.como_phone.$invalid">OK</button>
+                                        <button type="button" ng-click="CancelUpdateComoMobileNumber()">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Como popup check-->
+
+                    <!-- loaction chooser for Lemon Grass  -->
+                    <div ng-if="restaurant.profile_id == 12606">
+                        <div class="location-chooser-popup-section">
+                            <div class="location-chooser-popup-child">
+                                <div class="location-chooser-popup-section-start">
+                                    <div class="location-chooser-popup-image">
+                                        <img ng-src="{{restaurant.image_url}}">
+                                    </div>
+                                    <div class="location-chooser-input-section">
+
+                                        <select name="selected_city" id="selected_city" ng-model="selected_city.city" ng-change="SelectedCityChnage(selected_city.city);
+                                                    selected = null" ng-options="value for (key, value) in restaurant.delivery_locations.delivery_cities" ng-required="required"> 
+                                        </select>
+
+                                        <input auto-complete ui-items="names" ng-model="selected" placeholder="Enter Area Name">
+                                        <div class="location-chooser-submit-button" ng-click="SelectedLocationChooser(selected);
+                                                cart.clearItems();">
+                                            Search
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- loaction chooser for Lemon Grass Ended -->
+
+                    <!-- loaction chooser for bamboos  -->
+                    <div ng-if="restaurant.profile_id == 21892">
+                        <div class="location-chooser-popup-section">
+                            <div class="location-chooser-popup-child">
+                                <div class="location-chooser-popup-section-start">
+                                    <div class="location-chooser-popup-image">
+                                        <img ng-src="{{restaurant.image_url}}">
+                                    </div>
+                                    <div class="location-chooser-input-section">
+
+                                        <!--                                        <select name="selected_city" id="selected_city" ng-model="selected_city.city" ng-change="SelectedCityChnage(selected_city.city);
+                                                                                            selected = null" ng-options="value for (key, value) in restaurant.delivery_locations.delivery_cities" ng-required="required"> -->
+                                        <!--</select>-->
+
+                                        <input auto-complete ui-items="area_names" ng-model="selected" placeholder="Enter Area / Zip Code">
+                                        <div class="location-chooser-submit-button" ng-click="SelectedAreaChooser(selected);
+                                                cart.clearItems();">
+                                            Go
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- loaction chooser for Bamboos Ended -->
+
+                    <!--location chooser generic code starts-->
+                    <div ng-if="restaurant.delivery_set == 1 && restaurant.profile_id != 12606 && restaurant.profile_id != 21892">
+                        <div class="location-chooser-popup-section">
+                            <div class="location-chooser-popup-child">
+                                <div class="location-chooser-popup-section-start">
+                                    <div class="location-chooser-popup-image">
+                                        <img ng-src="{{restaurant.image_url}}">
+                                    </div>
+                                    <div class="location-chooser-input-section">
+                                        <div ng-if="restaurant.location_chooser.city_based == 1">
+                                            <select name="location_chooser_city" id="location_chooser_city" ng-model="location_chooser_city.city" ng-change="location_chooser_city_change(location_chooser_city.city);
+                                                        selected = null" ng-options="value for (key, value) in restaurant.delivery_locations.delivery_cities" ng-required="required"> 
+                                            </select>
+                                            <input auto-complete ui-items="location_chooser_city_areas" ng-model="selected" placeholder="{{restaurant.location_chooser.text_box_label}}">
+                                            <div class="location-chooser-submit-button" ng-click="location_chooser_area_select(selected);
+                                                    cart.clearItems();">
+                                                <span ng-bind-html="restaurant.location_chooser.button_text | html"></span>
+                                            </div>
+                                        </div>
+
+                                        <div ng-if="restaurant.location_chooser.city_based == 0">
+
+                                            <input auto-complete ui-items="location_chooser_only_areas" ng-model="selected" placeholder="{{restaurant.location_chooser.text_box_label}}">
+                                            <div class="location-chooser-submit-button" ng-click="location_chooser_area_select(selected);
+                                                    cart.clearItems();">
+                                                <span ng-bind-html="restaurant.location_chooser.button_text | html"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--location chooser generic code ends-->
+
+
+                    <!-- italiano 30days strip start -->
+
+
+                    <!-- italiano 30days strip end -->
+                </div>
+            </div>
+            <div class="scroll-to-cart-mobile" ng-click="MobileScroll()">
+                <span class="scroll-to-cart-mobile-section">
+                    <i class="fa fa-cart-plus"></i>
+                </span>
+                <span class="total-product-cart">{{cart.getTotalCount()}}</span>
+                <span class="total-product-price" style="display:none;"><div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span></div>{{cart.getTotalPrice() | number:2}}</span>
+            </div>
+
+        </div>
+        <div ng-repeat="restaurant in restaurants">
+                    <div id="float-button" ng-if="restaurant.profile_id == 16575" ng-hide = "hideStripe">
+                        <div class="trail-fix">
+                            <span class="para">
+                                Start Your
+                                <span class="bold">
+                                    30
+                                </span>
+                                Days Free Trial
+                            </span>
+                            <span class="arrow-img">
+                                <img src="http://restolabs.com/sites/all/themes/restolabs/images/bottom_arrow.png"/>
+                            </span>
+                            <a href="http://restolabs.com/trial-signup" target="_blank">
+                                <!-- <img src="/sites/all/themes/restolabs/images/GET-STARTED-scroll.png" /> -->
+                                <div class="trial-sign-up-button">
+                                    Get Started
+                                </div>
+                            </a>
+                            <div id="close-trial" ng-click="ShowHide()">
+                                <i class="fa fa-times">
+                                </i>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>

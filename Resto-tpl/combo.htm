@@ -1,0 +1,89 @@
+<div class="product-topping-section">
+    <div class="product-size-topping-section">
+        <div class="product-details-topping">
+            <div class="product-details-topping-name">
+                {{menuitem.title}}
+            </div>
+            <div class="product-details-topping-disc">
+                {{menuitem.description}}
+            </div>
+        </div>
+
+        <div class="variant-attribute-scroll-section">
+            <div class="variant-attribute-scroll-section1" ng-init="showComboSection()">
+
+                <div class="combo-data-section">
+                    <div ng-repeat="combo in comboData| orderObjectBy:'id'" class="combo-data-section-list">
+                        <div  style="display: none">
+                            {{combo.title}} 	
+                        </div>
+                        <div class="combo-item-section">
+                            <div class="combo-item-name">{{combo.title}}</div>
+                            <div class="combo-item-section-input">
+                                <div ng-repeat="comboitem in combo.items" ng-class='{active:$first}' class="combo-section-data">
+                                    <div class="combo-item-name-inputs">
+                                        <input type="radio" id="{{comboitem.id}}" name="{{combo.id}}" data="{{combo.id}}" ng-true-value="{{comboitem.price}}"  ng-false-value="0" ng-click="ComboAttributeSelection(comboitem.id, combo.id);
+                                                                                            ComboItemSelection($event, topping.id, topping.name, topping.price, combo.id, comboitem.id, comboitem.title, comboitem.price);" class="combo-radio-button">
+                                        <label for="{{comboitem.id}}"><span ng-bind-html="comboitem.title | html"></span> <div ng-repeat="restaurant in restaurants" class="currency-sign" ng-if="comboitem.price > 0"> - <span ng-bind-html="restaurant.currency_sign | html"></span> {{comboitem.price| number:2}} </div></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-repeat="comboitem in combo.items" ng-class='{active:$first}' class="combo-section-data combo-section-data-list-view">
+                            <div ng-if="selectedComboItemId[combo.id] == comboitem.id" class="{{combo.id}} combo-indi-section-data">
+                                <div class="combo-item-attributes" ng-repeat="attribute in comboAttrData[combo.id].attribute">
+                                    <div class="{{attribute.id}} angular-attribute-section-tab angular-attribute-section-tab-{{attribute.id}}">
+                                        <div class="attribute-title">{{attribute.title}}</div>
+
+                                        <div class="attribute-options-section attribute{{attribute.id}}">
+
+                                            <div ng-if="attribute.type == 'checkbox'">
+
+                                                <div ng-repeat="options in attribute.options" class="attribute-option">
+                                                    <input type="checkbox" ng-model="CurrentComboModel[options.option_id]" ng-true-value="'{{options.price}}'" ng-false-value="'-1'" ng-click="UpdateAttrComboCheck($event, options.price, options.option_id, options.name, options.value, attribute.max, attribute.min, attribute.id, attribute.title, combo.id, topping.id)" id="{{options.option_id}}"><label for="{{options.option_id}}"> <span class="attribute-option-name-price"><span>{{options.name}}</span>   <div ng-if="options.price > 0">- <div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span></div>{{options.price| number:2}}</div> </span> </label>
+                                                </div>
+
+                                            </div>
+
+                                            <div ng-if="attribute.type == 'radio'">
+                                                <div ng-repeat="options in attribute.options" class="attribute-option attribute-radio-option">
+                                                    <input type="radio"  name="{{attribute.id}}" ng-true-value="'{{options.price}}'" ng-false-value="'-1'" ng-click="UpdateAttrComboRadio($event, options.price, options.option_id, options.name, options.value, attribute.id, attribute.title, combo.id, topping.id)" class="radiocheckbox-section" id="{{options.option_id}}"> 
+
+                                                    <label for="{{options.option_id}}"><span class="attribute-option-name-price"><span>{{options.name}}</span>   <div ng-if="options.price > 0">- <div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span></div>{{options.price| number:2}}</div> </span> </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product comment div code -->
+                    <div class="product-order-comment">
+                        <div class="attribute-title product-order-comment-title">
+                            <div ng-repeat="restaurant in restaurants" ng-bind-html="restaurant.translated_text.item_comment | html"></div>
+                        </div>
+                        <div class="product-order-comment-section">
+                            <textarea id="comment-textarea-id" data-ng-model="commentinput" maxlength="250">
+                            </textarea>
+                        </div>
+                    </div>
+                    <!-- Product comment div code end -->
+
+                </div>
+            </div>
+        </div>
+        <div class="variant-attribute-add-to-cart-section">
+            <div class="product-final-price">
+                <div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span></div>{{topping.price + ComboItemSum + ComboCheckSum + ComboRadioSum| number:2}}
+            </div>
+            <div class="product-add-to-cart-section">
+                <button ng-repeat="restaurant in restaurants" ng-click="cart.addItem(menuitem.id + ComboIDArray + ComboIDAttrCheckArray + ComboIDAttrRadioArray + commentinput, menuitem.title, topping.price + ComboItemSum + ComboCheckSum + ComboRadioSum, menuitem.min_qty, menuitem.image_url, menuitem.id, null, null, categorys.id, null, null, null, null, commentinput, CurrentComboSelect, CurrentComboSum, CurrentComboRadio, menuitem.min_qty, school_date);
+                                    closeCombo();" class="product-add-to-cart product-cart-item-update variant-attribute-popup-add" data="{{menuitem.id}}" ng-bind-html="restaurant.translated_text.add | html"></button>
+                <div ng-repeat="restaurant in restaurants" class="variant-attribute-popup-close" ng-click="closeCombo();" ng-bind-html="restaurant.translated_text.close | html"></div>
+            </div>
+        </div>
+    </div>
+</div>

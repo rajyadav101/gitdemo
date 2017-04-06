@@ -1,0 +1,7 @@
+name: Recent activity
+description: three recent activities list for homepage
+package: Custom
+type: module
+core: 8.x
+dependencies:
+  - block

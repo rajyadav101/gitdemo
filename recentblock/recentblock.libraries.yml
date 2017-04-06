@@ -1,0 +1,6 @@
+mylab:
+  version: 1.x
+  js:
+      js/recent-custom.js: {}
+  dependencies:
+    - core/jquery

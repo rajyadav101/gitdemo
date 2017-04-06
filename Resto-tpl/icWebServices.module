@@ -1,0 +1,3557 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * service resources defined here
+ */
+function icWebServices_services_resources() {
+    $items['orders'] = array(
+        'operations' => array(
+            'index' => array(
+                'callback' => '_icWebServiceListOrders',
+                'args' => array(
+                ),
+                'access arguments' => array('order_detail'),
+//             'access arguments append' => TRUE,
+            ),
+            'retrieve' => array(
+                'callback' => '_icWebServiceGetOrder',
+                'args' => array(
+                    array(
+                        'name' => 'oid',
+                        'optional' => false,
+                        'source' => array('path' => 0),
+                        'type' => 'int',
+                        'description' => 'to get all/single orders for a role',
+                    ),
+                ),
+                'access arguments' => array('order_detail'),
+//             'access arguments append' => TRUE,
+            ),
+//         'update' => array(
+//                'callback' => '_icWebServiceUpdateOrders',
+//                'args' => array(
+//                    array(
+//                            'name' => 'status',
+//                            'optional' => false,
+//                            'source' => array('data'=>'status'),
+//                            'type' => 'string',
+//                            'description' => 'to update orders for a role',
+//                        )                                       
+//                    )
+//                'access arguments' => array('order_update')
+//                )
+        ),
+        'actions' => array(
+            'laundryhold' => array(
+                'callback' => '_icWebServicesLaundryHold',
+                'args' => array(
+                    array(
+                        'name' => 'status',
+                        'optional' => false,
+                        'source' => array('data' => 'status'),
+                        'type' => 'string',
+                        'description' => 'status what to do',
+                    ),
+                    array(
+                        'name' => 'orderid',
+                        'optional' => false,
+                        'source' => array('data' => 'orderid'),
+                        'type' => 'string',
+                        'description' => 'order id to update',
+                    ),
+                    array(
+                        'name' => 'remarks',
+                        'optional' => false,
+                        'source' => array('data' => 'remarks'),
+                        'type' => 'string',
+                        'description' => 'expected delivery date',
+                    ),
+                ),
+                'access arguments' => array('order_update')
+            ),
+            'laundryreceived' => array(
+                'callback' => '_icWebServicesLaundryReceived',
+                'args' => array(
+                    array(
+                        'name' => 'status',
+                        'optional' => false,
+                        'source' => array('data' => 'status'),
+                        'type' => 'string',
+                        'description' => 'status what to do',
+                    ),
+                    array(
+                        'name' => 'orderid',
+                        'optional' => false,
+                        'source' => array('data' => 'orderid'),
+                        'type' => 'string',
+                        'description' => 'order id to update',
+                    ),
+                    array(
+                        'name' => 'deliverydate',
+                        'optional' => false,
+                        'source' => array('data' => 'deliverydate'),
+                        'type' => 'string',
+                        'description' => 'expected delivery date',
+                    )
+                ),
+                'access arguments' => array('order_update')
+            ),
+            'laundryready' => array(
+                'callback' => '_icWebServicesLaundryReady',
+                'args' => array(
+                    array(
+                        'name' => 'status',
+                        'optional' => false,
+                        'source' => array('data' => 'status'),
+                        'type' => 'string',
+                        'description' => 'status what to do',
+                    ),
+                    array(
+                        'name' => 'orderid',
+                        'optional' => false,
+                        'source' => array('data' => 'orderid'),
+                        'type' => 'string',
+                        'description' => 'order id to update',
+                    ),
+                ),
+                'access arguments' => array('order_update')
+            ),
+            'multiplelaundryready' => array(
+                'callback' => '_icWebServicesMultipleLaundryReady',
+                'args' => array(
+                    array(
+                        'name' => 'orderid',
+                        'optional' => false,
+                        'source' => array('data' => 'orderid'),
+                        'type' => 'string',
+                        'description' => 'order id to update',
+                    ),
+                ),
+                'access arguments' => array('order_update')
+            ),
+            'laundryedit' => array(
+                'callback' => '_icWebServicesLaundryEdit',
+                'args' => array(
+                    array(
+                        'name' => 'orderid',
+                        'optional' => false,
+                        'source' => array('data' => 'orderid'),
+                        'type' => 'string',
+                        'description' => 'update order data',
+                    ),
+                    array(
+                        'name' => 'product',
+                        'optional' => false,
+                        'source' => array('data' => 'product'),
+                        'type' => 'string',
+                        'description' => 'update order data',
+                    ),
+                ),
+                'access arguments' => array('order_update'),
+            ),
+            'deliveredtolaundry' => array(
+                'callback' => '_icWebServicesDeliveredtoLaundry',
+                'args' => array(
+                    // array(
+                    //   'name' => 'status',
+                    //   'optional' => false,
+                    //   'source' => array('data' => 'status'),
+                    //   'type' => 'string',
+                    //   'description' => 'what to do'
+                    // ),
+                    array(
+                        'name' => 'orderid',
+                        'optional' => false,
+                        'source' => array('data' => 'orderid'),
+                        'type' => 'string',
+                        'description' => 'orderid to update'
+                    ),
+                ),
+                'access arguments' => array('order_update'),
+            ),
+            'multipledeliveredtolaundry' => array(
+                'callback' => '_icWebServicesMultipleLaundrydelivered',
+                'args' => array(
+                    array(
+                        'name' => 'orderid',
+                        'optional' => false,
+                        'source' => array('data' => 'orderid'),
+                        'type' => 'string',
+                        'description' => 'order id to update',
+                    ),
+                ),
+                'access arguments' => array('order_update')
+            ),
+            'deliveredtoperson' => array(
+                'callback' => '_icWebServicesdeliveredtoPerson',
+                'args' => array(
+                    // array(
+                    //   'name' => 'status',
+                    //   'optional' => false,
+                    //   'source' => array('data' => 'status'),
+                    //   'type' => 'string',
+                    //   'description' => 'what to do',
+                    // ),
+                    array(
+                        'name' => 'orderid',
+                        'optional' => false,
+                        'source' => array('data' => 'orderid'),
+                        'type' => 'string',
+                        'description' => 'orderid to update',
+                    ),
+                ),
+                'access arguments' => array('order_update'),
+            ),
+            'deliveredtodoorstep' => array(
+                'callback' => '_icWebServicesdeliveredtoCustomerDoorStep',
+                'args' => array(
+                    // array(
+                    //   'name' => 'status',
+                    //   'optional' => false,
+                    //   'source' => array('data' => 'status'),
+                    //   'type' => 'string',
+                    //   'description' => 'what to do',
+                    // ),
+                    array(
+                        'name' => 'orderid',
+                        'optional' => false,
+                        'source' => array('data' => 'orderid'),
+                        'type' => 'string',
+                        'description' => 'orderid to update',
+                    ),
+                    array(
+                        'name' => 'Longitude',
+                        'optional' => false,
+                        'source' => array('data' => 'long'),
+                        'type' => 'string',
+                        'description' => 'location of receiver',
+                    ),
+                    array(
+                        'name' => 'Latitude',
+                        'optional' => false,
+                        'source' => array('data' => 'lat'),
+                        'type' => 'string',
+                        'description' => 'location of receiver',
+                    ),
+                    array(
+                        'name' => 'picture',
+                        'optional' => false,
+                        'source' => array('data' => 'content'),
+                        'type' => 'string',
+                        'description' => 'pic of receiver in base64',
+                    ),
+                ),
+                'access arguments' => array("order_update"),
+            ),
+            'points' => array(
+                'callback' => '_icWebServicesPoints',
+                'args' => array(
+                    array(
+                        'name' => "operation",
+                        'optional' => TRUE,
+                        'source' => array('data' => 'op'),
+                        'type' => 'string',
+                        'description' => 'operation performed'
+                    ),
+                    array(
+                        'name' => "points",
+                        'optional' => TRUE,
+                        'source' => array('data' => 'points'),
+                        'type' => 'string',
+                        'description' => 'Points'
+                    )
+                ),
+                'access arguments' => array("order_update"),
+            ),
+            'preorder' => array(
+                'callback' => '_icWebServicesPreOrder',
+                'args' => array(
+                ),
+                'access arguments' => array("customer_only"),
+            ),
+            'makeorder' => array(
+                'callback' => '_icWebServicesMakeOrder',
+                'args' => array(
+                    array(
+                        'name' => 'Order',
+                        'optional' => false,
+                        'source' => array('data' => 'order'),
+                        'type' => 'string',
+                        'description' => 'Order Details'
+                    ),
+                    array(
+                        'name' => 'Info',
+                        'optional' => false,
+                        'source' => array('data' => 'info'),
+                        'type' => 'string',
+                        'description' => 'Order related info'
+                    ),
+                ),
+                'access arguments' => array("customer_only"),
+            ),
+            'makequickorder' => array(
+                'callback' => '_icWebServicesMakeQuickOrder',
+                'args' => array(
+                    array(
+                        'name' => 'Order',
+                        'optional' => false,
+                        'source' => array('data' => 'order'),
+                        'type' => 'string',
+                        'description' => 'Order Details'
+                    ),
+                    array(
+                        'name' => 'Info',
+                        'optional' => false,
+                        'source' => array('data' => 'info'),
+                        'type' => 'string',
+                        'description' => 'Order related info'
+                    ),
+                ),
+                'access arguments' => array("customer_only"),
+            ),
+            'serviceavail' => array(
+                'callback' => '_iCWebServicesAvailability',
+                'args' => array(
+                    array(
+                        'name' => 'Zip',
+                        'optional' => false,
+                        'source' => array('data' => 'zip'),
+                        'type' => 'string',
+                        'description' => 'Zip Code'
+                    )
+                ),
+                'access arguments' => array("customer_only"),
+            ),
+        ),
+    );
+
+
+    $items['products'] = array(
+        'operations' => array(
+            'index' => array(
+                'callback' => '_icWebServiceListProducts',
+                'args' => array(
+                ),
+                'access arguments' => array('product_detail'),
+//             'access arguments append' => TRUE,
+            )
+        )
+    );
+    $items['state'] = array(
+        'operations' => array(
+            'index' => array(
+                'callback' => '_icWebServicesState',
+                'args' => array(
+                ),
+                'access arguments' => array('access content'),
+//             'access arguments append' => TRUE,
+            ),
+        )
+    );
+
+    $items['subscription'] = array(
+        'operations' => array(
+            'index' => array(
+                'callback' => '_icWebServiceListSubscription',
+                'args' => array(
+                ),
+                'access arguments' => array('access content'),
+//             'access arguments append' => TRUE,
+            )
+        )
+    );
+
+    $items['subscribe'] = array(
+        'actions' => array(
+            'newplan' => array(
+                'callback' => 'subscribe_to_plan',
+                'args' => array(
+                    array(
+                        'name' => 'tokenid',
+                        'optional' => false,
+                        'source' => array('data' => 'tokenid'),
+                        'type' => 'string',
+                        'description' => 'token id of credit card',
+                    ),
+                    array(
+                        'name' => 'planid',
+                        'optional' => false,
+                        'source' => array('data' => 'planid'),
+                        'type' => 'int',
+                        'description' => 'plan id of credit card',
+                    ),
+                ),
+                'access arguments' => array('customer_only'),
+            ),
+            'updateplan' => array(
+                'callback' => 'update_subscribed_plan',
+                'args' => array(
+                    array(
+                        'name' => 'planid',
+                        'optional' => false,
+                        'source' => array('data' => 'planid'),
+                        'type' => 'int',
+                        'description' => 'plan id of credit card',
+                    ),
+                ),
+                'access arguments' => array('customer_only'),
+            ),
+            'paycash' => array(
+                'callback' => 'pay_in_cash',
+                'args' => array(
+                    array(
+                        'name' => 'amount',
+                        'optional' => false,
+                        'source' => array('data' => 'amount'),
+                        'type' => 'int',
+                        'description' => 'amount to pay',
+                    ),
+                ),
+                'access arguments' => array('customer_only'),
+            ),
+            'currentplan' => array(
+                'callback' => 'current_subscribed_plan',
+                'args' => array(
+                ),
+                'access arguments' => array('customer_only'),
+            )
+        )
+    );
+
+
+
+
+    $items['appuser'] = array(
+        'actions' => array(
+            'otpgenerate' => array(
+                'callback' => '_icWebServicesAppUserOtpGenerate',
+                'args' => array(
+                    array(
+                        'name' => 'mobile',
+                        'optional' => false,
+                        'source' => array('data' => 'mobile'),
+                        'type' => 'int',
+                        'description' => 'to generate otp for login'
+                    )
+                ),
+                'access arguments' => array('access content')
+            ),
+            'login' => array(
+                'callback' => '_icWebServicesAppUserLoginFinalize',
+                'args' => array(
+                    array(
+                        'name' => 'mobile',
+                        'optional' => false,
+                        'source' => array('data' => 'mobile'),
+                        'type' => 'string',
+                        'description' => 'mobile no. of user',
+                    ),
+                    array(
+                        'name' => 'pass',
+                        'optional' => false,
+                        'source' => array('data' => 'pass'),
+                        'type' => 'string',
+                        'description' => 'password of user ',
+                    )
+                ),
+                'access arguments' => array('access content')
+            ),
+//              'resetpassword' => array(
+//                 'callback' => '_icWebServicesAppUserResetPassword',
+//                 'args' => array(
+//                     array(
+//                         'name' => 'userid',
+//                        'optional' => false,
+//                         'source' => array('data' => 'userid'),
+//                         'type' => 'int',
+//                         'description' => 'to reset the password by user-id, phone no. or email'
+//                     )
+//                 ),
+//                 'access arguments' => array('access content')
+//             ),
+            'resetpassword' => array(
+                'callback' => '_icWebServicesAppUserResetPassword',
+                'args' => array(
+                    array(
+                        'name' => 'mobile',
+                        'optional' => false,
+                        'source' => array('data' => 'mobile'),
+                        'type' => 'string',
+                        'description' => 'to generate otp for login',
+                    ),
+                    array(
+                        'name' => 'pass',
+                        'optional' => false,
+                        'source' => array('data' => 'pass'),
+                        'type' => 'string',
+                        'description' => 'to generate otp for login',
+                    )
+                ),
+                'access arguments' => array('access content')
+            ),
+//             'otplogin' => array(
+//                 'callback' => '_icWebServicesAppUserLoginFinalize',
+//                 'args' => array(
+//                     array(
+//                         'name' => 'otpwithmobile',
+//                         'optional' => false,
+//                         'source' => array('data'=>'otpwithmobile'),
+//                         'type' => 'array',
+//                         'description' => 'to generate otp for login',
+//                     )
+//                 ),
+//                 'access arguments' => array('access content')
+//             ),
+            'otpvalidate' => array(
+                'callback' => '_icWebServicesotpvalidate',
+                'args' => array(
+                    array(
+                        'name' => 'mobile',
+                        'optional' => false,
+                        'source' => array('data' => 'mobile'),
+                        'type' => 'string',
+                        'description' => 'to generate otp for login',
+                    ),
+                    array(
+                        'name' => 'otp',
+                        'optional' => false,
+                        'source' => array('data' => 'otp'),
+                        'type' => 'string',
+                        'description' => 'to generate otp for login',
+                    )
+                ),
+                'access arguments' => array('access content'),
+            ),
+            'checkloggedin' => array(
+                'callback' => '_icWebServicesCheckLoggedinUser',
+                'args' => array(
+                ),
+                'access arguments' => array('access content'),
+//                 'access arguments append' => TRUE,
+            ),
+            'clearcache' => array(
+                'callback' => '_icWebServicesClearCache',
+                'args' => array(
+                ),
+                'access arguments' => array('access content'),
+//                 'access arguments append' => TRUE,
+            ),
+//      'register' => array(
+//        'help' => 'Register a user',
+//        'callback' => '_icWebServicesRegisteration',
+////                'access arguments append' => FALSE,
+//        'access arguments' => array('access content'),
+//        'args' => array(
+//          array(
+//            'name' => 'account',
+//            'type' => 'array',
+//            'description' => 'The user object',
+//            'source' => array('data' => 'account'),
+//            'optional' => FALSE,
+//          )
+//        ),
+//      ),
+            'profiledetails' => array(
+                'callback' => 'get_user_details',
+                'args' => array(
+                ),
+                'access arguments' => array('access content'),
+            ),
+            'updateprofiledetails' => array(
+                'callback' => 'update_user_details',
+                'args' => array(
+                    array(
+                        'name' => 'Update',
+                        'optional' => false,
+                        'source' => array('data' => 'update'),
+                        'type' => 'string',
+                        'description' => 'Update Details'
+                    ),
+                ),
+                'access arguments' => array('access content'),
+            ),
+        )
+    );
+    return $items;
+}
+
+/* * ***********************************************************************************************************
+ * service alters defined here
+ */
+
+//function icWebServices_services_resources_alter(&$resources, &$endpoint) {
+//  $resources['user']['actions']['login']['callback'] = '_icWebServicesAppUserLoginFinalize';
+//}
+
+
+
+/* * ***********************************************************************************************************
+ * hook menue to custom login and login implementation;
+ */
+
+function icWebServices_menu() {
+    $items = array();
+    $items['register/stripe/%'] = array(
+        'page callback' => 'call_create_stripe',
+        'page arguments' => array(2),
+        'access arguments' => array('access content'),
+    );
+    $items['customer/login'] = array(
+        'page callback' => 'customer_login_callback',
+        'page arguments' => array(2),
+        'access arguments' => array('access content'),
+    );
+    $items['customer/reset/password'] = array(
+        'page callback' => 'customer_reset_password',
+        'access arguments' => array('access content'),
+    );
+    $items['user/report/issue'] = array(
+        'page callback' => 'user_report_issue',
+        'access arguments' => array('access content'),
+    );
+    $items['customer/register'] = array(
+        'page callback' => '_icWebServicesRegisteration',
+        'access arguments' => array('access content'),
+    );
+    //change for api
+    /* $items['api/customer/login'] = array(
+      'page callback' => 'customer_login_callback',
+      'access arguments' => array('access content'),
+      ); */
+    $items['api/products'] = array(
+        'page callback' => 'api_products_list',
+        'access arguments' => array('access content'),
+    );
+    $items['api/profiledetails'] = array(
+        'page callback' => 'api_profiledetails',
+        'access arguments' => array('access content'),
+    );
+    $items['api/savedCreditCard'] = array(
+        'page callback' => 'api_savedCreditCard',
+        'access arguments' => array('access content'),
+    );
+    $items['api/updateCreditCard'] = array(
+        'page callback' => 'api_updateCreditCard',
+        'access arguments' => array('access content'),
+    );
+    $items['api/updateprofile'] = array(
+        'page callback' => 'api_update_user_details',
+        'access arguments' => array('access content'),
+    );
+    $items['api/orders'] = array(
+        'page callback' => 'api_orders',
+        'access arguments' => array('access content'),
+    );
+    $items['api/order/details'] = array(
+        'page callback' => 'api_order_details',
+        'access arguments' => array('access content'),
+    );
+    $items['api/savedAddress'] = array(
+        'page callback' => 'api_savedAddress',
+        'access arguments' => array('access content'),
+    );
+    $items['api/CustomOrder'] = array(
+        'page callback' => 'api_CustomOrder',
+        'access arguments' => array('access content'),
+    );
+    $items['api/confirmCustomOrder'] = array(
+        'page callback' => 'api_confirmCustomOrder',
+        'access arguments' => array('access content'),
+    );
+    $items['api/quickOrder'] = array(
+        'page callback' => 'api_quickOrder',
+        'access arguments' => array('access content'),
+    );
+    $items['api/payMentfromCreditCard'] = array(
+        'page callback' => 'api_payMentfromCreditCard',
+        'access arguments' => array('access content'),
+    );
+    $items['api/generateOtp'] = array(
+        'page callback' => 'api_generateOtp',
+        'access arguments' => array('access content'),
+    );
+    $items['api/validateotp'] = array(
+        'page callback' => 'api_validateotp',
+        'access arguments' => array('access content'),
+    );
+    $items['api/subscriptionDetail'] = array(
+        'page callback' => 'api_subscriptionDetail',
+        'access arguments' => array('access content'),
+    );
+    $items['api/CreateSubscribePlan'] = array(
+        'page callback' => 'api_CreateSubscribePlan',
+        'access arguments' => array('access content'),
+    );
+    $items['api/UpdateSubscribePlan'] = array(
+        'page callback' => 'api_UpdateSubscribePlan',
+        'access arguments' => array('access content'),
+    );
+    $items['api/logout'] = array(
+        'page callback' => 'api_logout',
+        'access arguments' => array('access content'),
+    );
+    $items['api/checkSubscribption'] = array(
+        'page callback' => 'api_checkSubscribption',
+        'access arguments' => array('access content'),
+    );
+    $items['api/customerLogin'] = array(
+        'page callback' => 'api_customerLogin',
+        'access arguments' => array('access content'),
+    );
+    $items['api/state'] = array(
+        'page callback' => 'api_state',
+        'access arguments' => array('access content'),
+    );
+    $items['api/referralMail'] = array(
+        'page callback' => 'api_referralMail',
+        'access arguments' => array('access content'),
+    );
+    $items['api/deliveredtoperson'] = array(
+        'page callback' => 'api_deliveredtoperson',
+        'access arguments' => array('access content'),
+    );
+    $items['api/deliveredtolaundry'] = array(
+        'page callback' => 'api_deliveredtolaundry',
+        'access arguments' => array('access content'),
+    );
+    $items['api/multiplelaundryready'] = array(
+        'page callback' => 'api_multiplelaundryready',
+        'access arguments' => array('access content'),
+    );
+    $items['api/deliveredtodoorstep'] = array(
+        'page callback' => 'api_deliveredtodoorstep',
+        'access arguments' => array('access content'),
+    );
+    $items['api/multipledeliveredtolaundry'] = array(
+        'page callback' => 'api_multiplelaundrydelivered',
+        'access arguments' => array('access content'),
+    );
+    return $items;
+}
+
+function customer_login_callback($mobile = '', $password = '') {
+    //drupal_add_http_header('Access-Control-Allow-Methods', "GET, POST, OPTIONS");
+    $serviceModulePath = drupal_get_path('module', 'services');
+    require_once $serviceModulePath . '/services.module';
+    require_once $serviceModulePath . '/resources/user_resource.inc';
+    $flagCallType = false;
+    if (empty($mobile) && empty($password)):
+        $jsonRequest = @file_get_contents('php://input');
+        $arrayOfRequest = json_decode($jsonRequest);
+        $mobile = $arrayOfRequest->mobile;
+        $password = $arrayOfRequest->password;
+        $flagCallType = true;
+    endif;
+    global $user;
+    $output['response'] = '';
+    $output['success'] = FALSE;
+    $username = '';
+    if ($name = getUsernamefromMobile($mobile)) { //For Mobile LOgin
+        $username = $name;
+    } else if ((valid_email_address($mobile)) && ($name = getUsernamefromEmail($mobile))) { //For Email Address Login
+        $username = $name;
+    }
+    /* else if (isValidUsername($mobile)) { //For Username Address Login
+      $username = $mobile;
+      } */
+    if (isset($user->uid) && ($user->uid)) {
+        // user is already logged in
+        if ($flagCallType) {
+//            print "Already logged in as $mobile";
+            $output['success'] = FALSE;
+            $output['response'] = "Already logged in as $mobile";
+            print drupal_json_encode($output);
+            drupal_exit();
+        } else {
+            return "Already logged in as $mobile";
+        }
+    }
+// Check if account is active.
+    if (!$username) {
+        if ($flagCallType) {
+//            print "The account for $mobile does not exist.";
+            $output['success'] = FALSE;
+//            $output['response'] = "Already logged in as $mobile";
+            $output['response'] = "The account for $mobile does not exist.";
+            print drupal_json_encode($output);
+            drupal_exit();
+        } else {
+            return "The account for $mobile does not exist.";
+        }
+    }
+    // Check if account is active.
+    if (user_is_blocked($username)) {
+        if ($flagCallType) {
+//            print "The user $mobile has not been activated or is blocked";
+            $output['success'] = FALSE;
+//            $output['response'] = "Already logged in as $mobile";
+            $output['response'] = "The user $mobile has not been activated or is blocked.";
+            print drupal_json_encode($output);
+            drupal_exit();
+        } else {
+            return "The user $mobile has not been activated or is blocked";
+        }
+    }
+
+    // Emulate drupal native flood control: check for flood condition.
+    $flood_state = array();
+    if (variable_get('services_flood_control_enabled', TRUE)) {
+        $flood_state = _user_resource_flood_control_precheck($username);
+    }
+
+    // Only authenticate if a flood condition was not detected.
+    if (empty($flood_state['flood_control_triggered'])) {
+        $uid = user_authenticate($username, $password);
+    } else {
+        $uid = FALSE;
+    }
+
+    // Emulate drupal native flood control: register flood event, and throw error
+//     if a flood condition was previously detected
+    if (variable_get('services_flood_control_enabled', TRUE)) {
+        $flood_state['uid'] = $uid;
+        _user_resource_flood_control_postcheck($flood_state);
+    }
+
+    if ($uid) {
+        $user = user_load($uid);
+        if ($user->uid) {
+            user_login_finalize();
+            $return = new stdClass();
+            $return->sessid = session_id();
+            $return->session_name = session_name();
+            $return->token = drupal_get_token('services');
+            $account = clone $user;
+
+            services_remove_user_data($account);
+            //setcookie(session_name(), session_id(), time() + (86400 * 30), '/', '.dev-icleaner.pantheon.io', FALSE, TRUE);
+            $return->user = $account;
+            if ($flagCallType) {
+//                print drupal_json_encode($return);
+                $output['success'] = TRUE;
+                $output['response'] = $return;
+                print drupal_json_encode($output);
+                drupal_exit();
+            } else {
+                return $return;
+            }
+        }
+    }
+    watchdog('user', 'Invalid login attempt for %mobile.', array('%mobile' => $mobile));
+    if ($flagCallType) {
+        $output['success'] = FALSE;
+//        print "Wrong username or password.";
+        $output['response'] = "Wrong username or password.";
+        print drupal_json_encode($output);
+        drupal_exit();
+    } else {
+        return "Wrong username or password.";
+    }
+}
+
+function customer_reset_password() {
+    $jsonRequest = file_get_contents('php://input');
+    $arrayOfRequest = json_decode($jsonRequest);
+    $mobile = $arrayOfRequest->mobile;
+    $pass = $arrayOfRequest->pass;
+    watchdog("customer_reset_password", '<pre>' . print_r($arrayOfRequest, true) . '</pre>');
+    global $user;
+    $uid = getUidfromMobile($mobile);
+    if ($uid) {
+        $user = user_load($uid);
+        watchdog('user', "<pre>" . print_r($user, 'TRUE') . "</pre>");
+        $edit['pass'] = $pass;
+        user_save($user, $edit);
+
+        user_login_finalize();
+        $return = new stdClass();
+        $return->sessid = session_id();
+        $return->session_name = session_name();
+        $return->token = drupal_get_token('services');
+        $account = clone $user;
+        services_remove_user_data($account);
+        $return->user = $account;
+        watchdog('user', 'Session closed for %name.', array('%name' => $user->name));
+        module_invoke_all('user_logout', $user);
+        session_destroy();
+        drupal_session_start();
+        $output['success'] = TRUE;
+        $output['response'] = $return;
+        return drupal_json_output($output);
+        //  $output['success']=true;
+    } else {
+        $output['success'] = FALSE;
+        return $output;
+    }
+}
+
+function user_report_issue() {
+    $user_data = drupal_json_decode(file_get_contents('php://input'));
+    watchdog("user_data", '<pre>' . print_r($user_data, true) . '</pre>');
+    global $user;
+    $data = isset($user_data['data']) ? $user_data['data'] : NULL;
+    if ($data == NULL || empty($data)) {
+        return;
+    }
+    if (getUidfromMobile($user_data['phone'])) {
+        $user = user_load(getUidfromMobile($user_data['phone']));
+    }
+    $json_data = drupal_json_encode($data);
+    db_insert('reported_issues')
+            ->fields(array(
+                'uid' => $user->uid,
+                'time' => REQUEST_TIME,
+                'data' => $json_data,
+            ))
+            ->execute();
+    $output['success'] = TRUE;
+    $output['response'] = 'Issue reported successfully.';
+    return drupal_json_output($output);
+}
+
+// Custom Order
+function api_CustomOrder() {
+    $customOrder_info = drupal_json_decode(file_get_contents('php://input'));
+    watchdog("api_CustomOrder", '<pre>' . print_r($customOrder_info, true) . '</pre>');
+    $user_info = $customOrder_info['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    return drupal_json_output(_icWebServicesMakeOrder($customOrder_info['product'], $customOrder_info['order_details']));
+}
+
+function api_confirmCustomOrder() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    $user1 = $user;
+
+    if (isset($user1->field_stripe_plan_id['und'][0]['value'])) {
+        $planid = $user1->field_stripe_plan_id['und'][0]['value'];
+        $query = db_select('node', 'n');
+        $query->join('field_data_field_plan_id', 'fpi', 'n.nid=fpi.entity_id');
+        $query->fields('n', array('nid'));
+        $query->condition('fpi.field_plan_id_value', $planid, '=');
+        $query2 = $query->execute();
+        $plan_nid = $query2->fetchField();
+
+        $loaded_plan = node_load($plan_nid);
+        // $plan_discount1 = $loaded_plan->field_discount['und'][0]['value'];
+        // $plan_discount = (100 - $plan_discount1) / 100;
+    } else {
+        // $plan_discount = 1;
+    }
+
+    $order_loaded = uc_order_load($data['order_id']);
+    $order_total_cost_dollar = $order_loaded->order_total;
+    watchdog('order total before', "<pre>" . print_r($order_total_cost_dollar, 'TRUE') . "</pre>");
+    //satya's code
+    /* $order_total_cost = ($order_total_cost_dollar * $plan_discount);
+      $total_points = ($order_total_cost * 100); */
+    $total_points = ($order_total_cost_dollar * 100);
+    //end
+    watchdog('total get points', "<pre>" . print_r($total_points, 'TRUE') . "</pre>");
+
+    $user_current_points = userpoints_get_current_points($user1->uid);
+    watchdog('my current pointrs', "<pre>" . print_r($user_current_points, 'TRUE') . "</pre>");
+
+    if ($total_points > $user_current_points) {
+
+        if ($user_current_points > '0') {
+            $total_points = ($total_points - $user_current_points);
+
+
+            /* $params = array(
+              'uid' => $user1->uid,
+              'points' => -$user_current_points,
+              'entity_id' => $order_loaded->order_id
+              );
+              $result_of_points = userpoints_userpointsapi($params); */
+        }
+
+        $new_total_points = ($total_points / 100);
+        $output = array('Success' => true, 'responseMessage' => 'Not enough point', 'amount' => $new_total_points, 'order_id' => $order_loaded->order_id, 'points_deduct_from_user' => $user_current_points);
+        return drupal_json_output($output);
+    } else {
+        uc_order_update_status($order_loaded->order_id, "pending");
+        $params = array(
+            'uid' => $user1->uid,
+            'points' => -$total_points,
+            'entity_id' => $order_loaded->order_id,
+            'entity_type' => 'order'
+        );
+        $result_of_points = userpoints_userpointsapi($params);
+        watchdog('result get ponts', "<pre>" . print_r($result_of_points, 'TRUE') . "</pre>");
+        $output = array('Success' => true, 'responseMessage' => 'Order Placed Successfully.', 'order_id' => $order_loaded->order_id);
+        return drupal_json_output($output);
+    }
+}
+
+//Quick Order
+function api_quickOrder() {
+    $quickOrder_info = drupal_json_decode(file_get_contents('php://input'));
+    watchdog("api_quickOrder", '<pre>' . print_r($quickOrder_info, true) . '</pre>');
+    $user_info = $quickOrder_info['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    return drupal_json_output(_icWebServicesMakeQuickOrder($quickOrder_info['order']['item']['quantity'], $quickOrder_info['order']));
+}
+
+//Payment fromCreditCard
+
+function api_payMentfromCreditCard() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    watchdog("api_payMentfromCreditCard", '<pre>' . print_r($data, true) . '</pre>');
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    if ($data['response']) {
+        $user1 = user_load($user_info['user_id']);
+        watchdog("user1", '<pre>' . print_r($user1, true) . '</pre>');
+        $plan_discount = 1;
+        if (isset($user1->field_stripe_plan_id['und'][0]['value'])) {
+            $planid = $user1->field_stripe_plan_id['und'][0]['value'];
+            $query = db_select('node', 'n');
+            $query->join('field_data_field_plan_id', 'fpi', 'n.nid=fpi.entity_id');
+            $query->fields('n', array('nid'));
+            $query->condition('fpi.field_plan_id_value', $planid, '=');
+            $query2 = $query->execute();
+            $plan_nid = $query2->fetchField();
+
+            $loaded_plan = node_load($plan_nid);
+            //$plan_discount1 = $loaded_plan->field_discount['und'][0]['value'];
+            //  $plan_discount = (100 - $plan_discount1) / 100;
+        }
+        $order_loaded = uc_order_load($data['order_id']);
+        $order_total_cost = $order_loaded->order_total;
+        if (isset($data['amount_to_deduct']) && !empty($data['amount_to_deduct'])) {
+            $order_total_cost = $data['amount_to_deduct'];
+        }
+        //$order_total_cost = intval($order_total_cost_dollar * $plan_discount);
+
+        $payment_status = pay_in_cash(round($order_total_cost, 2));
+
+        if ($payment_status['success'] == '1') {
+
+            $total_deduction_from_points = ($order_total_cost * 100);
+            if (isset($data['point_deduction']) && !empty($data['point_deduction'])) {
+                $total_deduction_from_points = ($total_deduction_from_points - $data['point_deduction']);
+            }
+            $params = array(
+                'uid' => $user1->uid,
+                'points' => $total_deduction_from_points,
+                'entity_id' => $order_loaded->order_id,
+                'entity_type' => 'order'
+            );
+            $result_of_points = userpoints_userpointsapi($params);
+        }
+        uc_order_update_status($data['order_id'], "pending");
+        return drupal_json_output($payment_status);
+    } else {
+        uc_order_update_status($data['order_id'], 'abandoned');
+        return drupal_json_output(FALSE);
+    }
+}
+
+//Show Credit Card
+function api_savedCreditCard() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    watchdog("api_savedCreditCard", '<pre>' . print_r($data, true) . '</pre>');
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    $cardDetails = save_CardfromStripe();
+    return drupal_json_output($cardDetails);
+}
+
+// Update Credit Card
+
+function api_updateCreditCard() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    watchdog("api_updateCreditCard", '<pre>' . print_r($data, true) . '</pre>');
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    return drupal_json_output(update_CardfromStripe($data['tokenid']));
+}
+
+//Check Subscribe Plan
+
+function api_checkSubscribption() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    watchdog("payMent_orderID", '<pre>' . print_r($data, true) . '</pre>');
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    if (isset($user->field_stripe_plan_id['und'][0]['value'])) {
+        $planid = $user->field_stripe_plan_id['und'][0]['value'];
+        $query = db_select('node', 'n');
+        $query->join('field_data_field_plan_id', 'fpi', 'n.nid=fpi.entity_id');
+        $query->fields('n', array('nid'));
+        $query->condition('fpi.field_plan_id_value', $planid, '=');
+        $query2 = $query->execute();
+        $plan_nid = $query2->fetchField();
+    }
+    $response = array();
+    if (!empty($plan_nid))
+        $response['success'] = TRUE;
+    else
+        $response['success'] = FALSE;
+
+    return drupal_json_output($response);
+}
+
+// Create Subscribe Plan
+
+function api_CreateSubscribePlan() {
+    $otp_info = drupal_json_decode(file_get_contents('php://input'));
+    watchdog("CreateSubscribePlan", '<pre>' . print_r($data, true) . '</pre>');
+    $user_info = $otp_info['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    return drupal_json_output(subscribe_to_plan($otp_info['tokenid'], $otp_info['planid']));
+}
+
+// Update subscription plan
+function api_UpdateSubscribePlan() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    watchdog("UpdateSubscribePlan", '<pre>' . print_r($data, true) . '</pre>');
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+
+    global $user;
+    $user = user_load($user_info['user_id']);
+
+    if (update_user_subscription_stripe($data['planid'])) {
+        //  watchdog('strip user23', "<pre>" . print_r($user, 'TRUE') . "</pre>");
+        // update_subscribed_plan($data['planid']);
+        //satya's code
+        $user_update = user_load($user->uid);
+        $user_update->field_stripe_plan_id['und'][0]['value'] = $data['planid'];
+        user_save($user_update);
+
+        //end
+
+        $output['success'] = TRUE;
+        $output['message'] = 'Plan updated successfully.';
+    } else {
+        $output['success'] = FALSE;
+        $output['message'] = '';
+    }
+    return drupal_json_output($output);
+}
+
+//REFERRAL MAIL TO FAMILY AND FRIEND
+
+function api_referralMail() {
+    $otp_info = drupal_json_decode(file_get_contents('php://input'));
+    $output['success'] = FALSE;
+    $output['response'] = 'Please Enter Correct Email id';
+    $comment = '';
+    watchdog("api_referralMail", '<pre>' . print_r($otp_info, true) . '</pre>');
+    $user_info = $otp_info['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    $from = $user->name;
+    $name = $otp_info['invite']['Firstname'] . ' ' . $otp_info['invite']['Lastname'];
+    $to = $otp_info['invite']['Email'];
+    if ($otp_info['invite']['message'])
+        $comment = $otp_info['invite']['Comments'];
+    $params = array(
+        'body' => 'Invite your friends & families and earn rewards!' . $comment,
+        'subject' => 'ICleaner Referral FROM ' . $name,
+    );
+    if (drupal_mail('referralMail', 'iCleaner_referral_key', $to, language_default(), $params, $from, TRUE)) {
+        $output['success'] = TRUE;
+        $output['response'] = 'Email has been to ' . $name;
+    }
+
+    referralMail_mail('mymail', $message, $params);
+
+    return drupal_json_output($output);
+}
+
+function referralMail_mail($key, &$message, $params) {
+
+    $headers = array(
+        'MIME-Version' => '1.0',
+        'Content-Type' => 'text/html; charset=UTF-8;',
+        'Content-Transfer-Encoding' => '8Bit',
+        'X-Mailer' => 'Drupal'
+    );
+
+    foreach ($headers as $key => $value)
+        $message['headers'][$key] = $value;
+
+
+    $message['subject'] = $params['subject'];
+    $message['body'] = $params['body'];
+}
+
+//Logout
+function api_logout() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    watchdog("api_logout", '<pre>' . print_r($data, true) . '</pre>');
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    watchdog('user', 'Session closed for %name.', array('%name' => $user->name));
+    module_invoke_all('user_logout', $user);
+    session_destroy();
+    drupal_session_start();
+    $response['success'] = TRUE;
+    watchdog("response", '<pre>' . print_r($response, true) . '</pre>');
+    return drupal_json_output($response);
+}
+
+//Generate OPT
+function api_generateOtp() {
+    $otp_info = drupal_json_decode(file_get_contents('php://input'));
+    /* $user_info=$otp_info['user_info'];
+      $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+      if ($is_user_authorized == FALSE) {
+      $output['success'] = FALSE;
+      $output['response'] = 'unauthorized';
+      return drupal_json_output($output);
+      } */
+    $mobileNo = $otp_info['mobile'];
+    return drupal_json_output(_icWebServicesAppUserOtpGenerate($mobileNo));
+}
+
+// varify OTP
+
+function api_validateotp() {
+    $otp_info = drupal_json_decode(file_get_contents('php://input'));
+    /* $user_info=$otp_info['user_info'];
+      $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+      if ($is_user_authorized == FALSE) {
+      $output['success'] = FALSE;
+      $output['response'] = 'unauthorized';
+      return drupal_json_output($output);
+      }* */
+    return drupal_json_output(_icWebServicesotpvalidate($otp_info['mobile'], $otp_info['otp']));
+    ;
+}
+
+function api_subscriptionDetail() {
+    $otp_info = drupal_json_decode(file_get_contents('php://input'));
+    $user_info = $otp_info['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    return drupal_json_output(_icWebServiceListSubscription());
+}
+
+//saved Address
+function api_savedAddress() {
+    $user_info = drupal_json_decode(file_get_contents('php://input'));
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    $uid = $user_info['user_id'];
+    if ($uid) {
+        $user_add = array();
+        $custom_add = array();
+        $curr_points = userpoints_get_current_points($uid, 'all');
+        $user_add = user_addresses_load_by_user($uid);
+        foreach ($user_add as $ua) {
+            $custom_add[] = array(
+                "addressid" => $ua->address_id,
+                "addressname" => $ua->name,
+                "address1" => $ua->user_addressbook_address['und'][0]['thoroughfare'],
+                "address2" => $ua->user_addressbook_address['und'][0]['premise'],
+                "city" => $ua->user_addressbook_address['und'][0]['locality'],
+                "state" => $ua->user_addressbook_address['und'][0]['administrative_area'],
+                "zip" => $ua->user_addressbook_address['und'][0]['postal_code']
+            );
+        }
+        $time_slot = explode(" ", variable_get('pick_delivery_time_slot'));
+        $delivery = variable_get('delivery_time');
+        $output['success'] = TRUE;
+        $output['response'] = array(
+            'points' => $curr_points,
+            'address' => $custom_add,
+            'time_slot' => $time_slot,
+            'delivery' => $delivery,
+            'del_unit' => variable_get('delivery_time_unit')
+        );
+        print drupal_json_encode($output);
+        exit();
+    } else {
+        $output['success'] = false;
+        print drupal_json_encode($output);
+        exit();
+    }
+}
+
+/* * ***********************************************************************************************************
+ * permission for services defined here start
+ */
+
+function icWebServices_permission() {
+    return array(
+        'order_update' => array(
+            'title' => t('Permission on order update'),
+            'description' => t('Provide access moderation on order edit')
+        ),
+        'customer_only' => array(
+            'title' => t('Permission on customer order'),
+            'description' => t('Provide access to customer')
+        ),
+        'product_detail' => array(
+            'title' => t('Permission on product detail'),
+            'description' => t('Provide access to customer and loundry')
+        ),
+        'order_detail' => array(
+            'title' => t('Permission on order detail'),
+            'description' => t('Provide access to customer,loundry and driver')
+        )
+    );
+}
+
+/**
+ * permission for services defined here end
+ * ********************************************************************************************************** */
+/* * ***********************************************************************************************************
+  user functions start
+ */
+function _icWebServicesCheckLoggedinUser() {
+    global $user;
+    $output['success'] = false;
+    if (trim($user->uid) > 0) {
+        $userData = user_load($user->uid);
+        $output['response'] = $userData;
+        $output['success'] = TRUE;
+        return $output;
+    } else {
+        $output['success'] = FALSE;
+        return $output;
+    }
+//    return $output['success'] = false;
+}
+
+function _icWebServicesClearCache() {
+    cache_clear_all();
+}
+
+function getLaundryIdByUser($uid) {
+    $qry = db_select("field_data_field_for_loundry_man", 'n');
+    $qry->fields('n', array('field_for_loundry_man_target_id'));
+    $qry->condition("n.entity_id", $uid, '=');
+    $qry->condition("n.bundle", 'user', '=');
+    $res = $qry->execute()->fetchObject();
+//    watchdog('order getuser', "<pre>" . print_r( $res, 'TRUE') . "</pre>");
+    if (isset($res->field_for_loundry_man_target_id)) {
+        return $res->field_for_loundry_man_target_id;
+    } else {
+        return false;
+    }
+}
+
+function _icWebServicesAppUserOtpGenerate($mobileNo) {
+    $output = array(
+        'success' => FALSE,
+        'response' => 'Sorry, no user associated with this mobile number. Try again!!'
+    );
+    if ($mobileNo) {
+        $uid = validateMobileNumber(trim($mobileNo));
+        if ($uid) {
+            $tokenValue = rand(1001, 9999);
+            //uncomment later
+//            if (sendOTPtoMobile($tokenValue, $mobileNo, $uid)):
+            updateTokenIndb($tokenValue, $mobileNo, $uid);
+//            endif;
+            $output['response'] = 'We have sent an OTP, login using OTP.' . $tokenValue;
+            $output['success'] = TRUE;
+            return $output;
+        } else {
+            return $output;
+        }
+    } else {
+        return $output;
+    }
+}
+
+//function icWebServices_services_resources_alter(&$resources, &$endpoint) {
+//    watchdog('service module ttt', "<pre>" . print_r($resources, 'TRUE') . "</pre>");
+//    $resources['user']['actions']['login']['callback'] = '_icWebServices_AppUserLoginFinalize';
+//    watchdog('service module 2ttt', "<pre>" . print_r($resources, 'TRUE') . "</pre>");
+//}
+
+function _icWebServices_AppUserLoginFinalize($mobile, $password) {
+    global $user;
+    $username = '';
+    if ($name = getUsernamefromMobile($mobile)) {
+        $username = $name;
+    }
+    if ($user->uid) {
+        // user is already logged in
+        return services_error(t('Already logged in as @mobile.', array('@mobile' => $mobile)), 406);
+    }
+// Check if account is active.
+    if (!$username) {
+        return services_error(strip_tags(t('The account for %mobile does not exist.', array('%mobile' => $mobile)), 404));
+    }
+    // Check if account is active.
+    if (user_is_blocked($username)) {
+        return services_error(t('The username %mobile has not been activated or is blocked.', array('%mobile' => $mobile)), 403);
+    }
+
+    // Emulate drupal native flood control: check for flood condition.
+    $flood_state = array();
+    if (variable_get('services_flood_control_enabled', TRUE)) {
+        $flood_state = _user_resource_flood_control_precheck($username);
+    }
+
+    // Only authenticate if a flood condition was not detected.
+    if (empty($flood_state['flood_control_triggered'])) {
+        $uid = user_authenticate($username, $password);
+    } else {
+        $uid = FALSE;
+    }
+
+    // Emulate drupal native flood control: register flood event, and throw error
+//     if a flood condition was previously detected
+    if (variable_get('services_flood_control_enabled', TRUE)) {
+        $flood_state['uid'] = $uid;
+        _user_resource_flood_control_postcheck($flood_state);
+    }
+
+    if ($uid) {
+        $user = user_load($uid);
+        if ($user->uid) {
+            user_login_finalize();
+
+            $return = new stdClass();
+            $return->sessid = session_id();
+            $return->session_name = session_name();
+            $return->token = drupal_get_token('services');
+
+            $account = clone $user;
+
+            services_remove_user_data($account);
+            setcookie(session_name(), session_id(), time() + (86400 * 30), '/', '.dev-icleaner.pantheon.io', FALSE, TRUE);
+            $return->user = $account;
+
+            return $return;
+        }
+    }
+    watchdog('user', 'Invalid login attempt for %mobile.', array('%mobile' => $mobile));
+    return services_error(t('Wrong username or password.'), 401);
+}
+
+function getUsernamefromMobile($mobileNo) {
+    $qry = db_select("field_data_field_mobile_no", 'n');
+    $qry->join('users', 'u', 'u.uid = n.entity_id');
+    $qry->fields('u', array('name'));
+    $qry->condition("n.field_mobile_no_value", $mobileNo, '=');
+    $qry->condition("n.bundle", 'user', '=');
+    $res = $qry->execute()->fetchObject();
+//    watchdog('order getuser', "<pre>" . print_r( $res, 'TRUE') . "</pre>");
+    if (isset($res->name)) {
+        return $res->name;
+    } else {
+        return false;
+    }
+}
+
+function getUsernamefromEmail($email) {
+    $qry = db_select('users', 'u');
+    $qry->fields('u', array('name'));
+    $qry->condition('mail', $email);
+    $res = $qry->execute()->fetchObject();
+//    watchdog('order getuser', "<pre>" . print_r( $res, 'TRUE') . "</pre>");
+    if (isset($res->name)) {
+        return $res->name;
+    } else {
+        return false;
+    }
+}
+
+function isOTPVerified($username) {
+    $qry = db_select("field_data_field_otp_verify", 'n');
+    $qry->join('users', 'u', 'u.uid = n.entity_id');
+    $qry->fields('u', array('name'));
+    $qry->condition("u.name", db_like($username), 'LIKE');
+    $qry->condition("n.bundle", 'user', '=');
+    $res = $qry->execute()->fetchObject();
+
+    if (isset($res->name)) {
+        return $res->name;
+    } else {
+        return false;
+    }
+}
+
+function isValidUsername($name) {
+    $qry = db_select('users');
+    $qry->fields('users', array('name'));
+    $qry->condition('name', db_like($name), 'LIKE');
+    $res = $qry->execute()->fetchObject();
+    if (isset($res->name)) {
+        return $res->name;
+    } else {
+        return false;
+    }
+}
+
+function ValidateLoginOtp($uid, $otp) {
+
+    $query = db_select('ic_user_management', 'ic');
+    $db_and = db_and();
+    $db_and->condition('ic.ic_token', $otp, '=');
+    $db_and->condition('ic.ic_uid', $uid, '=');
+    $query->condition($db_and);
+    $query->fields('ic', array('ic_token'));
+    $result = $query->execute()->fetchAssoc();
+    if ($result['ic_token'] == $otp) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function validateMobileNumber($mobileNo) {
+    $qry = db_select("field_data_field_mobile_no", 'n');
+    $qry->fields('n', array('entity_id'));
+    $qry->condition("n.field_mobile_no_value", $mobileNo, '=');
+    $qry->condition("n.bundle", 'user', '=');
+    $res = $qry->execute()->fetchObject();
+    if (isset($res->entity_id)) {
+        return $res->entity_id;
+    } else {
+        return false;
+    }
+}
+
+function _icWebServicesotpvalidate($mobile, $otp) {
+    $output = array(
+        'success' => FALSE,
+        'response' => 'Either Wrong OTP entered or mobile no.not correct'
+    );
+    global $user;
+
+    $uid = getUidfromMobile($mobile);
+    if ($uid) {
+        if (ValidateLoginOtp($uid, $otp)) {
+            $user = user_load($uid);
+            if ((in_array('Laundry', $user->roles)) || (in_array('Driver', $user->roles))) {
+                user_login_finalize();
+                $return = new stdClass();
+                $return->sessid = session_id();
+                $return->session_name = session_name();
+                $return->token = drupal_get_token('services');
+                $output['success'] = true;
+                $output['response'] = $return;
+            } else {
+                $output['success'] = true;
+                $output['response'] = "Customer otp validated";
+            }
+            return $output;
+        } else {
+            return $output;
+        }
+    } else {
+        return $output;
+    }
+}
+
+/* function _icWebServicesAppUserResetPassword($userid){
+  $output = array(
+  'success' => FALSE,
+  'response' => 'Sorry, no user associated with this mobile number. Try again!!'
+  );
+  if($userid){
+  $mobile=trim(str_replace("ic-","", $userid));
+  $ret=_icWebServicesAppUserOtpGenerate($mobile);
+  if($ret['success']){
+  $output['response'] = 'reset password link has been sent to your mail id';
+  $output['success'] = TRUE;
+  }
+  return $output;
+
+  }
+  else{
+  return $output;
+  }
+  } */
+
+function _icWebServicesAppUserResetPassword($mobile, $pass) {
+    global $user;
+    $uid = getUidfromMobile($mobile);
+    if ($uid) {
+        $user = user_load($uid);
+        watchdog('user', "<pre>" . print_r($user, 'TRUE') . "</pre>");
+        $edit['pass'] = $pass;
+        user_save($user, $edit);
+
+        user_login_finalize();
+        $return = new stdClass();
+        $return->sessid = session_id();
+        $return->session_name = session_name();
+        $return->token = drupal_get_token('services');
+        $account = clone $user;
+        services_remove_user_data($account);
+        $return->user = $account;
+        $output['success'] = TRUE;
+        $output['response'] = $return;
+        return $output;
+        //  $output['success']=true;
+    } else {
+        $output['success'] = FALSE;
+        return $output;
+    }
+}
+
+function getUidfromMobile($mobileNo) {
+    $qry = db_select("field_data_field_mobile_no", 'n');
+    $qry->join('users', 'u', 'u.uid = n.entity_id');
+    $qry->fields('u', array('uid'));
+    $qry->condition("n.field_mobile_no_value", $mobileNo, '=');
+    $qry->condition("n.bundle", 'user', '=');
+    $res = $qry->execute()->fetchObject();
+//    watchdog('order getuser', "<pre>" . print_r( $res, 'TRUE') . "</pre>");
+    if (isset($res->uid)) {
+        return $res->uid;
+    } else {
+        return false;
+    }
+}
+
+function _icWebServicesRegisteration() {
+    $request = drupal_json_decode(file_get_contents('php://input'));
+    $account = $request['account'];
+    watchdog("_icWebServicesRegisteration", '<pre>' . print_r($account, true) . '</pre>');
+    global $user;
+    watchdog('check global user before start of register service function', "<pre>" . print_r($user, 'TRUE') . "</pre>");
+    if ($user->uid == 0) {
+        if (!getUsernamefromMobile($account['phone'])) {
+
+            module_load_include('inc', 'user', 'user.pages');
+
+            /* $list = $account['name'];
+              $coun = count($list);
+              if ((($coun) % 2) == 0) {
+              $len = ($coun) / 2;
+              $first = array_slice($list, 0, $len);
+              $last = array_slice($list, $len, $len);
+              }
+              else {
+              $len = ($coun - 1) / 2;
+              $first = array_slice($list, 0, $len + 1);
+              $last = array_slice($list, $len + 1, $len);
+              } */
+            $i = 0;
+            $new_name = 'ic-' . $account['phone'];
+            do {
+                $new_name = empty($i) ? $new_name : $new_name . '_' . $i;
+                $found = db_select('users', 'u')->fields('u')->condition('name', $new_name)->execute()->fetchAll();
+                $i++;
+            } while (!empty($found));
+            $mailValidation = db_select('users', 'u')->fields('u')->condition('mail', $account['mail'])->execute()->fetchAll();
+            if (!empty($mailValidation)) {
+                $output = array('success' => FALSE, 'response' => 'Email Id already existed');
+                return drupal_json_output($output);
+            }
+            $accountNew = array(
+                'name' => $new_name,
+                'pass' => $account['pass'],
+                'mail' => $account['mail'],
+                'signature_format' => 'full_html',
+                'status' => 1,
+                'language' => 'en',
+                'timezone' => drupal_get_user_timezone(),
+                'roles' => array('7' => 'Customer'),
+                'field_first_name' => array('und' => array(0 => array('value' => $account['firstname']))),
+                'field_last_name' => array('und' => array(0 => array('value' => $account['lastname']))),
+                'field_mobile_no' => array('und' => array(0 => array('value' => $account['phone']))),
+                'field_alternate_mobile_no' => array('und' => array(0 => array('value' => $account['alternate_phone']))),
+                'field_user_subs_start_date' => array('und' => array(0 => array('value' => NULL))),
+                'field_user_subsc_end_date' => array('und' => array(0 => array('value' => NULL))),
+            );
+            $userR = user_save(NULL, $accountNew);
+            $new_user_loaded = user_load($userR->uid);
+            $user_stripe_id = create_user_on_stripe($new_user_loaded);
+            $new_user_loaded->field_stripe_id['und'][0]['value'] = $user_stripe_id;
+            user_save($new_user_loaded);
+            if ($errors = form_get_errors()) {
+                $output['success'] = false;
+                $output['response'] = $errors;
+                return drupal_json_output($output);
+            } else {
+                $account['default'] = true;
+                if (updateuseraddress($account, $new_user_loaded->uid)) {
+                    $login_details = customer_login_callback($account['phone'], $account['pass']);
+                    $output['success'] = TRUE;
+                    $output['response'] = "Registration Successfull and user logged in!!";
+                    $output['userdata'] = $login_details;
+                }
+                return drupal_json_output($output);
+            }
+        } else {
+            $output['success'] = false;
+            $output['response'] = 'Provided mobile number already registerd with us, please login using your mobile number and password.';
+            return drupal_json_output($output);
+        }
+    } else {
+        $output['success'] = TRUE;
+        $output['response'] = 'Already logged in as.. ' . $user->name;
+        return drupal_json_output($output);
+    }
+}
+
+function updateuseraddress($account, $uid) {
+
+    $add_name = (($account['addressname']) == "") ? 'Residential' : $account['addressname'];
+    $recordValue = array(
+        'name' => $add_name,
+        'uid' => $uid,
+        'created' => REQUEST_TIME,
+        'changed' => REQUEST_TIME
+    );
+    drupal_write_record('user_address', $recordValue);
+    $result = db_select('user_address', 'ua')
+            ->fields('ua')
+            ->condition(db_and()->condition('uid', $uid, '=')->condition('name', $add_name, '='))
+            ->execute()
+            ->fetchAssoc();
+    if ($result) {
+
+        $aid = $result['address_id'];
+
+        $addressfield = array(
+            'entity_type' => 'user_address',
+            'bundle' => 'user_address',
+            'deleted' => 0,
+            'entity_id' => $aid,
+            'revision_id' => $aid,
+            'language' => 'und',
+            'delta' => 0,
+            'user_addressbook_address_country' => 'US',
+            'user_addressbook_address_administrative_area' => $account['state'],
+            'user_addressbook_address_locality' => $account['city'], //($coun-1)<0?Null:$list[$coun-1],
+            'user_addressbook_address_postal_code' => $account['zip'],
+            'user_addressbook_address_thoroughfare' => $account['address1'], //implode(",",$th),
+            'user_addressbook_address_premise' => $account['address2'], //implode(',',$pr),
+            'user_addressbook_address_name_line' => $account['name'],
+            'user_addressbook_address_sub_administrative_area' => NULL,
+            'user_addressbook_address_dependent_locality' => NULL,
+            'user_addressbook_address_sub_premise' => NULL,
+            'user_addressbook_address_organisation_name' => NULL
+        );
+        drupal_write_record('field_data_user_addressbook_address', $addressfield);
+        if ($account['default'] == true) {
+            $defaultValue = array(
+                'address_id' => $aid,
+                'uid' => $uid,
+                'type' => 'default',
+            );
+            drupal_write_record('user_address_defaults', $defaultValue);
+        }
+        return true;
+    }
+}
+
+function _iCWebServicesAvailability($zip) {
+    $term = array();
+    $term = taxonomy_get_term_by_name($zip, 'zip_code');
+    // watchdog('term', "<pre>" . print_r($term , 'TRUE') . "</pre>");
+    if (!empty($term)) {
+        $output['success'] = true;
+        $output['response'] = 'Service Available';
+        return $output;
+    } else {
+        $output['success'] = true;
+//        $output['response'] = ' Currently No Service Available in this Zone';
+        $output['response'] = 'Service Available';
+        return $output;
+    }
+}
+
+/**
+  user functions end
+ * *********************************************************************************************************** */
+/* * ***********************************************************************************************************
+  order related function start
+ */
+function api_orders() {
+    $user_info = drupal_json_decode(file_get_contents('php://input'));
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    watchdog("user89",'<pre>'.print_r($user,true).'</pre>');
+    $response = _icWebServiceListOrders();
+    //watchdog("response",'<pre>'.print_r($response,true).'</pre>');
+    return drupal_json_output($response);
+}
+
+function _icWebServiceListOrders() {
+    global $user;
+    $uid = $user->uid;
+    $current_time=(time()-186400);
+//    watchdog('lst orders', "<pre>" . print_r( $user, 'TRUE') . "</pre>");
+    if (in_array('Laundry', $user->roles)) {
+        $loundryId = getLaundryIdByUser($uid);
+        $q = db_select('ic_order', 'ic_o');
+        $q->fields('ic_o', array('ic_oreder_id'));
+        $q->condition('ic_loundry_id', $loundryId, '=');
+        $result = $q->execute()->fetchAll();
+        $output['success'] = FALSE;
+        //    watchdog('rslt', "<pre>" . print_r( $result, 'TRUE') . "</pre>");
+        if ($result) {
+            $allProducts = array();
+
+            foreach ($result as $orders) {
+//                $allProducts[] = uc_order_load($orders->ic_oreder_id);
+                $orderValue = uc_order_load($orders->ic_oreder_id);
+                if (!empty($orderValue)) {
+                    $allProducts[] = $orderValue;
+                }
+            }
+            foreach ($allProducts as $product) {
+                if (!isset($product->field_quickorder['und'][0]['value'])) {
+                    $product->field_quickorder['und'][0]['value'] = 0;
+                }
+            }
+
+            $output['response'] = $allProducts;
+
+            $output['success'] = TRUE;
+            return $output;
+        } else {
+            return $output;
+        }
+    } else if (in_array('Driver', $user->roles)) {
+        $q = db_select('ic_order', 'ic_o');
+        $q->fields('ic_o');
+        $q->condition(db_or()->condition('ic_driver_id_pickup', $uid, '=')->condition('ic_driver_id_drop', $uid, '='));
+        $result = $q->execute()->fetchAll();
+        $output['success'] = FALSE;
+        //    watchdog('rslt', "<pre>" . print_r( $result, 'TRUE') . "</pre>");
+        if ($result) {
+            $allProducts = array();
+            foreach ($result as $orders) {
+//                watchdog('driver check', "<pre>" . print_r($orders, 'TRUE') . "</pre>");
+//                $allProducts[] = uc_order_load($orders->ic_oreder_id);
+                $orderValue = uc_order_load($orders->ic_oreder_id);
+ 
+                if (!empty($orderValue)&& ($orderValue->field_cust_delivery_time['und'][0]['value']> $current_time)&&($orderValue->field_cust_pick_time['und'][0]['value']>$current_time)) {
+                    $allProducts[] = $orderValue;
+                }
+            }
+            $output['response'] = $allProducts;
+            //$output['response']['driver_type'] = 'pickup';
+            $output['success'] = TRUE;
+            return $output;
+        } else {
+            return $output;
+        }
+
+        return $output;
+    } else if (in_array("Customer", $user->roles)) {
+        $result = db_select("uc_orders", "uo")
+                ->fields("uo", array("order_id"))
+                ->condition("uid", $user->uid, "=")
+                ->execute()
+                ->fetchAll();
+        if ($result) {
+            $allOrders = array();
+            foreach ($result as $orders) {
+//                $allOrders[] = uc_order_load($order->order_id);
+                $orderValue = uc_order_load($orders->order_id);
+                if (!empty($orderValue)) {
+                    $allOrders[] = $orderValue;
+                }
+            }
+            $output['success'] = TRUE;
+            $output['response'] = $allOrders;
+            return $output;
+        } else {
+            $output['success'] = FALSE;
+            $output['response'] = 'No order found!';
+            return $output;
+        }
+    } else {
+        $output['success'] = FALSE;
+        $output['response'] = 'No order found!';
+        return $output;
+    }
+}
+
+function api_order_details() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    $response = _icWebServiceGetOrder($data['orderid']);
+    return drupal_json_output($response);
+}
+
+function _icWebServiceGetOrder($oid) {
+    $output = array(
+        'success' => FALSE
+    );
+    global $user;
+    $uid = $user->uid;
+    if (isset($oid)) {
+        $q = db_select('ic_order', 'ic_o');
+        $q->fields('ic_o', array('ic_loundry_id'));
+        $q->condition('ic_oreder_id', $oid, '=');
+        $result = $q->execute()->fetchAssoc();
+        $q1 = node_load($result['ic_loundry_id']);
+        watchdog('Loundry', "<pre>" . print_r($q1, 'TRUE') . "</pre>");
+        $lound_add = $q1->field_address['und'][0];
+
+        $loundry = array(
+            "address1" => $lound_add['thoroughfare'],
+            "address2" => $lound_add['premise'],
+            "city" => $lound_add['locality'],
+            "state" => $lound_add['administrative_area'],
+            "country" => $lound_add['country'],
+            "zip" => $lound_add['postal_code']
+        );
+        $order = uc_order_load($oid);
+        $products = array();
+        foreach ($order->products as $product) {
+            $service = getservice_types($product->nid);
+            $product->service = $service;
+            $products[] = $product;
+        }
+        $comments = uc_order_comments_load($oid, FALSE);
+        $order->comments = $comments;
+        $order->products = $products;
+        $output['response'] = array(
+            "order" => $order,
+            "loundry" => $loundry
+        );
+        $output['success'] = TRUE;
+        return $output;
+    } else {
+        return $output;
+    }
+}
+
+/**
+  order related function end
+ * ********************************************************************************************************** */
+/* * ***********************************************************************************************************
+  loundry specific functions start
+ */
+function _icWebServicesLaundryHold($status, $orderid, $remarks) {
+    global $user;
+    $uid = $user->uid;
+    $output = array(
+        'success' => FALSE
+    );
+    if ($status == 'hold') {
+        $statusChange = 'hold';
+        $statusChanged = uc_order_update_status($orderid, $statusChange);
+        if ($statusChanged) {
+            if (updateLaundryHoldStatus($orderid, $remarks)) {
+                $output['response'] = 'Order status changed to hold and remarks specified';
+                $output['success'] = TRUE;
+                return $output;
+            } else {
+                return $output;
+            }
+        } else {
+            $output['response'] = 'either order not available or wrong status not available';
+            return $output;
+        }
+    } else {
+        return $output;
+    }
+}
+
+function _icWebServicesLaundryReceived($status, $orderid, $deliverydate) {
+    global $user;
+    $uid = $user->uid;
+    $output = array(
+        'success' => FALSE
+    );
+    if ($status == 'received') {
+        $statusChange = 'laundryreceived';
+        $statusChanged = uc_order_update_status($orderid, $statusChange);
+        $statusChange = 'processing';
+        $statusChanged = uc_order_update_status($orderid, $statusChange);
+        if ($statusChanged) {
+            if (updateDeliveryDate($orderid, $deliverydate)) {
+                $output['response'] = 'Order status changed to received and delivery date specified';
+                $output['success'] = TRUE;
+                return $output;
+            } else {
+                $output['response'] = 'Order status changed to received and delivery date not updated(is same)';
+                $output['success'] = TRUE;
+                return $output;
+            }
+        } else {
+            $output['response'] = 'either order not available or wrong status';
+            return $output;
+        }
+    } else {
+        return $output;
+    }
+}
+
+function updateDeliveryDate($orderid, $deliverydate) {
+    $deliveryDateTimestamp = strtotime($deliverydate);
+    $recordValue = array(
+        'entity_type' => 'uc_order',
+        'bundle' => 'uc_order',
+        'deleted' => 0,
+        'entity_id' => $orderid,
+        'language' => 'und',
+        'delta' => 0,
+        'field_expected_delivery_date_value' => $deliveryDateTimestamp
+    );
+    $result = db_select('field_data_field_expected_delivery_date', 'edd')
+            ->fields('edd')
+            ->condition('entity_id', $orderid, '=')
+            ->execute()
+            ->fetchAssoc();
+    if ($result) {
+        $num_updated = db_update('field_data_field_expected_delivery_date') // Table name no longer needs {}
+                ->fields($recordValue)
+                ->condition('entity_id', $orderid, '=')
+                ->execute();
+        return $num_updated;
+    } else {
+        drupal_write_record('field_data_field_expected_delivery_date', $recordValue);
+        return true;
+    }
+}
+
+function updateLaundryHoldStatus($orderid, $remarks) {
+    $recordValue = array(
+        'entity_type' => 'uc_order',
+        'bundle' => 'uc_order',
+        'deleted' => 0,
+        'entity_id' => $orderid,
+        'revision_id' => $orderid,
+        'language' => 'und',
+        'delta' => 0,
+        'field_laundry_remarks_value' => $remarks
+    );
+    $result = db_select('field_data_field_laundry_remarks', 'lr')
+            ->fields('lr')
+            ->condition('entity_id', $orderid, '=')
+            ->execute()
+            ->fetchAssoc();
+    if ($result) {
+        $num_updated = db_update('field_data_field_laundry_remarks') // Table name no longer needs {}
+                ->fields($recordValue)
+                ->condition('entity_id', $orderid, '=')
+                ->execute();
+        return $num_updated;
+    } else {
+        drupal_write_record('field_data_field_laundry_remarks', $recordValue);
+        return true;
+    }
+}
+
+function _icWebServicesLaundryReady($status, $orderid) {
+    $output['success'] = FALSE;
+    if ($status == 'ready') {
+        $statusChange = "laundryready";
+        $statusChanged = uc_order_update_status($orderid, $statusChange);
+        $output['success'] = TRUE;
+        $output['response'] = 'order status changed to Laundry Ready ';
+    } else {
+        $output['response'] = 'either order not available or wrong status';
+    }
+    return $output;
+}
+
+function _icWebServicesLaundryEdit($orderid, $products) {
+    $output['success'] = FALSE;
+    $output['response'] = 'No editing done yet';
+    $order = uc_order_load($orderid);
+    foreach ($order->products as $quick) {
+        if ($quick->title == "Quickorder Sample") {
+            $quick_id = $quick->order_product_id;
+        }
+    }
+    uc_order_product_delete($quick_id);
+    if ($products) {
+        foreach ($products as $pro) {
+            $nid = $pro['nid'];
+            $nodes = node_load($nid);
+            watchdog('node', "<pre>" . print_r($nodes, 'TRUE') . "</pre>");
+            $product = new stdClass();
+            $product->qty = $pro['qty'];
+            $product->title = $nodes->title;
+            $product->nid = $nid;
+            $product->price = $nodes->sell_price;
+            $product->model = $nodes->model;
+            $order->products[] = $product;
+            uc_order_save($order);
+        }
+
+        $order->field_quickorder['und'][0]['value'] = 0;
+        uc_order_save($order);
+
+        $points = $order->order_total;
+        $param = array(
+            'points' => -$points,
+            'uid' => $re_order->uid,
+            'tid' => 6
+        );
+        $result = userpoints_userpointsapi($param);
+        $out['success'] = $result['status'];
+        if ($result['reason']) {
+            $out['response'] = $result['reason'];
+        }
+        if ($out['success']) {
+            $output['success'] = TRUE;
+            $output['response'] = 'Editing of loundry items done';
+            return $output;
+        } else {
+            $output['response'] = $out['response'];
+            return $output;
+        }
+    } else {
+        return $output;
+    }
+}
+
+function api_multiplelaundryready() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    return drupal_json_output(_icWebServicesMultipleLaundryReady($data['orderid']));
+}
+
+function _icWebServicesMultipleLaundryReady($orderid) {
+    watchdog('$orderid', "<pre>" . print_r($orderid, 'TRUE') . "</pre>");
+    if (is_array($orderid)) {
+        foreach ($orderid as $id) {
+            $statusChange = "laundryready";
+            $statusChanged = uc_order_update_status($id, $statusChange);
+        }
+        $output['success'] = true;
+        return $output;
+    }
+}
+
+/**
+  loundry specific functions end
+ * ********************************************************************************************************** */
+
+/**
+ * driver specific functions start
+ */
+function api_deliveredtolaundry() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    return drupal_json_output(_icWebServicesDeliveredtoLaundry($data['orderid']));
+}
+
+function _icWebServicesDeliveredtoLaundry($orderid) {
+    $order = uc_order_load($orderid);
+    $status = $order->order_status;
+    $output['success'] = false;
+    if ($status == 'pickupdriverassigned') {
+        $statusChange = "deliveredtolaundry";
+        $statusChanged = uc_order_update_status($orderid, $statusChange);
+        $output['success'] = TRUE;
+        $output['response'] = 'order status changed to delivered to laundry';
+    } else {
+        $output['response'] = 'either order not available or wrong status';
+    }
+    return $output;
+}
+
+function api_multiplelaundrydelivered() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    return drupal_json_output(_icWebServicesMultipleLaundrydelivered($data['orderid']));
+}
+
+function _icWebServicesMultipleLaundrydelivered($orderid) {
+    watchdog('$orderid', "<pre>" . print_r($orderid, 'TRUE') . "</pre>");
+    if (is_array($orderid)) {
+        foreach ($orderid as $id) {
+            $statusChange = "deliveredtolaundry";
+            $statusChanged = uc_order_update_status($id, $statusChange);
+        }
+        $output['success'] = true;
+        return $output;
+    }
+}
+
+function api_deliveredtoperson() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    return drupal_json_output(_icWebServicesdeliveredtoPerson($data['orderid']));
+}
+
+function _icWebServicesdeliveredtoPerson($orderid) {
+    $order = uc_order_load($orderid);
+    $status = $order->order_status;
+    $output['success'] = false;
+    if ($status == 'deliverydriverassigned') {
+        $statusChange = "completed";
+        $statusChanged = uc_order_update_status($orderid, $statusChange);
+        $output['success'] = TRUE;
+        $output['response'] = 'order status changed to delivered to Customer ';
+    } else {
+        $output['response'] = 'either order not available or wrong status';
+    }
+    return $output;
+}
+
+function api_deliveredtodoorstep() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    return drupal_json_output(_icWebServicesdeliveredtoCustomerDoorStep($data['orderid'], $data['long'], $data['lat'], $data['content']));
+}
+
+function _icWebServicesdeliveredtoCustomerDoorStep($orderid, $long, $lat, $content) {
+    $order = uc_order_load($orderid);
+    $status = $order->order_status;
+    $output['success'] = false;
+    if ($status == 'deliverydriverassigned') {
+        $statusChange = "completed";
+        //watchdog('status', "<pre>" . print_r( $statusChange, 'TRUE') . "</pre>");
+        if (updateLaundryReceiverFile($orderid, $content) && updateLat_long($orderid, $lat, $long)) {
+            // watchdog('status', "<pre>" . print_r( $statusChange, 'TRUE') . "</pre>");
+            $statusChanged = uc_order_update_status($orderid, $statusChange);
+            if ($statusChanged) {
+                $output['success'] = true;
+                $output['response'] = "order status changed to delivered to Customer's door step along with his position and pic";
+            }
+        } else {
+            $output['response'] = 'either order not available or wrong status';
+        }
+    } else {
+        $output['response'] = 'either order not available or wrong status';
+    }
+    return $output;
+}
+
+function updateLat_long($orderid, $lat, $long) {
+
+    $LatValue = array(
+        'entity_type' => 'uc_order',
+        'bundle' => 'uc_order',
+        'deleted' => 0,
+        'entity_id' => $orderid,
+        'language' => 'und',
+        'delta' => 0,
+        'field_latitude_of_customer_value' => $lat
+    );
+    $Lat_res = db_select('field_data_field_latitude_of_customer', 'la')
+            ->fields('la')
+            ->condition('entity_id', $orderid, '=')
+            ->execute()
+            ->fetchAll();
+
+    if (!empty($Lat_res)) {
+        $num_updated = db_update('field_data_field_latitude_of_customer') // Table name no longer needs {}
+                ->fields($LatValue)
+                ->condition('entity_id', $orderid, '=')
+                ->execute();
+    } else {
+        drupal_write_record('field_data_field_latitude_of_customer', $LatValue);
+    }
+
+    $LongValue = array(
+        'entity_type' => 'uc_order',
+        'bundle' => 'uc_order',
+        'deleted' => 0,
+        'entity_id' => $orderid,
+        'language' => 'und',
+        'delta' => 0,
+        'field_longitude_of_customer_value' => $long
+    );
+
+    $Long_res = db_select('field_data_field_longitude_of_customer', 'lo')
+            ->fields('lo')
+            ->condition('entity_id', $orderid, '=')
+            ->execute()
+            ->fetchAll();
+
+    if (!empty($Long_res)) {
+
+        $num = db_update('field_data_field_longitude_of_customer');
+        $num->fields($LongValue);
+        $num->condition('entity_id', $orderid, '=');
+        $num->execute();
+    } else {
+        drupal_write_record('field_data_field_longitude_of_customer', $LongValue);
+    }
+
+    return true;
+}
+
+function updateLaundryReceiverFile($orderid, $content) {
+    if ($content) {
+
+        $png = base64_decode($content);
+
+        $file = file_save_data($png, "private://photos" . $orderid . '_pic.png', FILE_EXISTS_REPLACE);
+
+        if ($file) {
+            $record = array(
+                'entity_type' => 'uc_order',
+                'bundle' => 'uc_order',
+                'deleted' => 0,
+                'entity_id' => $orderid,
+                'language' => 'und',
+                'delta' => 0,
+                'field_customer_door_image_fid' => $file->fid,
+                'field_customer_door_image_title' => "Customer's door step image",
+            );
+            $result = db_select('field_data_field_customer_door_image', 'im')
+                    ->fields('im')
+                    ->condition('entity_id', $orderid, "=")
+                    ->execute()
+                    ->fetchAssoc();
+
+            if ($result) {
+                $update = db_update('field_data_field_customer_door_image')
+                        ->fields($record)
+                        ->condition('entity_id', $orderid, "=")
+                        ->execute();
+
+                return true;
+            } else {
+                drupal_write_record('field_data_field_customer_door_image', $record);
+                return true;
+            }
+        }
+    } else {
+        return false;
+    }
+}
+
+/**
+ * END OF DRIVER SPECIFIC FUNCTION
+ * **************************************************************************** */
+
+/**
+ * /**
+ * START OF CUSTOMER SPECIFIC FUNCTION
+ */
+function _icWebServicesPoints($op, $points) {
+    global $user;
+    $uid = $user->uid;
+    $result = array();
+    if ($op == 'add') {
+        $param = array(
+            'points' => $points,
+            'uid' => $uid,
+            'tid' => 6,
+            'display' => TRUE
+        );
+        $result = userpoints_userpointsapi($param);
+        $output['success'] = $result['status'];
+        if ($result['reason']) {
+            $output['response'] = $result['reason'];
+        }
+        return $output;
+        // userpoints_service_add($uid, $points, $tid, $operation, $description, $entity_type, $entity_id)
+    } else if ($op == 'show') {
+        $curr_points = userpoints_get_current_points($uid, 'all');
+        $output['success'] = TRUE;
+        $output['response'] = array(
+            'points' => $curr_points,
+        );
+        return $output;
+    } else if ($op == 'sub') {
+        $param = array(
+            'points' => -$points,
+            'uid' => $uid,
+            'tid' => 6
+        );
+        $result = userpoints_userpointsapi($param);
+        $output['success'] = $result['status'];
+        if ($result['reason']) {
+            $output['response'] = $result['reason'];
+        }
+        return $output;
+    } else {
+        $output['success'] = FALSE;
+    }
+}
+
+function _icWebServicesPreOrder() {
+    global $user;
+    $uid = $user->uid;
+    if ($uid) {
+        $user_add = array();
+        $custom_add = array();
+        $curr_points = userpoints_get_current_points($uid, 'all');
+        $user_add = user_addresses_load_by_user($uid);
+        foreach ($user_add as $ua) {
+            $custom_add[] = array(
+                "addressid" => $ua->address_id,
+                "addressname" => $ua->name,
+                "address1" => $ua->user_addressbook_address['und'][0]['thoroughfare'],
+                "address2" => $ua->user_addressbook_address['und'][0]['premise'],
+                "city" => $ua->user_addressbook_address['und'][0]['locality'],
+                "state" => $ua->user_addressbook_address['und'][0]['administrative_area'],
+                "zip" => $ua->user_addressbook_address['und'][0]['postal_code']
+            );
+        }
+        $time_slot = explode(" ", variable_get('pick_delivery_time_slot'));
+        $delivery = variable_get('delivery_time');
+        $output['success'] = TRUE;
+        $output['response'] = array(
+            'points' => $curr_points,
+            'address' => $custom_add,
+            'time_slot' => $time_slot,
+            'delivery' => $delivery,
+            'del_unit' => variable_get('delivery_time_unit')
+        );
+        return $output;
+    } else {
+        $output['success'] = false;
+        return $output;
+    }
+}
+
+function check_preferences($data) {
+    if ($data == 'In-Person')
+        return 0;
+    else if ($data == 'on-Door')
+        return 1;
+    else
+        return 2;
+}
+
+function _icWebServicesMakeOrder($new_order, $info) {
+    global $user;
+    $uid = $user->uid;
+    $user1 = user_load($uid);
+    watchdog("new_order", '<pre>' . print_r($new_order, true) . '</pre>');
+    watchdog("info", '<pre>' . print_r($info, true) . '</pre>');
+    if ($new_order && $info) {
+        uc_cart_empty();
+        foreach ($new_order as $field => $new) {
+            uc_cart_add_item($new['id'], $new['qty'], Null, $user->uid, FALSE, FALSE, TRUE);
+            // $nid = $new['id'];
+            // $nodes = node_load($nid);
+            // $product = uc_product_load($nodes);
+            // $product->qty = $new['qty'];
+            // $product->title = $nodes->title;
+            // $product->nid = $nid;
+            // $product->price = $nodes->sell_price;
+            // $product->model = $nodes->model;
+            // $order->products[] = $product;
+        }
+        $cart_contents = uc_cart_get_contents();
+        $order = uc_order_new($uid);
+        $order->order_status = 'in_checkout';
+        $order->products = $cart_contents;
+
+        watchdog('order_sa1', "<pre>" . print_r($order, 'TRUE') . "</pre>");
+        uc_order_save($order);
+
+        module_invoke_all('uc_cart_checkout_start', $order);
+        rules_invoke_all('uc_cart_checkout_start', $order);
+        drupal_get_form('uc_cart_checkout_form', $order);
+
+        $order->order_status = 'abandoned';
+
+        //satya's code on 15 dec 2016
+//discount line item
+        $discount_percentage = get_selected_subscription_fields($uid, 'discount');
+        $discount_get = (($discount_percentage / 100) * $order->order_total);
+        $line['data'] = array();
+        $order->line_items[] = uc_order_line_item_add($order->order_id, 'discount', 'Discount', -$discount_get, '0', $line['data']);
+
+
+        //tax line item
+
+        $total_taxable_amount = ($order->order_total - $discount_get);
+
+
+        $tax_percentage = variable_get('tax_rate_icleaner');
+
+        if (!isset($tax_percentage) || empty($tax_percentage)) {
+
+            $tax_percentage = '8.25';
+        }
+
+
+        $tax_get = (($tax_percentage / 100) * $total_taxable_amount);
+        $line1['data'] = array();
+        $order->line_items[] = uc_order_line_item_add($order->order_id, 'tax', 'Sales Tax', $tax_get, '0', $line1['data']);
+
+//end
+        uc_order_save($order);
+
+
+        $order_loaded = uc_order_load($order->order_id);
+
+        $save_del_add = $info['item']['saveDeliveryAddress'];
+        $new_del_add = $info['item']['newDeliveryAddress'];
+        $new_pick_add = $info['item']['newPickAddress'];
+        $save_pick_add = $info['item']['savePickAddress'];
+        if (isset($info['item']['Comments'])) {
+            $orderComment = $info['item']['Comments'];
+            uc_order_comment_save($order_loaded->order_id, $user->uid, $orderComment, $type = 'order', $status = 1, $notify = FALSE);
+        }
+        foreach ($info['item'] as $field => $data) {
+            if ($field == 'in-Person') {
+                $order->field_in_person_delivery['und'][0]['value'] = TRUE;
+            } else if ($field == 'on-Door') {
+                $order->field_on_door_delivery['und'][0]['value'] = TRUE;
+            } elseif ($field == 'Pick_up_preference') {
+                $order->field_pick_up_preferences['und'][0]['value'] = check_preferences($data);
+            } elseif ($field == 'Delivery_preference') {
+                $order->field_delivery_preferences['und'][0]['value'] = check_preferences($data);
+            } else if ($field == 'saveDeliveryAddress') {
+                if ($data != 'Add new address') {
+                    $user_add = user_address_load($data);
+                    $order->delivery_first_name = $user1->field_first_name['und'][0]['value'];
+                    $order->delivery_last_name = $user1->field_last_name['und'][0]['value'];
+                    $order->delivery_country = $user_add->user_addressbook_address['und'][0]['country'];
+                    $order->delivery_postal_code = $user_add->user_addressbook_address['und'][0]['postal_code'];
+                    $order->delivery_zone = _icWebServicesstatemap($user_add->user_addressbook_address['und'][0]['administrative_area']);
+                    $order->delivery_city = $user_add->user_addressbook_address['und'][0]['locality'];
+                    $order->delivery_street2 = $user_add->user_addressbook_address['und'][0]['premise'];
+                    $order->delivery_street1 = $user_add->user_addressbook_address['und'][0]['thoroughfare'];
+                } else {
+                    if (!empty($new_del_add)) {
+                        $order->delivery_first_name = $user1->field_first_name['und'][0]['value'];
+                        $order->delivery_last_name = $user1->field_last_name['und'][0]['value'];
+                        $order->delivery_country = 'US';
+                        $order->delivery_postal_code = $new_del_add ['zip'];
+                        $order->delivery_zone = _icWebServicesstatemap($new_del_add ['state']);
+                        $order->delivery_city = $new_del_add ['city'];
+                        $order->delivery_street2 = $new_del_add ['address2'];
+                        $order->delivery_street1 = $new_del_add ['address1'];
+                        // if pickup address is also add new address and same as delivery address
+
+                        $record = db_select('user_address', 'uad')
+                                ->fields('uad', array('address_id'))
+                                ->condition('name', $new_del_add['addressname'], '=')
+                                ->execute();
+
+
+                        if ($save_del_add && $record->rowCount() <= 0) {
+                            $account = array(
+                                "name" => $user1->field_first_name['und'][0]['value'] . " " . $user1->field_last_name['und'][0]['value'],
+                                "addressname" => $new_del_add['addressname'],
+                                "address1" => $new_del_add['address1'],
+                                "address2" => $new_del_add['address2'],
+                                "city" => $new_del_add['city'],
+                                "state" => $new_del_add['state'],
+                                "zip" => $new_del_add['zip'],
+                                "default" => false
+                            );
+                            $bool = updateuseraddress($account, $uid);
+                        }
+                    }
+                }
+                $order->delivery_phone = $user1->field_mobile_no['und'][0]['value'];
+//            } else if ($field == 'copyaddress') {
+//                if ($data == 1) {
+//                    $order->delivery_country = $order->pick_country;
+//                    $order->delivery_postal_code = $order->pick_postal_code;
+//                    $order->delivery_zone = $order->pick_zone;
+//                    $order->delivery_city = $order->pick_city;
+//                    $order->delivery_street2 = $order->pick_street2;
+//                    $order->delivery_street1 = $order->pick_street1;
+//                }
+//                $order->copy_address = $data;
+            } else if ($field == 'savePickAddress') {
+                if ($data != 'Add new address') {
+                    $user_add = user_address_load($data);
+                    $order->billing_first_name = $user1->field_first_name['und'][0]['value'];
+                    $order->billing_last_name = $user1->field_last_name['und'][0]['value'];
+                    $order->billing_country = $user_add->user_addressbook_address['und'][0]['country'];
+                    $order->billing_postal_code = $user_add->user_addressbook_address['und'][0]['postal_code'];
+                    $order->billing_zone = _icWebServicesstatemap($user_add->user_addressbook_address['und'][0]['administrative_area']);
+                    $order->billing_city = $user_add->user_addressbook_address['und'][0]['locality'];
+                    $order->billing_street2 = $user_add->user_addressbook_address['und'][0]['premise'];
+                    $order->billing_street1 = $user_add->user_addressbook_address['und'][0]['thoroughfare'];
+                } else {
+                    if (!empty($new_pick_add)) {
+                        $order->billing_first_name = $user1->field_first_name['und'][0]['value'];
+                        $order->billing_last_name = $user1->field_last_name['und'][0]['value'];
+                        $order->billing_country = 'US';
+                        $order->billing_postal_code = $new_pick_add['zip'];
+                        $order->billing_zone = _icWebServicesstatemap($new_pick_add['state']);
+                        $order->billing_city = $new_pick_add['city'];
+                        $order->billing_street2 = $new_pick_add['address2'];
+                        $order->billing_street1 = $new_pick_add['address1'];
+
+                        $record = db_select('user_address', 'uad')
+                                ->fields('uad', array('address_id'))
+                                ->condition('name', $new_del_add['addressname'], '=')
+                                ->execute();
+                        if ($save_pick_add && $record->rowCount() <= 0) {
+                            $account = array(
+                                "name" => $user1->field_first_name['und'][0]['value'] . " " . $user1->field_last_name['und'][0]['value'],
+                                "addressname" => $new_pick_add['addressname'],
+                                "address1" => $new_pick_add['address1'],
+                                "address2" => $new_pick_add['address2'],
+                                "city" => $new_pick_add['city'],
+                                "state" => $new_pick_add['state'],
+                                "zip" => $new_pick_add['zip'],
+                                "default" => false
+                            );
+                            $bool = updateuseraddress($account, $uid);
+                        }
+                    }
+                }
+                $order->billing_phone = $user1->field_mobile_no['und'][0]['value'];
+            }
+        }
+        $order->field_cust_pick_time['und'][0]['value'] = strtotime($info['pickupDate']);
+        $order->field_cust_delivery_time['und'][0]['value'] = strtotime($info['deliverDate']);
+
+        $order->field_quickorder['und'][0]['value'] = 0;
+
+        uc_order_save($order);
+        $re_order = uc_order_load($order->order_id);
+        watchdog('re_order', "<pre>" . print_r($re_order, 'TRUE') . "</pre>");
+
+        $output['Success'] = TRUE;
+        $output['response'] = array(
+            'total' => $re_order->order_total,
+            'line_items' => $re_order->line_items,
+            'points' => userpoints_get_current_points($uid, 'all'),
+            'order_id' => $re_order->order_id,
+        );
+        $output['responseMessage'] = 'Order is placed successfully.';
+        return $output;
+    } else {
+        $output['success'] = FALSE;
+    }
+}
+
+function _icWebServicesMakeQuickOrder($quantity, $info) {
+    global $user;
+    $uid = $user->uid;
+    $user1 = user_load($uid);
+    if ($quantity && $info) {
+        $order = uc_order_new($uid);
+        $order->order_status = 'pending';
+        watchdog('Order', "<pre>" . print_r($order, 'TRUE') . "</pre>");
+        watchdog('info', "<pre>" . print_r($info, 'TRUE') . "</pre>");
+
+        $result = db_select("node", "n")
+                ->fields("n", array("nid"))
+                ->condition("title", "Quickorder", "=")
+                ->execute()
+                ->fetchAssoc();
+        watchdog('new', "<pre>" . print_r($result, 'TRUE') . "</pre>");
+        $nodes = node_load($result['nid']);
+        $product = uc_product_load($nodes);
+        $product->qty = $quantity;
+        $product->title = $nodes->title;
+        $product->nid = $nid;
+        $product->price = $nodes->sell_price;
+        $product->model = $nodes->model;
+        $order->products[] = $product;
+        watchdog("order save", '<pre>' . print_r($order, "TRUE") . '</pre>');
+        uc_order_save($order);
+
+        /*   if (isset($user1->field_stripe_plan_id['und'][0]['value'])) {
+          $planid = $user1->field_stripe_plan_id['und'][0]['value'];
+          $query = db_select('node', 'n');
+          $query->join('field_data_field_plan_id', 'fpi', 'n.nid=fpi.entity_id');
+          $query->fields('n', array('nid'));
+          $query->condition('fpi.field_plan_id_value', $planid, '=');
+          $query2 = $query->execute();
+          $plan_nid = $query2->fetchField();
+
+          $loaded_plan = node_load($plan_nid);
+          $plan_discount1 = $loaded_plan->field_discount['und'][0]['value'];
+          $plan_discount = (100 - $plan_discount1) / 100;
+          } else {
+          //$plan_discount = 1;
+          }
+          $order_loaded = uc_order_load($order->order_id);
+          $order_total_cost_dollar = $order_loaded->order_total;
+          $order_total_cost = $order_total_cost_dollar * $plan_discount;
+          $total_points = $order_total_cost * 100;
+          $user_current_points = userpoints_get_current_points($user1->uid); */
+
+
+        //satya's uncomment this code
+        /*  if ($total_points > $user_current_points) {
+          //    uc_order_delete($order->order_id);
+          //            return $output['result'] = 'Not enough points';
+          return array('Success' => true, 'responseMessage' => 'Not enough point', 'amount' => $order_total_cost, 'order_id' => $order->order_id);
+          } else {
+          $params = array(
+          'uid' => $user1->uid,
+          'points' => -$total_points
+          );
+          $result_of_points = userpoints_userpointsapi($params);
+          } */
+        $save_del_add = $info['item']['saveDeliveryAddress'];
+        $new_del_add = $info['item']['newDeliveryAddress'];
+        $new_pick_add = $info['item']['newPickAddress'];
+        $save_pick_add = $info['item']['savePickAddress'];
+        if (isset($info['item']['Comments'])) {
+            $orderComment = $info['item']['Comments'];
+            uc_order_comment_save($order_loaded->order_id, $user->uid, $orderComment, $type = 'order', $status = 1, $notify = FALSE);
+        }
+        foreach ($info['item'] as $field => $data) {
+            if ($field == 'in-Person') {
+                $order->field_in_person_delivery['und'][0]['value'] = TRUE;
+            } else if ($field == 'on-Door') {
+                $order->field_on_door_delivery['und'][0]['value'] = TRUE;
+            } elseif ($field == 'Pick_up_preference') {
+                $order->field_pick_up_preferences['und'][0]['value'] = check_preferences($data);
+            } elseif ($field == 'Delivery_preference') {
+                $order->field_delivery_preferences['und'][0]['value'] = check_preferences($data);
+            } else if ($field == 'saveDeliveryAddress') {
+                if ($data != 'Add new address') {
+                    $user_add = user_address_load($data);
+                    $order->delivery_first_name = $user1->field_first_name['und'][0]['value'];
+                    $order->delivery_last_name = $user1->field_last_name['und'][0]['value'];
+                    $order->delivery_country = $user_add->user_addressbook_address['und'][0]['country'];
+                    $order->delivery_postal_code = $user_add->user_addressbook_address['und'][0]['postal_code'];
+                    $order->delivery_zone = _icWebServicesstatemap($user_add->user_addressbook_address['und'][0]['administrative_area']);
+                    $order->delivery_city = $user_add->user_addressbook_address['und'][0]['locality'];
+                    $order->delivery_street2 = $user_add->user_addressbook_address['und'][0]['premise'];
+                    $order->delivery_street1 = $user_add->user_addressbook_address['und'][0]['thoroughfare'];
+                } else if ($data == 0) {
+                    if (!empty($new_del_add)) {
+                        $order->delivery_first_name = $user1->field_first_name['und'][0]['value'];
+                        $order->delivery_last_name = $user1->field_last_name['und'][0]['value'];
+                        $order->delivery_country = 'US';
+                        $order->delivery_postal_code = $new_del_add ['zip'];
+                        $order->delivery_zone = _icWebServicesstatemap($new_del_add ['state']);
+                        $order->delivery_city = $new_del_add ['city'];
+                        $order->delivery_street2 = $new_del_add ['address2'];
+                        $order->delivery_street1 = $new_del_add ['address1'];
+                        if ($save_del_add) {
+                            $account = array(
+                                "name" => $user1->field_first_name['und'][0]['value'] . " " . $user1->field_last_name['und'][0]['value'],
+                                "addressname" => $new_del_add['addressname'],
+                                "address1" => $new_del_add['address1'],
+                                "address2" => $new_del_add['address2'],
+                                "city" => $new_del_add['city'],
+                                "state" => $new_del_add['state'],
+                                "zip" => $new_del_add['zip'],
+                                "default" => false
+                            );
+                            $bool = updateuseraddress($account, $uid);
+                        }
+                    }
+                }
+                $order->delivery_phone = $user1->field_mobile_no['und'][0]['value'];
+//            } else if ($field == 'copyaddress') {
+//                if ($data == 1) {
+//                    $order->delivery_country = $order->pick_country;
+//                    $order->delivery_postal_code = $order->pick_postal_code;
+//                    $order->delivery_zone = $order->pick_zone;
+//                    $order->delivery_city = $order->pick_city;
+//                    $order->delivery_street2 = $order->pick_street2;
+//                    $order->delivery_street1 = $order->pick_street1;
+//                }
+//                $order->copy_address = $data;
+            } else if ($field == 'savePickAddress') {
+                if ($data != 'Add new address') {
+                    $user_add = user_address_load($data);
+                    $order->billing_first_name = $user1->field_first_name['und'][0]['value'];
+                    $order->billing_last_name = $user1->field_last_name['und'][0]['value'];
+                    $order->billing_country = $user_add->user_addressbook_address['und'][0]['country'];
+                    $order->billing_postal_code = $user_add->user_addressbook_address['und'][0]['postal_code'];
+                    $order->billing_zone = _icWebServicesstatemap($user_add->user_addressbook_address['und'][0]['administrative_area']);
+                    $order->billing_city = $user_add->user_addressbook_address['und'][0]['locality'];
+                    $order->billing_street2 = $user_add->user_addressbook_address['und'][0]['premise'];
+                    $order->billing_street1 = $user_add->user_addressbook_address['und'][0]['thoroughfare'];
+                } else if ($data == 0) {
+                    if (!empty($new_pick_add)) {
+                        $order->billing_first_name = $user1->field_first_name['und'][0]['value'];
+                        $order->billing_last_name = $user1->field_last_name['und'][0]['value'];
+                        $order->billing_country = 'US';
+                        $order->billing_postal_code = $new_pick_add['zip'];
+                        $order->billing_zone = _icWebServicesstatemap($new_pick_add['state']);
+                        $order->billing_city = $new_pick_add['city'];
+                        $order->billing_street2 = $new_pick_add['address2'];
+                        $order->billing_street1 = $new_pick_add['address1'];
+                        if ($save_pick_add) {
+                            $account = array(
+                                "name" => $user1->field_first_name['und'][0]['value'] . " " . $user1->field_last_name['und'][0]['value'],
+                                "addressname" => $new_pick_add['addressname'],
+                                "address1" => $new_pick_add['address1'],
+                                "address2" => $new_pick_add['address2'],
+                                "city" => $new_pick_add['city'],
+                                "state" => $new_pick_add['state'],
+                                "zip" => $new_pick_add['zip'],
+                                "default" => false
+                            );
+                            $bool = updateuseraddress($account, $uid);
+                        }
+                    }
+                }
+                $order->billing_phone = $user1->field_mobile_no['und'][0]['value'];
+            }
+        }
+        $order->field_cust_pick_time['und'][0]['value'] = strtotime($info['pickupDate']);
+        $order->field_cust_delivery_time['und'][0]['value'] = strtotime($info['deliverDate']);
+
+        $order->field_quickorder['und'][0]['value'] = 1;
+
+
+
+
+
+        uc_order_save($order);
+        $re_order = uc_order_load($order->order_id);
+        watchdog('re_order', "<pre>" . print_r($re_order, 'TRUE') . "</pre>");
+
+        $output['Success'] = TRUE;
+        $output['response'] = array(
+            'total' => $re_order->order_total,
+            'points' => userpoints_get_current_points($uid, 'all'),
+            'order_id' => $re_order->order_id,
+        );
+        $output['responseMessage'] = 'Order is placed successfully.';
+        return $output;
+    } else {
+        $output['success'] = FALSE;
+    }
+}
+
+// function icWebServices_node_access($node, $op, $account){
+//   watchdog('nodes', "<pre>" . print_r($node, 'TRUE') . "</pre>");
+//   watchdog('nodes', "<pre>" . print_r($op, 'TRUE') . "</pre>");
+//   watchdog('nodes', "<pre>" . print_r($account, 'TRUE') . "</pre>");
+//   return NODE_ACCESS_DENY;
+// }
+
+function Nidbyservice_productname($ser, $cloth) {
+    //$nodes=array();
+    $ser_name = db_query("SELECT tid FROM taxonomy_term_data WHERE name=:name ", array(':name' => $ser))->fetchAssoc();
+    $query = db_select('field_data_taxonomy_catalog', 'tc');
+    $query->fields('tc', array('entity_id'));
+    $query->leftjoin('node', 'no', 'no.nid = tc.entity_id ');
+    $and = db_and()->condition("no.type", 'product', '=')->condition("no.title", $cloth, '=');
+    $query->condition(db_and()->condition($and)->condition('tc.taxonomy_catalog_tid', $ser_name['tid'], "="));
+    $result = $query->execute()->fetchAssoc();
+    watchdog('reslt', "<pre>" . print_r($result, 'TRUE') . "</pre>");
+    return $result['entity_id'];
+}
+
+/**
+ * END OF CUSTOMER SPECIFIC FUNCTION
+ * **************************************************************************
+ *
+ * START OF PRODUCTS SPECIFIC FUNSCTION 
+ */
+function api_products_list() {
+    $user_info = drupal_json_decode(file_get_contents('php://input'));
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    $response = _icWebServiceListProducts();
+    /* $taxes_load = uc_taxes_rate_load();
+      $taxes = array();
+      foreach ($taxes_load as $key => $tax) {
+      $taxes[] = array('name' => $tax->name,
+      'rate' => $tax->rate);
+      }
+      $response['taxes'] = $taxes; */
+    return drupal_json_output($response);
+}
+
+function _icWebServiceListProducts() {
+
+    $query = db_select('uc_products', 'ucp');
+    $query->fields('ucp', array('nid', 'model', 'list_price', 'cost', 'sell_price'));
+    $result = $query->execute()->fetchAll();
+    watchdog("result", "<pre>" . print_r($result, 'TRUE') . "</pre>");
+
+    if ($result) {
+        $nodes = array();
+        $nodes1 = array();
+        foreach ($result as $product) {
+
+            if ($product->model == 'Sample') {
+                continue;
+            } else {
+                $nodes1[] = uc_product_custom_load($product);
+            }
+        }
+        $output['success'] = TRUE;
+        $output['response'] = $nodes1;
+        return $output;
+    } else {
+        $output['success'] = FALSE;
+        return $output;
+    }
+}
+
+function uc_product_custom_load($node) {
+
+    $n = node_load($node->nid);
+    $nodes1->nid = $node->nid;
+    $nodes1->cloth = $n->title;
+    $nodes1->service = getservice_types($node->nid);
+    $nodes1->price = $node->sell_price;
+    return $nodes1;
+}
+
+function getservice_types($nid) {
+
+    if ($nid) {
+        $query = db_select('field_data_taxonomy_catalog', 'tc');
+        $query->join('taxonomy_term_data', 'td', ' td.tid = tc.taxonomy_catalog_tid ');
+        $query->fields('td', array('name'));
+        $query->condition('tc.entity_id', $nid, '=');
+        $result2 = $query->execute()->fetchAssoc();
+        $service = $result2['name'];
+        return $service;
+    }
+}
+
+/**
+ * END OF PRODUCT SPECIFIC FUNCTION
+ * **************************************************************************
+ */
+
+/**
+ * START OF SUBSCRIPTION SPECIFIC FUNSCTION 
+ */
+function _icWebServiceListSubscription() {
+    $result = db_select("node", "n")
+            ->fields("n", array("nid"))
+            ->condition("type", "subscriptions", "=")
+            ->condition("status", 1, "=")
+            ->execute()
+            ->fetchAll();
+    if ($result) {
+        $nodes1 = array();
+        foreach ($result as $sub) {
+            $node = node_load($sub->nid);
+            $nodes1[] = array(
+                "title" => $node->title,
+                "detail" => $node->body["und"][0]["value"],
+                "id" => $node->field_plan_id['und'][0]['value'],
+                "price" => $node->field_price['und'][0]['value'],
+                "discount" => $node->field_discount['und'][0]['value'],
+                "credit" => $node->field_credit['und'][0]['value']
+            );
+        }
+        $output['success'] = TRUE;
+        $output['term_condition'] = '<div class="term_condition">
+  <h3 class="term_condition_header">Terms and Conditions</h3><br>
+(1) Cleaning credit only applies to pants and shirts that are laundered. Dry Cleaned garments are not included in the monthly cleaning credit<br>
+(2) Rollover your unused credits for up to one year. Each months cleaning credit, if not used, will be rolled over for 12 months.<br> 
+(3) Flexibility on how credit is being used. $10 for Laundry/Wash and $10 for Dry Cleaning, $20 for Laundry/Wash or $20 for up to 2 express trips.<br>
+(4) A minimum order is required for free pick and delivery. If the order is less than $35.00 a delivery fee of $5.99 will be added to your order. </div>';
+
+        $output['response'] = $nodes1;
+        return $output;
+    } else {
+        $output['success'] = FALSE;
+        return $output;
+    }
+}
+
+/**
+ * END OF SUBSCRIPTION SPECIFIC FUNCTION
+ * **************************************************************************
+ */
+
+/**
+ * START OF STRIPE SPECIFIC FUNSCTION 
+ */
+function state() {
+    $administrative_areas['US'] = array(
+        'TX' => t('Texas'),
+        'AL' => t('Alabama'),
+        'AK' => t('Alaska'),
+        'AZ' => t('Arizona'),
+        'AR' => t('Arkansas'),
+        'CA' => t('California'),
+        'CO' => t('Colorado'),
+        'CT' => t('Connecticut'),
+        'DE' => t('Delaware'),
+        'DC' => t('District of Columbia'),
+        'FL' => t('Florida'),
+        'GA' => t('Georgia'),
+        'HI' => t('Hawaii'),
+        'ID' => t('Idaho'),
+        'IL' => t('Illinois'),
+        'IN' => t('Indiana'),
+        'IA' => t('Iowa'),
+        'KS' => t('Kansas'),
+        'KY' => t('Kentucky'),
+        'LA' => t('Louisiana'),
+        'ME' => t('Maine'),
+        'MD' => t('Maryland'),
+        'MA' => t('Massachusetts'),
+        'MI' => t('Michigan'),
+        'MN' => t('Minnesota'),
+        'MS' => t('Mississippi'),
+        'MO' => t('Missouri'),
+        'MT' => t('Montana'),
+        'NE' => t('Nebraska'),
+        'NV' => t('Nevada'),
+        'NH' => t('New Hampshire'),
+        'NJ' => t('New Jersey'),
+        'NM' => t('New Mexico'),
+        'NY' => t('New York'),
+        'NC' => t('North Carolina'),
+        'ND' => t('North Dakota'),
+        'OH' => t('Ohio'),
+        'OK' => t('Oklahoma'),
+        'OR' => t('Oregon'),
+        'PA' => t('Pennsylvania'),
+        'RI' => t('Rhode Island'),
+        'SC' => t('South Carolina'),
+        'SD' => t('South Dakota'),
+        'TN' => t('Tennessee'),
+        'UT' => t('Utah'),
+        'VT' => t('Vermont'),
+        'VA' => t('Virginia'),
+        'WA' => t('Washington'),
+        'WV' => t('West Virginia'),
+        'WI' => t('Wisconsin'),
+        'WY' => t('Wyoming'),
+        ' ' => t('--'),
+        'AA' => t('Armed Forces (Americas)'),
+        'AE' => t('Armed Forces (Europe, Canada, Middle East, Africa)'),
+        'AP' => t('Armed Forces (Pacific)'),
+        'AS' => t('American Samoa'),
+        'FM' => t('Federated States of Micronesia'),
+        'GU' => t('Guam'),
+        'MH' => t('Marshall Islands'),
+        'MP' => t('Northern Mariana Islands'),
+        'PW' => t('Palau'),
+        'PR' => t('Puerto Rico'),
+        'VI' => t('Virgin Islands'),
+    );
+
+    return $administrative_areas;
+}
+
+function api_state() {
+    return drupal_json_encode(state());
+}
+
+function _icWebServicesState() {
+
+    $administrative_areas = state();
+
+    $state = array();
+    foreach ($administrative_areas['US'] as $key => $value) {
+        $state[] = array(
+            'StateCode' => $key,
+            'StateName' => $value
+        );
+    }
+    $output['success'] = TRUE;
+    $output['response'] = $state;
+    return $output;
+}
+
+function _icWebServicesstatemap($aid) {
+    $state = array(
+        "1" => t('Alabama'),
+        "2" => t('Alaska'),
+        "3" => t('American Samoa'),
+        "4" => t('Arizona'),
+        "5" => t('Arkansas'),
+        "6" => t('Armed Forces Africa'),
+        "7" => t('Armed Forces Americas'),
+        "8" => t('Armed Forces Canada'),
+        "9" => t('Armed Forces Europe'),
+        "10" => t('Armed Forces Middle East'),
+        "11" => t('Armed Forces Pacific'),
+        "12" => t('California'),
+        "13" => t('Colorado'),
+        "14" => t('Connecticut'),
+        "15" => t('Delaware'),
+        "16" => t('District of Columbia'),
+        "17" => t('Federated States Of Micronesia'),
+        "18" => t('Florida'),
+        "19" => t('Georgia'),
+        "20" => t('Guam'),
+        "21" => t('Hawaii'),
+        "22" => t('Idaho'),
+        "23" => t('Illinois'),
+        "24" => t('Indiana'),
+        "25" => t('Iowa'),
+        "26" => t('Kansas'),
+        "27" => t('Kentucky'),
+        "28" => t('Louisiana'),
+        "29" => t('Maine'),
+        "30" => t('Marshall Islands'),
+        "31" => t('Maryland'),
+        "32" => t('Massachusetts'),
+        "33" => t('Michigan'),
+        "34" => t('Minnesota'),
+        "35" => t('Mississippi'),
+        "36" => t('Missouri'),
+        "37" => t('Montana'),
+        "38" => t('Nebraska'),
+        "39" => t('Nevada'),
+        "40" => t('New Hampshire'),
+        "41" => t('New Jersey'),
+        "42" => t('New Mexico'),
+        "43" => t('New York'),
+        "44" => t('North Carolina'),
+        "45" => t('North Dakota'),
+        "46" => t('Northern Mariana Islands'),
+        "47" => t('Ohio'),
+        "48" => t('Oklahoma'),
+        "49" => t('Oregon'),
+        "50" => t('Palau'),
+        "51" => t('Pennsylvania'),
+        "52" => t('Puerto Rico'),
+        "53" => t('Rhode Island'),
+        "54" => t('South Carolina'),
+        "55" => t('South Dakota'),
+        "56" => t('Tennessee'),
+        "57" => t('Texas'),
+        "58" => t('Utah'),
+        "59" => t('Vermont'),
+        "61" => t('Virginia'),
+        "60" => t('Virgin Islands'),
+        "62" => t('Washington'),
+        "63" => t('West Virginia'),
+        "64" => t('Wisconsin'),
+        "65" => t('Wyoming')
+    );
+    $administrative_areas = state();
+
+    foreach ($state as $key => $value) {
+        if ($value == $administrative_areas['US'][$aid]) {
+            return $key;
+        }
+    }
+}
+
+$path = drupal_get_path("module", "icSubscriptionStripe");
+require_once($path . '/icSubscriptionStripe.module');
+
+function subscribe_to_plan($tokenid, $planid) {
+    watchdog('user', "<pre>" . print_r("user", 'TRUE') . "</pre>");
+    //$path = drupal_get_path("module", "icSubscriptionStripe");
+    //require_once($path . '/icSubscriptionStripe.module');
+    global $user;
+    $user1 = user_load($user->uid);
+
+    $query = db_select('node', 'n');
+    $query->join('field_data_field_plan_id', 'fpi', 'n.nid=fpi.entity_id');
+    $query->fields('n', array('nid'));
+    $query->condition('fpi.field_plan_id_value', $planid, '=');
+    $query2 = $query->execute();
+    $plan_nid = $query2->fetchField();
+
+    $loaded_plan = node_load($plan_nid);
+    $plan_price = $loaded_plan->field_price['und'][0]['value'] * 100;  //in cents
+
+    $charge = create_user_subscription_stripe($tokenid, $plan_price, $planid);  //charge and subscribe user
+    if ($charge == TRUE) {
+//        $credit_points = $loaded_plan->field_credit['und'][0]['value'];
+//        $user_current_points = userpoints_get_current_points($user->uid) + $credit_points;
+//        $params = array(
+//            'uid' => $user->uid,
+//            'points' => $credit_points
+//        );
+//        $result = userpoints_userpointsapi($params);
+        $user1->field_stripe_plan_id['und'][0]['value'] = $planid;
+        user_save($user1);
+        $output['result'] = 'success';
+//        $output['value']=array('userpoints'=>$user_current_points);
+    } else {
+        $output['result'] = 'failure';
+    }
+
+    return $output;
+}
+
+function update_subscribed_plan($plan_id) {
+    global $user;
+    $user1 = user_load($user->uid);
+//    $user1=user_load(54);
+
+    $query = db_select('node', 'n');
+    $query->join('field_data_field_plan_id', 'fpi', 'n.nid=fpi.entity_id');
+    $query->fields('n', array('nid'));
+    $query->condition('fpi.field_plan_id_value', $plan_id, '=');
+    $query2 = $query->execute();
+    $plan_nid = $query2->fetchField();
+
+    $loaded_plan = node_load($plan_nid);
+    $plan_price = $loaded_plan->field_price['und'][0]['value'] * 100;  //in cents
+    $charge = update_user_subscription_stripe($plan_id);
+    if ($charge == TRUE) {
+        $user1->field_stripe_plan_id['und'][0]['value'] = $plan_id;
+        user_save($user1);
+
+        $output['result'] = 'success';
+    } else {
+        $output['result'] = 'failure';
+    }
+    return $output;
+}
+
+function pay_in_cash($amount) {
+    global $user;
+    $user1 = user_load($user->uid);
+    $output = array();
+    $charge = pay_cash_from_stripe($amount);
+    if ($charge == TRUE) {
+        /*  $params = array(
+          'uid' => $user1->uid,
+          'points' => $amount * 100
+          );
+          watchdog('hook_to_see', "<pre>" . print_r($params, 'TRUE') . "</pre>");
+
+          $result = userpoints_userpointsapi($params); */
+        $output['message'] = "Order Placed";
+        $output['success'] = TRUE;
+        $output['result'] = 'success';
+        return $output;
+    } else {
+        $output['message'] = "Payment Declined";
+        $output['success'] = FALSE;
+        $output['result'] = 'failure';
+        return $output;
+    }
+}
+
+function current_subscribed_plan() {
+    global $user;
+    $user1 = user_load($user->uid);
+    return $user1->field_stripe_plan_id['und'][0]['value'];
+}
+
+function api_profiledetails() {
+    $user_info = drupal_json_decode(file_get_contents('php://input'));
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    $response = get_user_details();
+    return drupal_json_output($response);
+}
+
+function get_user_details() {
+    global $user;
+    $uid = $user->uid;
+    $user1 = user_load($uid);
+
+    $plan_title = get_selected_subscription_fields($uid, 'plan_title');
+    $user_current_points = get_selected_subscription_fields($uid, 'currentpoints');
+    $output['current_plan'] = $plan_title;
+    $output['current_points'] = $user_current_points;
+
+    $output['username'] = $user1->name;
+    $output['firstname'] = isset($user1->field_first_name['und'][0]['value']) ? $user1->field_first_name['und'][0]['value'] : '';
+    $output['lastname'] = isset($user1->field_last_name['und'][0]['value']) ? $user1->field_last_name['und'][0]['value'] : '';
+    $output['email'] = $user1->mail;
+    $output['mobile_no'] = isset($user1->field_mobile_no['und'][0]['value']) ? $user1->field_mobile_no['und'][0]['value'] : '';
+//  $output['plan']=isset($user1->field_subscribed_plans['und'][0]['target']) ? node_load($user1->field_subscribed_plans['und'][0]['target'])->title : '';
+//  $output['plan_start']=isset($user1->field_user_subs_start_date['und'][0]['value']) ? date('m-d-Y G:i:s',$user1->field_user_subs_start_date['und'][0]['value']) : '';
+//  $output['plan_end']=isset($user1->field_user_subsc_end_date['und'][0]['value']) ? date('m-d-Y G:i:s',$user1->field_user_subsc_end_date['und'][0]['value']) : '';
+
+    $add_id = user_addressbook_get_default_addresses($uid);
+    if ($add_id) {
+        $user_add = user_address_load($add_id);
+        $custom_add = array(
+            "addressid" => $user_add->address_id,
+            "addressname" => $user_add->name,
+            "address1" => $user_add->user_addressbook_address['und'][0]['thoroughfare'],
+            "address2" => $user_add->user_addressbook_address['und'][0]['premise'],
+            "city" => $user_add->user_addressbook_address['und'][0]['locality'],
+            "state" => $user_add->user_addressbook_address['und'][0]['administrative_area'],
+            "zip" => $user_add->user_addressbook_address['und'][0]['postal_code']
+        );
+        $output['address'] = $custom_add;
+    } else {
+        $output['address'] = array(
+            "addressid" => 0,
+            "addressname" => '',
+            "address1" => '',
+            "address2" => '',
+            "city" => '',
+            "state" => '',
+            "zip" => ''
+        );
+    }
+    return $output;
+}
+
+function api_update_user_details() {
+    $data = drupal_json_decode(file_get_contents('php://input'));
+    $user_info = $data['user_info'];
+    $is_user_authorized = icWebServices_session_validate($user_info['session_id'], $user_info['user_id']);
+    if ($is_user_authorized == FALSE) {
+        $output['success'] = FALSE;
+        $output['response'] = 'unauthorized';
+        return drupal_json_output($output);
+    }
+    global $user;
+    $user = user_load($user_info['user_id']);
+    $response = update_user_details($data['profile']);
+    return drupal_json_output($response);
+}
+
+function update_user_details($update) {
+    global $user;
+    $uid = $user->uid;
+    $user1 = user_load($uid);
+//    $user1->name = $update['username'];
+    $user1->field_first_name['und'][0]['value'] = $update['firstname'];
+    $user1->field_last_name['und'][0]['value'] = $update['lastname'];
+    if (valid_email_address($update['email'])) {
+        $user1->mail = $update['email'];
+    } else {
+        $output['success'] = false;
+        $output['response'] = 'email id is already in use';
+        return $output;
+    }
+
+    $user1->field_mobile_no['und'][0]['value'] = $update['mobile_no'];
+
+    user_save($user1);
+
+//    print json_encode($update);
+//    die;
+    $output = array();
+    $output['success'] = false;
+    $output['response'] = '';
+    $add_id = user_addressbook_get_default_addresses($uid);
+    if (!($add_id)) {
+        if ($update['address']['addressid'] == 0) {
+            $account = array(
+                "name" => $user1->field_first_name['und'][0]['value'] . " " . $user1->field_last_name['und'][0]['value'],
+                "addressname" => $update['address']['addressname'],
+                "address1" => $update['address']['address1'],
+                "address2" => $update['address']['address2'],
+                "city" => $update['address']['city'],
+                "state" => $update['address']['state'],
+                "zip" => $update['address']['zip'],
+                "default" => true
+            );
+            $bool = updateuseraddress($account, $uid);
+        }
+        $output['success'] = true;
+    } else {
+        $user_add = user_address_load($add_id);
+        $user_add->name = $update['address']['addressname'];
+        $user_add->user_addressbook_address['und'][0]['thoroughfare'] = $update['address']['address1'];
+        $user_add->user_addressbook_address['und'][0]['premise'] = $update['address']['address2'];
+        $user_add->user_addressbook_address['und'][0]['locality'] = $update['address']['city'];
+        $user_add->user_addressbook_address['und'][0]['administrative_area'] = $update['address']['state'];
+        $user_add->user_addressbook_address['und'][0]['postal_code'] = $update['address']['zip'];
+        entity_save('user_address', $user_add);
+        $output['success'] = true;
+    }
+//    $output['success'] = TRUE;
+    return $output;
+}
+
+function call_create_stripe($uid) {
+    $user = user_load($uid);
+    $user_stripe_id = create_user_on_stripe($user);
+    $user->field_stripe_id['und'][0]['value'] = $user_stripe_id;
+    user_save($user);
+    return $user_stripe_id;
+}
+
+function icWebServices_session_validate($session_id, $user_id) {
+    $query = db_select('sessions', 's')
+            ->fields('s', array('uid'))
+            ->condition('s.sid', $session_id, '=')
+            ->execute();
+    $result = $query->fetchField();
+    if (isset($result) && !empty($result)) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+function get_selected_subscription_fields($id, $request_title = '') {
+
+
+    if ($request_title == 'plan_credit') {
+        $planid = $id;
+    } else {
+        $user1 = user_load($id);
+        $planid = $user1->field_stripe_plan_id['und'][0]['value'];
+
+        if ($request_title == 'currentpoints') {
+            return userpoints_get_current_points($id, 'all');
+        }
+    }
+
+
+    if (isset($planid)) {
+        $query = db_select('node', 'n');
+        $query->join('field_data_field_plan_id', 'fpi', 'n.nid=fpi.entity_id');
+        $query->fields('n', array('nid'));
+        $query->condition('n.type', 'subscriptions', '=');
+        $query->condition('fpi.field_plan_id_value', $planid, '=');
+        $query2 = $query->execute();
+        $plan_nid = $query2->fetchField();
+
+        $loaded_plan = node_load($plan_nid);
+
+        if ($request_title == 'plan_title') {
+            return $loaded_plan->title;
+        }
+
+        if ($request_title == 'plan_credit') {
+            if (isset($loaded_plan->field_credit['und'][0]['value'])) {
+                $credit_amount = $loaded_plan->field_credit['und'][0]['value'];
+                return $credit_amount;
+            }
+        }
+
+        if ($request_title == 'discount') {
+             watchdog('loaded_plan', "<pre>" . print_r($loaded_plan, 'TRUE') . "</pre>");
+     
+            if (isset($loaded_plan->field_discount['und'][0]['value'])) {
+                $plan_discount1 = $loaded_plan->field_discount['und'][0]['value'];
+                
+                return $plan_discount1;
+            }
+        }
+
+        return '';
+    }
+}

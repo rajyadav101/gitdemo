@@ -1,0 +1,278 @@
+<div class="product-topping-section">
+    <div class="product-size-topping-section">
+        <div class="product-details-topping">
+            <div class="product-details-topping-name" ng-bind-html="topping.title | html">
+            </div>
+            <div class="product-details-topping-disc" ng-bind-html="menuitem.description | html">
+            </div>
+        </div>
+
+        <div class="variant-attribute-scroll-section">
+            <div class="variant-attribute-scroll-section1" ng-init="showVariantSection()">
+                <!--  variant level code -->
+
+                <div ng-if="topping.variant.length">
+                    <div class="variant-section">
+                        <div class="variant-title" ng-bind-html="topping.variant_name | html"></div>
+                        <div class="variant-options-section">
+                            <div ng-repeat="variant in topping.variant" class="variant-options" data="{{variant.unique_id}}">
+                                <input id="{{variant.id}}" type="radio" name="111" ng-true-value="{{variant.price}}" 
+                                       ng-false-value="0" ng-click="radioFunc($event, variant.price, topping.id, variant.name, variant.id, topping.price);
+                                               VariantSelection(variant.id);
+                                               xyz(topping)" ng-disabled="checked" ><label for="{{variant.id}}"><div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="variant.name | html"></span> - <span ng-bind-html="restaurant.currency_sign | html"></span>{{variant.price| number:2}} </div></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- code for tabs on click show hide -->
+                <div class="angular-tabs">
+                    <div ng-repeat="variant in topping.variant" class="{{variant.unique_id}} variant-attribute-div angular-pop-tab-section ">
+                        <div ng-repeat="attribute in variant.attribute" data="{{attribute.id}}" class="angular-pop-tab1 angular-pop-button" ng-bind-html="attribute.title | html">
+                        </div>
+                    </div>
+                    <div ng-repeat="attribute in topping.attribute" data="{{attribute.id}}" class="angular-pop-tab angular-pop-button" ng-bind-html="attribute.title | html">
+                    </div>
+                </div>
+
+                <!-- code for tabs on click show hide ended-->
+                <div class="variant-attribute-section">
+                    <div ng-repeat="variantData in data.variant">
+                        <div class="{{variantData.unique_id}} variant-attribute-div" ng-if="selectedVariantItemId == variantData.id">
+
+                            <!-- variant with attribute -->
+
+                            <div ng-repeat="attribute in variantData.attribute" class="attribute-section">
+                                <div class="{{attribute.id}} angular-attribute-section-tab angular-attribute-section-tab-{{attribute.id}}">
+                                    <div class="attribute-title" ng-bind-html="attribute.title | html"></div>
+
+                                    <div class="attribute-options-section attribute{{attribute.id}}">
+
+                                        <div ng-if="attribute.type == 'checkbox'">
+
+                                            <div ng-if="attribute.min > UpdateCheckboxSection[topping.id][attribute.id].totalCheck" class="min-max-error">
+                                                Please select at least {{attribute.min - UpdateCheckboxSection[topping.id][attribute.id].totalCheck}} or more to proceed.
+                                            </div>
+
+                                            <div ng-repeat="options in attribute.options" class="attribute-option">
+
+                                                <input type="checkbox" ng-init="updateSelection($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price);
+                                                                    UpdateCheckboxModel[options.option_id] = '-1'" ng-model="UpdateCheckboxModel[options.option_id]" ng-true-value="'{{options.price}}'" ng-false-value="'-1'" ng-click="updateSelection($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price)" id="{{options.option_id}}" ng-disabled="UpdateCheckboxSection[topping.id][attribute.id].totalCheck >= attribute.max && UpdateCheckboxModel[options.option_id] == '-1'"><label for="{{options.option_id}}"><span class="attribute-option-name-price"> <span ng-bind-html="options.name | html"></span>  <div ng-if="options.price > 0">- <div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span>{{options.price| number:2}}</div></div> </span></label>
+                                            </div>
+
+                                        </div>
+
+                                        <div ng-if="attribute.type == 'radio'">
+                                            <div ng-repeat="options in attribute.options" class="attribute-option attribute-radio-option">
+
+                                                <input type="radio"  name="{{ attribute.id}}" ng-true-value="'{{options.price}}'" ng-false-value="'-1'" ng-click="updateSelectionRadio($event, options.price, topping.id, options.option_id, options.name, options.value, attribute.title, attribute.id)" class="radiocheckbox-section" id="{{options.option_id}}"> 
+
+                                                <label for="{{options.option_id}}"><span class="attribute-option-name-price"><span ng-bind-html="options.name | html"></span>   <div ng-if="options.price > 0">- <div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span>{{options.price| number:2}}</div></div> </span> </label>
+                                            </div>
+                                        </div>
+
+                                        <div ng-if="attribute.type == 'incremental'">
+
+                                            <div ng-if="attribute.min > UpdateIncrementalData[topping.id][attribute.id].totalQty" class="min-max-error">
+                                                Please select at least {{attribute.min - UpdateIncrementalData[topping.id][attribute.id].totalQty}} or more to proceed.
+                                            </div>
+
+                                            <div ng-repeat="options in attribute.options" class="attribute-option attribute-increment-option">
+                                                <button class="incremental-minus" type="button" ng-click="UpdateIncremental($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price, options.max, options.min, incremental.quantity + 1, 1);
+                                                                incremental.quantity = incremental.quantity + 1" ng-disabled="incremental.quantity >= options.max || UpdateIncrementalData[topping.id][attribute.id].totalQty >= attribute.max"><img src="/angular/img/plus.png"/></button>
+
+                                                <div ng-model="incremental.quantity" ng-init="UpdateIncremental($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price, options.max, options.min, options.min, 1);
+                                                                    incremental.quantity = options.min" class="incremental-quantity">{{incremental.quantity}}</div>
+
+                                                <button class="incremental-plus" type="button" ng-click="UpdateIncremental($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price, options.max, options.min, incremental.quantity - 1, 0);
+                                                                incremental.quantity = incremental.quantity - 1" ng-disabled="incremental.quantity <= options.min"><img src="/angular/img/minus.png"/></button>
+
+                                                <span ng-bind-html="options.name | html"></span>
+                                                <div ng-if="options.price > 0" class="incremental-price"><div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span> - {{options.price| number:2}}</div></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  attribute level code -->
+                <div ng-repeat="attribute in topping.attribute" class="attribute-section" ng-if="!topping.variant.length">
+                    <!-- <input id="{{attribute.id}}" type="{{variant.type}}" name="111"> -->
+                    <div class="{{attribute.id}} angular-attribute-section-tab angular-attribute-section-tab-{{attribute.id}}">
+                        <div class="attribute-title" ng-bind-html="attribute.title | html"></div>
+
+                        <div class="attribute-options-section attribute{{attribute.id}}">
+
+                            <div ng-if="attribute.type == 'checkbox'">
+
+                                <div ng-if="attribute.min > UpdateCheckboxSection[topping.id][attribute.id].totalCheck" class="min-max-error">
+                                    Please select at least {{attribute.min - UpdateCheckboxSection[topping.id][attribute.id].totalCheck}} or more to proceed.
+                                </div>
+
+                                <div ng-repeat="options in attribute.options" class="attribute-option">
+
+                                    <input type="checkbox" ng-init="updateSelection($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price);
+                                                    UpdateCheckboxModel[options.option_id] = '-1'" ng-model="UpdateCheckboxModel[options.option_id]" ng-true-value="'{{options.price}}'" ng-false-value="'-1'" ng-click="updateSelection($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price)" id="{{options.option_id}}" ng-disabled="UpdateCheckboxSection[topping.id][attribute.id].totalCheck >= attribute.max && UpdateCheckboxModel[options.option_id] == '-1'"><label for="{{options.option_id}}"><span class="attribute-option-name-price"> <span ng-bind-html="options.name | html"></span>  <div ng-if="options.price > 0">- <div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span>{{options.price| number:2}}</div></div> </span></label>
+                                </div>
+                            </div>
+
+                            <div ng-if="attribute.type == 'radio'">
+                                <div ng-repeat="options in attribute.options" class="attribute-option attribute-radio-option">
+
+                                    <input type="radio" name="{{ attribute.id}}" ng-true-value="'{{options.price}}'" ng-false-value="'-1'" ng-click="updateSelectionRadio($event, options.price, topping.id, options.option_id, options.name, options.value, attribute.title, attribute.id)" class="radiocheckbox-section" id="{{options.option_id}}"> 
+                                    <label for="{{options.option_id}}"><span class="attribute-option-name-price"> <span ng-bind-html="options.name | html"></span>  <div ng-if="options.price > 0">- <div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span>{{options.price| number:2}}</div></div> </span></label>
+
+                                </div>
+                            </div>
+
+                            <div ng-if="attribute.type == 'incremental'">
+
+                                <div ng-if="attribute.min > UpdateIncrementalData[topping.id][attribute.id].totalQty" class="min-max-error">
+                                    Please select at least {{attribute.min - UpdateIncrementalData[topping.id][attribute.id].totalQty}} or more to proceed.
+                                </div>
+
+                                <div ng-repeat="options in attribute.options" class="attribute-option attribute-increment-option">
+                                    <button class="incremental-minus" type="button" ng-click="UpdateIncremental($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price, options.max, options.min, incremental.quantity + 1, 1);
+                                                incremental.quantity = incremental.quantity + 1" ng-disabled="incremental.quantity >= options.max || UpdateIncrementalData[topping.id][attribute.id].totalQty >= attribute.max"><img src="/angular/img/plus.png"/></button>
+
+                                    <div ng-model="incremental.quantity" ng-init="UpdateIncremental($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price, options.max, options.min, options.min, 1);
+                                                    incremental.quantity = options.min" class="incremental-quantity">{{incremental.quantity}}</div>
+
+                                    <button class="incremental-plus" type="button" ng-click="UpdateIncremental($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price, options.max, options.min, incremental.quantity - 1, 0);
+                                                incremental.quantity = incremental.quantity - 1" ng-disabled="incremental.quantity <= options.min"><img src="/angular/img/minus.png"/></button>
+
+                                    <span ng-bind-html="options.name | html"></span>
+                                    <div ng-if="options.price > 0" class="incremental-price"><div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span> - {{options.price| number:2}}</div></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-repeat="attribute in data.attribute" class="attribute-section">
+                    <!-- <input id="{{attribute.id}}" type="{{variant.type}}" name="111"> -->
+                    <div class="{{attribute.id}} angular-attribute-section-tab angular-attribute-section-tab-{{attribute.id}}">
+                        <div class="attribute-title" ng-bind-html="attribute.title | html"></div>
+
+                        <div class="attribute-options-section attribute{{attribute.id}}">
+
+                            <div ng-if="attribute.type == 'checkbox'">
+
+                                <div ng-if="attribute.min > UpdateCheckboxSection[topping.id][attribute.id].totalCheck" class="min-max-error">
+                                    Please select at least {{attribute.min - UpdateCheckboxSection[topping.id][attribute.id].totalCheck}} or more to proceed.
+                                </div>
+
+                                <div ng-repeat="options in attribute.options" class="attribute-option">
+
+                                    <input type="checkbox" ng-init="updateSelection($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price);
+                                                    UpdateCheckboxModel[options.option_id] = '-1'" ng-model="UpdateCheckboxModel[options.option_id]" ng-true-value="'{{options.price}}'" ng-false-value="'-1'" ng-click="updateSelection($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price)" id="{{options.option_id}}" ng-disabled="UpdateCheckboxSection[topping.id][attribute.id].totalCheck >= attribute.max && UpdateCheckboxModel[options.option_id] == '-1'"><label for="{{options.option_id}}"><span class="attribute-option-name-price"> <span ng-bind-html="options.name | html"></span>  <div ng-if="options.price > 0">- <div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span>{{options.price| number:2}}</div></div> </span></label>
+                                </div>
+                            </div>
+
+                            <div ng-if="attribute.type == 'radio'">
+                                <div ng-repeat="options in attribute.options" class="attribute-option attribute-radio-option">
+
+                                    <input type="radio" name="{{ attribute.id}}" ng-true-value="'{{options.price}}'" ng-false-value="'-1'" ng-click="updateSelectionRadio($event, options.price, topping.id, options.option_id, options.name, options.value, attribute.title, attribute.id)" class="radiocheckbox-section" id="{{options.option_id}}"> 
+                                    <label for="{{options.option_id}}"><span class="attribute-option-name-price"> <span ng-bind-html="options.name | html"></span>  <div ng-if="options.price > 0">- <div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span>{{options.price| number:2}}</div></div> </span></label>
+
+                                </div>
+                            </div>
+
+                            <div ng-if="attribute.type == 'incremental'">
+
+                                <div ng-if="attribute.min > UpdateIncrementalData[topping.id][attribute.id].totalQty" class="min-max-error">
+                                    Please select at least {{attribute.min - UpdateIncrementalData[topping.id][attribute.id].totalQty}} or more to proceed.
+                                </div>
+
+                                <div ng-repeat="options in attribute.options" class="attribute-option attribute-increment-option">
+                                    <button class="incremental-minus" type="button" ng-click="UpdateIncremental($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price, options.max, options.min, incremental.quantity + 1, 1);
+                                                incremental.quantity = incremental.quantity + 1" ng-disabled="incremental.quantity >= options.max || UpdateIncrementalData[topping.id][attribute.id].totalQty >= attribute.max"><img src="/angular/img/plus.png"/></button>
+
+                                    <div ng-model="incremental.quantity" ng-init="UpdateIncremental($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price, options.max, options.min, options.min, 1);
+                                                    incremental.quantity = options.min" class="incremental-quantity">{{incremental.quantity}}</div>
+
+                                    <button class="incremental-plus" type="button" ng-click="UpdateIncremental($event, topping.id, attribute.id, attribute.title, attribute.max, attribute.min, attribute.free, options.option_id, options.name, options.value, options.price, options.max, options.min, incremental.quantity - 1, 0);
+                                                incremental.quantity = incremental.quantity - 1" ng-disabled="incremental.quantity <= options.min"><img src="/angular/img/minus.png"/></button>
+
+                                    <span ng-bind-html="options.name | html"></span>
+                                    <div ng-if="options.price > 0" class="incremental-price"><div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span> - {{options.price| number:2}}</div></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Product comment div code -->
+                <div class="product-order-comment">
+                    <div class="attribute-title product-order-comment-title">
+                        <div ng-repeat="restaurant in restaurants" ng-bind-html="restaurant.translated_text.item_comment | html"></div>
+                    </div>
+                    <div class="product-order-comment-section">
+                        <textarea id="comment-textarea-id" data-ng-model="commentinput" maxlength="250">
+                        </textarea>
+                    </div>
+                </div>
+                <!-- Product comment div code end -->
+
+            </div>
+        </div>
+
+        <!-- Product add to cart div code -->
+        <div class="variant-attribute-add-to-cart-section">
+
+            <div ng-if="topping.variant.length">
+                <div ng-repeat="restaurant in restaurants">
+                    <div class="product-final-price">
+                        <div class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span></div>{{updatedSize(topping.id)['price'] + attrRadioPrice + TotalSumOfCheckboxPrice + TotalSumOfIncrementalPrice | number:2}}
+                    </div>
+                    <div class="product-add-to-cart-section">
+                        <div ng-if="minQuantityError == true">Please select minimum quantity.</div>
+                        <a href="" class="product-add-to-cart1 product-cart-item-update" ng-if="AttributeCountCheck == false || IncrementalAttributeCountCheck == false" ng-click="setMinQuantityError()" ng-bind-html="restaurant.translated_text.add | html">
+                        </a>
+
+                        <a ng-if="!show_global_search_result && AttributeCountCheck == true && IncrementalAttributeCountCheck == true" href="" class="product-add-to-cart product-cart-item-update" data="{{topping.id}}" ng-click="cart.addItem(topping.id + updatedSize(topping.id)['variantid'] + SelectedCheckboxArray + SelectedIncrementalArray + attrRadio_option + commentinput + school_date, topping.title + '-' + updatedSize(topping.id)['name'], updatedSize(topping.id)['price'] + attrRadioPrice + TotalSumOfCheckboxPrice + TotalSumOfIncrementalPrice, topping.min_qty,
+                                        topping.image_url, topping.id, updatedSize(topping.id)['variantid'], UpdateCheckboxSection[topping.id], categorys.id, UpdateIncrementalData[topping.id], updatedAttrRadio(topping.id)['name'], attrRadio_option, currentAttrRadio, commentinput, null, null, null, topping.min_qty, school_date);
+                                closeVariant();"  ng-bind-html="restaurant.translated_text.add | html">
+                        </a>
+                        <a ng-if="show_global_search_result && AttributeCountCheck == true && IncrementalAttributeCountCheck == true" href="" class="product-add-to-cart product-cart-item-update" data="{{topping.id}}" ng-click="cart.addItem(topping.id + updatedSize(topping.id)['variantid'] + SelectedCheckboxArray + SelectedIncrementalArray + attrRadio_option + commentinput + school_date, topping.title + '-' + updatedSize(topping.id)['name'], updatedSize(topping.id)['price'] + attrRadioPrice + TotalSumOfCheckboxPrice + TotalSumOfIncrementalPrice, topping.min_qty,
+                                        topping.image_url, topping.id, updatedSize(topping.id)['variantid'], UpdateCheckboxSection[topping.id], current_menu.id, UpdateIncrementalData[topping.id], updatedAttrRadio(topping.id)['name'], attrRadio_option, currentAttrRadio, commentinput, null, null, null, topping.min_qty, school_date);
+                                closeVariant();"  ng-bind-html="restaurant.translated_text.add | html">
+                        </a>
+                        <div class="variant-attribute-popup-close" ng-click="closeVariant()"  ng-bind-html="restaurant.translated_text.close | html"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="!topping.variant.length">
+                <div ng-repeat="restaurant in restaurants">
+                    <div class="product-final-price">
+                        <div class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span></div>{{TotalSumOfCheckboxPrice + TotalSumOfIncrementalPrice + attrRadioPrice + topping.price| number:2}}
+                    </div>
+                    <div class="product-add-to-cart-section">
+                        <div ng-if="minQuantityError == true">Please select minimum quantity.</div>
+                        <a href="" class="product-add-to-cart1 product-cart-item-update" ng-if="AttributeCountCheck == false || IncrementalAttributeCountCheck == false" ng-click="setMinQuantityError()" ng-bind-html="restaurant.translated_text.add | html">
+                        </a>
+
+                        <a ng-if="!show_global_search_result && AttributeCountCheck == true && IncrementalAttributeCountCheck == true" href="" class="product-add-to-cart product-cart-item-update" data="{{topping.id}}"  ng-click="cart.addItem(topping.id + updatedSize(topping.id)['variantid'] + SelectedCheckboxArray + SelectedIncrementalArray + attrRadio_option + commentinput + school_date, topping.title, TotalSumOfCheckboxPrice + TotalSumOfIncrementalPrice + attrRadioPrice + topping.price, topping.min_qty, topping.image_url, topping.id, updatedSize(topping.id)['variantid'], UpdateCheckboxSection[topping.id], categorys.id, UpdateIncrementalData[topping.id], updatedAttrRadio(topping.id)['name'], attrRadio_option, currentAttrRadio, commentinput, null, null, null, topping.min_qty, school_date);
+                                closeVariant();" ng-bind-html="restaurant.translated_text.add | html">
+                        </a>
+                        <a ng-if="show_global_search_result && AttributeCountCheck == true && IncrementalAttributeCountCheck == true" href="" class="product-add-to-cart product-cart-item-update" data="{{topping.id}}" ng-click="cart.addItem(topping.id + updatedSize(topping.id)['variantid'] + SelectedCheckboxArray + SelectedIncrementalArray + attrRadio_option + commentinput + school_date, topping.title, TotalSumOfCheckboxPrice + TotalSumOfIncrementalPrice + attrRadioPrice + topping.price, topping.min_qty, topping.image_url, topping.id, updatedSize(topping.id)['variantid'], UpdateCheckboxSection[topping.id], current_menu.id, UpdateIncrementalData[topping.id], updatedAttrRadio(topping.id)['name'], attrRadio_option, currentAttrRadio, commentinput, null, null, null, topping.min_qty, school_date);
+                                closeVariant();" ng-bind-html="restaurant.translated_text.add | html">
+                        </a>
+                        <div class="variant-attribute-popup-close" ng-click="closeVariant();" ng-bind-html="restaurant.translated_text.close | html"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Product add to cart div code End-->
+
+    </div>
+
+</div>

@@ -1,0 +1,104 @@
+body{
+   
+    font-family: 'Futura PT Multilingual W01', Futura, sans-serif;
+    font-weight: 400;
+    
+ }
+
+ .angular-restaurant-logo img {
+    max-height: 90px;
+    margin-top: 0px;
+    margin-left: 0px;
+    
+}
+.angular-login-button, .product-customize, .restaurant-closed-button, .product-add-to-cart a, .variant-attribute-add-to-cart-section a, .variant-attribute-popup-close, .angular-cart-order-now, .angular-login-button-submit button{
+    background:rgb(235,32,45);
+}
+.angular-login-button:hover, .product-customize:hover, .restaurant-closed-button:hover, .product-add-to-cart a:hover, .variant-attribute-add-to-cart-section a:hover, .variant-attribute-popup-close:hover, .angular-cart-order-now:hover, .lolarosa-submit button:hover {
+    background:rgb(235,32,45);
+/*    background-image: -webkit-gradient(#EB202D, #EB202D);
+    background-image: -moz-linear-gradient(#EB202D, #EB202D);
+    background-image: -webkit-linear-gradient(#EB202D, #EB202D);
+    background-image: linear-gradient(#EB202D, #EB202D);*/
+}
+.product-customize, .restaurant-closed-button {
+     background:rgb(235,32,45);
+/*    background-image: -webkit-gradient(#EB202D, #EB202D);
+    background-image: -moz-linear-gradient(#EB202D, #EB202D);
+    background-image: -webkit-linear-gradient(#EB202D, #EB202D);
+    background-image: linear-gradient(#EB202D, #EB202D);*/
+}
+.angular-restaurant-logo-search {   
+    background: #fff;
+    height: 90px;
+}
+.angular-category-link {
+    padding: 10px 10%;
+    display: block;
+    font-size: 15px;
+    border: 1px solid transparent;
+    background: #EB202D;
+    box-shadow: 0 -2px 1px #EB202D inset;
+    border-bottom: 1px solid #EB202D;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    font-weight: 500;
+}
+.parent-category-title{
+    color:rgb(235,32,45);
+    background:#fff;
+    border:1px solid rgb(235,32,45);
+    border:1px solid rgb(235,32,45);
+}
+.parent-category-title.active{
+    background:rgb(235,32,45);
+    color:#fff;
+}
+.angular-category-link {
+    background: #fff;
+    box-shadow: 0 -2px 1px #EB202D inset;
+    border-bottom: 1px solid #EB202D;
+    color: #EB202D;
+}
+.angular-category-name {
+    color: #EB202D;
+    border-bottom: 1px solid #EB202D;
+    background: #fff;
+}
+.angular-catergory-list.active .angular-category-name {
+    color: #fff;
+    background: #EB202D;
+}
+input[type=radio]:checked + label:before {
+    box-shadow: none;
+    border-radius: 50%;
+    background: #EB202D;
+    border: 3px solid #C7C7C7;
+}
+.attribute-option input:checked + label, .variant-options input:checked + label {
+    color: #EB202D;
+}
+
+body.page-cart-checkout {
+
+}
+
+.page-cart-checkout .panel .panel-heading {
+   
+    background: #EB202D;
+    color: #fff;
+   
+}
+.variant-options, .attribute-option {
+    
+    width: 50%;
+    
+}
+
+@media screen and (max-width: 768px) and (min-width: 100px){
+.variant-options, .attribute-option {
+    
+    width: 100%;
+   
+}
+}

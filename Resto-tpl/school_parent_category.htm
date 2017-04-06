@@ -1,0 +1,12 @@
+<div class="parent-category-section">
+	<div ng-repeat="restaurant in restaurants" ng-if="restaurant.parent_menu.length > 0"`>
+		<div class="parent-category-name">{{restaurant.translated_text.category}} <span class="school-bredcrumb-arrow"> > </span> <span class="school-category-bredcrumb"> </span><i class="fa fa-sort-desc"></i></div>
+		<div class="school-angular-catergory" ng-class="{'active': isActive}">
+			<div ng-repeat="parent_category in restaurant.parent_menu" class="parent-category-title-section">
+				<div class="parent-category-title" ng-class="{active:$first}" ng-click="SchoolParentCategory(parent_category.title)" ng-model="school_date">
+					{{parent_category.title}}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

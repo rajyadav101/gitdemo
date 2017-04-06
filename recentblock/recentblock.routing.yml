@@ -1,0 +1,7 @@
+recentblock:
+    path:  '/recentact/{nid}'
+    defaults: 
+        _controller:  '\Drupal\recentblock\Controller\recentactblock::recentActivitiesData'
+        _title:  'Reacent Block'
+    requirements:
+        _permission:  'access content'

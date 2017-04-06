@@ -1,0 +1,57 @@
+global-styling:
+  version: 1.x
+  css:
+    theme:
+      css/style.css: {}
+      css/custom.css: {}
+      css/styles.css: {}
+      css/styles(1).css: {}
+
+bootstrap-scripts:
+  js:
+    bootstrap/js/affix.js: {}
+    bootstrap/js/alert.js: {}
+    bootstrap/js/button.js: {}
+    bootstrap/js/carousel.js: {}
+    bootstrap/js/collapse.js: {}
+    bootstrap/js/dropdown.js: {}
+    bootstrap/js/modal.js: {}
+    bootstrap/js/tooltip.js: {}
+    bootstrap/js/popover.js: {}
+    bootstrap/js/scrollspy.js: {}
+    bootstrap/js/tab.js: {}
+    bootstrap/js/transition.js: {}
+    js/jquery-ui-1.8.10.custom.min.js: {}
+    js/custom.js: {}
+    js/axQuery.js: {}
+    js/globals.js: {}
+    js/axutils.js: {}
+    js/annotation.js: {}
+    js/axQuery.std.js: {}
+    js/doc.js: {}
+    js/document.js: {}
+    js/messagecenter.js: {}
+    js/events.js: {}
+    js/recording.js: {}
+    js/action.js: {}
+    js/expr.js: {}
+    js/geometry.js: {}
+    js/flyout.js: {}
+    js/ie.js: {}
+    js/repeater.js: {}
+    js/sto.js: {}
+    js/utils.temp.js: {}
+    js/variables.js: {}
+    js/drag.js: {}
+    js/move.js: {}
+    js/visibility.js: {}
+    js/style.js: {}
+    js/adaptive.js: {}
+    js/tree.js: {}
+    js/init.temp.js: {}
+    js/data.js: {}
+    js/legacy.js: {}
+    js/viewer.js: {}
+    js/math.js: {}
+    dependencies: 
+    - core/jquery

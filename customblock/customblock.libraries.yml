@@ -1,0 +1,6 @@
+global-css:
+  css:
+    theme:      
+      css/block.css: {}      
+  dependencies:
+    - core/jquery

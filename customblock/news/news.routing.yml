@@ -1,0 +1,7 @@
+news:
+    path:  '/newsdetail/{nid}'
+    defaults: 
+        _controller:  '\Drupal\news\Controller\Newsctr::newsload'
+        _title:  'news data'
+    requirements:
+        _permission:  'access content'

@@ -1,0 +1,83 @@
+﻿<!--   Product level -->
+<div class="category-name-menu-item-section">
+  <div class="category-name-menu-item">{{categorys.title}}</div>
+</div>
+<div ng-repeat="menuitem in categorys.menu_item | filter:search" class="col-lg-4 col-sm-6 col-md-4 col-xs-6 {{menu.title}} product-section {{categorys.id}} $index">
+
+  <div class="product-section-div">
+
+    <!-- <div class="product-image"><img ng-src='{{menuitem.image_url}}'></div> -->
+    <div class="product-name-price">
+      <div class="product-name-price-section">
+        <div class="product-name"><div ng-repeat="restaurant in restaurants" class="count-menu-item-section"><div class="count-menu-item" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div></div> {{menuitem.title}}</div>
+        
+        <div class="product-add-to-cart-button">
+          <div ng-if="menuitem.variant.length || menuitem.attribute.length">
+            <div ng-repeat="restaurant in restaurants" class="category-level-timing">
+              <div ng-if="restaurant.timings_set == 1">
+               <div ng-init = "timing_validate(restaurant.timings)">
+                <div ng-repeat="timingdetail in ordernow.timing">
+                  <div ng-if="(date | date:'HH:mm') >= timingdetail.opening_time &&  (date | date:'HH:mm') <= timingdetail.closing_time">
+                    <div class="product-customize {{menuitem.id}}" ng-click="updateTopping(menuitem.id); ClearCheckbox(menuitem.id); clearcomment(menuitem.id); commentinput = null" id="product-customize-id">+</div>
+                  </div>
+                  <div ng-if="(date | date:'HH:mm') < timingdetail.opening_time || (date | date:'HH:mm') > timingdetail.closing_time">
+                   <span class="restaurant-closed-button">{{restaurant.translated_text.closed}}</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+           <div ng-if="restaurant.timings_set == 0">
+             <div class="product-customize {{menuitem.id}}" ng-click="updateTopping(menuitem.id); ClearCheckbox(menuitem.id); clearcomment(menuitem.id); commentinput = null" id="product-customize-id">+</div>
+           </div>
+         </div> 
+       </div>
+
+
+       <div ng-if="!menuitem.variant.length && !menuitem.attribute.length">
+        <div class="product-add-to-cart">
+         <!--  {{date | date:'EEE'}} -->
+         <div class="category-timing">
+           <div ng-repeat="restaurant in restaurants" class="category-level-timing">
+            <div ng-if="restaurant.timings_set == 1">
+             <div ng-init = "timing_validate(restaurant.timings)">
+              <div ng-repeat="timingdetail in ordernow.timing">
+                <div ng-if="(date | date:'HH:mm') >= timingdetail.opening_time && (date | date:'HH:mm') <= timingdetail.closing_time">
+                  <a href="" ng-click="cart.addItem(menuitem.id ,menuitem.title ,menuitem.price, menuitem.min_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id, null, null, null, null, null, null, null, null, menuitem.min_qty)">
+                   +
+                 </a>
+               </div>
+               <div ng-if="(date | date:'HH:mm') < timingdetail.opening_time || (date | date:'HH:mm') > timingdetail.closing_time">
+                 <span class="restaurant-closed-button">{{restaurant.translated_text.closed}}</span>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div ng-if="restaurant.timings_set == 0">
+           <a href="" ng-click="cart.addItem(menuitem.id ,menuitem.title ,menuitem.price, menuitem.min_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id, null, null, null, null, null, null, null, null, menuitem.min_qty)"> +
+           </a>
+         </div>
+       </div> 
+     </div>
+
+   </div>
+ </div>
+ <div class="product-price"><div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign|html"></span></div>{{menuitem.price | number:2}}</div>
+</div>
+</div>
+<div class="product-description">{{menuitem.description}}</div>
+</div>
+<!-- Normal Add to cart code End-->
+
+
+
+
+
+<!-- Restaurant Opening and Closing Timing and Add To Cart   End-------------->
+
+
+</div>
+<div ng-include="'/angular/partials/variant.htm'" ng-if="selectedMenuItemId==menuitem.id" class="angular-dropdown-attr"> 
+</div>
+</div>
+
+

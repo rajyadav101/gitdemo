@@ -1,0 +1,12 @@
+name: my block 
+description: Creates custom block.
+package: Myblock
+type: module
+core: 8.x
+libraries:
+  - customblock/global-css
+ 
+
+
+
+

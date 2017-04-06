@@ -1,0 +1,27 @@
+<?php
+
+function reportedIssues_menu(){
+	$items=array();
+	$items['reported/issues']=array(
+		'page callback'=>'reported_issues_list',
+		'access arguments'=>array('access content'),
+		);
+	return $items;
+}
+
+function reported_issues_list(){
+	$query=db_select('reported_issues','ri')
+			->fields('ri')
+			->orderBy('ri.time','DESC')
+			->extend('PagerDefault')->limit(10)
+			->execute();
+	$results=$query->fetchAll();
+	// print('<pre>'.print_r($results,true).'</pre>');
+	// 	exit;
+	$header=array('User','Date - Time','Message');
+	foreach ($results as $key => $result) {
+		$rows[]=array($result->uid,date('d M Y - h:i A',$result->time),$result->data);
+	}
+	return theme("table",array('header'=>$header,'rows'=>$rows)).theme('pager');
+}
+

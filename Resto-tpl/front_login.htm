@@ -1,0 +1,229 @@
+<!-- Modal -->
+<div class="modal fade angular-login-section" id="myModalNorm" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only" ng-bind-html="info.translated_text.close | html"></span>
+                </button>
+                <div class="angular-restaurant-logo-login-image">
+                    <div class="angular-restaurant-logo-login">
+                        <img ng-src="{{info.image_url}}"/>     
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form role="form" class="angular-login-section">
+                    <div class="form-group">
+                        <i class="fa fa-user"></i>
+                        <input type="text" class="form-control"
+                               id="exampleInputEmail1" placeholder="{{info.translated_text.email_mobile}}" ng-model="username" />
+                    </div>
+                    <div class="form-group" >
+                        <i class="fa fa-lock"></i>
+                        <input type="password" class="form-control" 
+                               id="exampleInputPassword1" placeholder="{{info.translated_text.password}}" ng-model="password"/>
+                    </div>
+                    <div class="angular-login-forgot-password" data-dismiss="modal" data-toggle="modal" data-target="#forgotPasswordModal" ng-if="info.como.is_como != 1">
+                        <a href="">{{info.translated_text.forgot_password}}?</a>
+                    </div>
+                    <div class="angular-login-button-submit">
+                        <button type="submit" class="btn btn-default" ng-click="loginvalidate(username, password)">{{info.translated_text.submit}}</button>
+                    </div>
+                </form>
+                <div class="angular-social-login-section">
+                    <div class="angular-social-login">
+                        <div class="angular-social-login-google" ng-click="GoogleLogin()" ng-if="info.order_settings.google_login_enable == 1">
+                            <google-plus-signin clientid="{{info.order_settings.google_login_client_id}}"></google-plus-signin>
+                        </div>
+                        <div ng-click="login()" ng-hide="isLoggedIn" class="angular-social-login-facebook" ng-if="info.order_settings.facebook_login_enable == 1">
+                            <i class="fa fa-facebook"></i><span>{{info.translated_text.login}}</span>
+                        </div>
+                        <div class="angular-create-login-button" data-dismiss="modal" data-toggle="modal" data-target="#CreateAccountModal">
+                            <a href="">{{info.translated_text.create_account}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- create account -->
+
+<div id="CreateAccountModal" class="modal fade angular-login-section" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only" ng-bind-html="info.translated_text.close | html"></span>
+                </button>
+                <div class="angular-restaurant-logo-login-image">
+                    <div class="angular-restaurant-logo-login">
+                        <img ng-src="{{info.image_url}}"/>     
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+
+                <!-- <div class="forget-title">Create Account</div> -->
+                <form role="form" class="angular-login-section">
+                    <div class="form-group">
+                        <i class="fa fa-user"></i>
+                        <input type="text" class="form-control"
+                               id="register-first-name" placeholder="{{info.translated_text.first_name}}" ng-model="AngularRegisterChooser.register_first_name" ng-required="true"/>
+                    </div>
+                    <div class="form-group">
+                        <i class="fa fa-user"></i>
+                        <input type="text" class="form-control"
+                               id="register-last-name" placeholder="{{info.translated_text.last_name}}" ng-model="AngularRegisterChooser.register_last_name" ng-required="true"/>
+                    </div>
+
+                    <div class="form-group" ng-if="info.como.is_como == 1">
+                        <i class="fa fa-calendar"></i>
+                        <input type="text" class="form-control" ng-click="opened = true" datepicker-popup="{{Comoformat}}" ng-model="AngularRegisterChooser.Comodt" is-open="opened" min-date="'01.01.1940'" max-date="ComomaxDate" datepicker-options="ComodateOptions" ng-required="true" close-text="Close" ng-readonly='true' placeholder="{{info.translated_text.dob}}" />
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fa fa-user"></i>
+                        <input type="email" class="form-control"
+                               id="register-email" placeholder="{{info.translated_text.email_address}}" ng-model="AngularRegisterChooser.register_email" ng-required="true"/>
+                    </div>
+                    <div class="form-group">
+                        <i class="fa fa-user"></i>
+                        <input type="number" class="form-control"
+                               id="register-mobile" placeholder="{{info.translated_text.mobile_number}}" ng-model="AngularRegisterChooser.register_mobile" ng-required="true"/>
+                    </div>
+                    <div class="form-group">
+                        <i class="fa fa-lock"></i>
+                        <input type="password" class="form-control"
+                               id="register-password" placeholder="{{info.translated_text.password}}" ng-model="AngularRegisterChooser.register_password" ng-required="true"/>
+                    </div>
+
+
+                    <div class="form-group" ng-if="info.como.is_como == 1">
+                        <i class="fa fa-user"></i>
+                        <input type="text" class="form-control"
+                               id="register-address-one" placeholder="{{info.translated_text.address_line_1}}" ng-model="AngularRegisterChooser.register_address_one" ng-required="true"/>
+                    </div>
+
+                    <div class="form-group" ng-if="info.como.is_como == 1">
+                        <i class="fa fa-user"></i>
+                        <input type="text" class="form-control"
+                               id="register-address-two" placeholder="{{info.translated_text.address_line_2}}" ng-model="AngularRegisterChooser.register_address_two" ng-required="true"/>
+                    </div>
+
+                    <div class="form-group" ng-if="info.como.is_como == 1">
+                        <i class="fa fa-user"></i>
+                        <input type="text" class="form-control"
+                               id="register-apartment-landmark" placeholder="{{info.translated_text.apartment_landmark}}" ng-model="AngularRegisterChooser.register_apartment_landmark" ng-required="true"/>
+                    </div>
+
+                    <div class="form-group" ng-if="info.como.is_como == 1">
+                        <i class="fa fa-user"></i>
+                        <input type="text" class="form-control"
+                               id="register-city" placeholder="{{info.translated_text.city}}" ng-model="AngularRegisterChooser.register_city" ng-required="true"/>
+                    </div>
+
+                    <div class="form-group" ng-if="info.como.is_como == 1">
+                        <i class="fa fa-user"></i>
+                        <input type="text" class="form-control"
+                               id="register-country" placeholder="{{info.translated_text.country}}" ng-model="AngularRegisterChooser.register_country" ng-required="true"/>
+                    </div>
+
+                    <div class="form-group" ng-if="info.como.is_como == 1">
+                        <i class="fa fa-user"></i>
+                        <input type="number" class="form-control"
+                               id="register-postal-code" placeholder="{{info.translated_text.postal_code}}" ng-model="AngularRegisterChooser.register_postal_code" ng-required="true"/>
+                    </div>
+
+
+
+                    <div class="angular-login-button-submit" >
+                        <button type="submit" class="btn btn-default create-account-button" ng-click="UserRegister(AngularRegisterChooser)">{{info.translated_text.submit}}</button>
+                    </div>
+
+                    <div class="angular-popup-login-link" data-dismiss="modal" data-toggle="modal" data-target="#myModalNorm">
+                        <a href="">{{info.translated_text.login}}</a>
+                    </div>
+                    <div class="angular-login-forgot-password-button" data-dismiss="modal" data-toggle="modal" data-target="#forgotPasswordModal" ng-if="info.como.is_como != 1">
+                        <a href="">{{info.translated_text.forgot_password}}?</a>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- create account end -->
+
+
+
+<!--forgot password-->
+
+<div id="forgotPasswordModal" class="modal fade angular-login-section" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only" ng-bind-html="info.translated_text.close | html"></span>
+                </button>
+                <div class="angular-restaurant-logo-login-image">
+
+                    <div class="angular-restaurant-logo-login">
+                        <img ng-src="{{info.image_url}}"/>     
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+
+                <!--  <div class="forget-title">Forget Password</div> -->
+                <form role="form" class="angular-login-section">
+                    <div class="form-group">
+                        <i class="fa fa-user"></i>
+                        <input type="text" class="form-control"
+                               id="exampleInputEmail1" placeholder="{{info.translated_text.email_address}}" ng-model="forgot_pass_username"/>
+                    </div>
+                    <div class="angular-login-forgot-password-button">
+                        <button type="submit" class="btn btn-default forget-password-button" ng-click="forgotPasswordUser(forgot_pass_username)">{{info.translated_text.submit}}</button>
+                    </div>
+                    <div class="angular-popup-login-link" data-dismiss="modal" data-toggle="modal" data-target="#myModalNorm">
+                        <a href="">{{info.translated_text.login}}</a>
+                    </div>
+                    <div class="angular-create-login-button" data-dismiss="modal" data-toggle="modal" data-target="#CreateAccountModal">
+                        <a href="">{{info.translated_text.create_account}}</a>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+

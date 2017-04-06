@@ -1,0 +1,262 @@
+﻿
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade angular-login-section" id="myModalNorm" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <div class="angular-restaurant-logo-login-image">
+                    <div ng-repeat="restaurant in restaurants">
+                        <div class="angular-restaurant-logo-login">
+                            <div ng-if="restaurant.image_set == 1">
+                                <img ng-src="{{restaurant.image_url}}"/>     
+                            </div>
+                            <div ng-if="restaurant.image_set != 1">
+                                <span>{{restaurant.title}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div ng-repeat="restaurant in restaurants">
+                    <form role="form" class="angular-login-section">
+                        <div class="form-group">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control"
+                                   id="exampleInputEmail1" placeholder="{{restaurant.translated_text.email_mobile}}" ng-model="AngularLogin.username" ng-disabled="ComoValidateLoginCheck()"/>
+                        </div>
+                        <div class="form-group" ng-if="restaurant.como.is_como != 1">
+                            <i class="fa fa-lock"></i>
+                            <input type="password" class="form-control"
+                                   id="exampleInputPassword1" placeholder="{{restaurant.translated_text.password}}" ng-model="AngularLogin.password"/>
+                        </div>
+                        <div class="form-group" ng-if="restaurant.como.is_como == 1">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control"
+                                   id="exampleInputValidNumber1" placeholder="{{restaurant.translated_text.veri_code}}" ng-model="AngularLogin.validnumber"/>
+                        </div>
+                        <div class="angular-login-forgot-password" data-dismiss="modal" data-toggle="modal" data-target="#forgotPasswordModal" ng-if="restaurant.como.is_como != 1">
+                            <a href="">{{restaurant.translated_text.forgot_password}}?</a>
+                        </div>
+                        <div class="angular-login-button-submit">
+                            <button type="submit" class="btn btn-default" ng-click="loginvalidate(AngularLogin)">{{restaurant.translated_text.submit}}</button>
+                        </div>
+                    </form>
+                    <div class="angular-social-login-section">
+                        <div class="angular-social-login">
+                            <div class="angular-social-login-google" ng-click="GoogleLogin()" ng-if="restaurant.order_settings.google_login_enable == 1">
+                                <google-plus-signin clientid="{{restaurant.order_settings.google_login_client_id}}"></google-plus-signin>
+                            </div>
+                            <div ng-click="login()" ng-hide="isLoggedIn" class="angular-social-login-facebook" ng-if="restaurant.order_settings.facebook_login_enable == 1">
+                                <i class="fa fa-facebook"></i><span>{{restaurant.translated_text.login}}</span>
+                            </div>
+                            <div class="angular-create-login-button" data-dismiss="modal" data-toggle="modal" data-target="#CreateAccountModal" ng-if="restaurant.como.allow_register == 1">
+                                <a href="">{{restaurant.translated_text.create_account}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- create account -->
+
+<div id="CreateAccountModal" class="modal fade angular-login-section" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <div class="angular-restaurant-logo-login-image">
+                    <div ng-repeat="restaurant in restaurants">
+                        <div class="angular-restaurant-logo-login">
+                            <div ng-if="restaurant.image_set == 1">
+                                <img ng-src="{{restaurant.image_url}}"/>     
+                            </div>
+                            <div ng-if="restaurant.image_set != 1">
+                                <span>{{restaurant.title}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div ng-repeat="restaurant in restaurants">
+                    <!--  <div class="forget-title">Create Account</div> -->
+                    <form role="form" class="angular-login-section">
+                        <div class="form-group">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control"
+                                   id="register-first-name" placeholder="{{restaurant.translated_text.first_name}}" ng-model="AngularRegister.register_first_name" ng-required="true"/>
+                        </div>
+                        <div class="form-group">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control"
+                                   id="register-last-name" placeholder="{{restaurant.translated_text.last_name}}" ng-model="AngularRegister.register_last_name" ng-required="true"/>
+                        </div>
+
+                        <div class="form-group" ng-if="restaurant.como.is_como == 1">
+                            <i class="fa fa-calendar"></i>
+                            <input type="text" class="form-control" ng-click="opened = true" datepicker-popup="{{Comoformat}}" ng-model="AngularRegister.Comodt" is-open="opened" min-date="'01.01.1940'" max-date="ComomaxDate" datepicker-options="ComodateOptions" ng-required="true" close-text="Close" ng-readonly='true' placeholder="{{restaurant.translated_text.dob}}" />
+                        </div>
+
+                        <div class="form-group">
+                            <i class="fa fa-user"></i>
+                            <input type="email" class="form-control"
+                                   id="register-email" placeholder="{{restaurant.translated_text.email_address}}" ng-model="AngularRegister.register_email" ng-required="true"/>
+                        </div>
+                        <div class="form-group">
+                            <i class="fa fa-user"></i>
+                            <input type="number" class="form-control"
+                                   id="register-mobile" placeholder="{{restaurant.translated_text.mobile_number}}" ng-model="AngularRegister.register_mobile" ng-required="true" ng-disabled="ComoValidateLoginCheck()"/>
+                        </div>
+
+                        <div class="form-group" > <!--ng-if="restaurant.como.is_como != 1"-->
+                            <i class="fa fa-lock"></i>
+                            <input type="password" class="form-control"
+                                   id="register-password" placeholder="{{restaurant.translated_text.password}}" ng-model="AngularRegister.register_password" ng-required="true"/>
+                        </div>
+                        <div ng-repeat="field in restaurant.como.register_fields" ng-if="restaurant.como.is_como == 1">
+                            <div class="form-group" >
+                                <i class="fa fa-user"></i>
+                                <input type="text" class="form-control" id="{{field.id}}" placeholder="{{field.label}}" ng-model="AngularRegister[field.model]" ng-required="true"/>
+                            </div>
+                        </div>
+
+                        <!--                        <div class="form-group" ng-if="restaurant.como.is_como == 1">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control"
+                                   id="register-address-one" placeholder="{{restaurant.translated_text.address_line_1}}" ng-model="AngularRegister.register_address_one" ng-required="true"/>
+                        </div>
+
+                        <div class="form-group" ng-if="restaurant.como.is_como == 1">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control"
+                                   id="register-address-two" placeholder="{{restaurant.translated_text.address_line_2}}" ng-model="AngularRegister.register_address_two" ng-required="true"/>
+                        </div>
+
+                        <div class="form-group" ng-if="restaurant.como.is_como == 1">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control"
+                                   id="register-apartment-landmark" placeholder="{{restaurant.translated_text.apartment_landmark}}" ng-model="AngularRegister.register_apartment_landmark" ng-required="true"/>
+                        </div>
+
+                        <div class="form-group" ng-if="restaurant.como.is_como == 1">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control"
+                                   id="register-city" placeholder="{{restaurant.translated_text.city}}" ng-model="AngularRegister.register_city" ng-required="true"/>
+                        </div>
+
+                        <div class="form-group" ng-if="restaurant.como.is_como == 1">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control"
+                                   id="register-country" placeholder="{{restaurant.translated_text.country}}" ng-model="AngularRegister.register_country" ng-required="true"/>
+                        </div>
+
+                        <div class="form-group" ng-if="restaurant.como.is_como == 1">
+                            <i class="fa fa-user"></i>
+                            <input type="number" class="form-control"
+                                   id="register-postal-code" placeholder="{{restaurant.translated_text.postal_code}}" ng-model="AngularRegister.register_postal_code" ng-required="true"/>
+                                                </div>-->
+
+
+
+                        <div class="angular-login-button-submit">
+                            <button type="submit" class="btn btn-default create-account-button" ng-click="UserRegister(AngularRegister)">{{restaurant.translated_text.submit}}</button>
+                        </div>
+
+                        <div class="angular-popup-login-link" data-dismiss="modal" data-toggle="modal" data-target="#myModalNorm" ng-if="restaurant.como.allow_register == 1 || restaurant.como.is_como == 0">
+                            <a href="">{{restaurant.translated_text.login}}</a>
+                        </div>
+                        <div class="angular-login-forgot-password-button" data-dismiss="modal" data-toggle="modal" data-target="#forgotPasswordModal" ng-if="restaurant.como.is_como != 1">
+                            <a href="">{{restaurant.translated_text.forgot_password}}?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- create account end -->
+
+<!--forgot password-->
+
+<div id="forgotPasswordModal" class="modal fade angular-login-section" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <div class="angular-restaurant-logo-login-image">
+                    <div ng-repeat="restaurant in restaurants">
+                        <div class="angular-restaurant-logo-login">
+                            <div ng-if="restaurant.image_set == 1">
+                                <img ng-src="{{restaurant.image_url}}"/>     
+                            </div>
+                            <div ng-if="restaurant.image_set != 1">
+                                <span>{{restaurant.title}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div ng-repeat="restaurant in restaurants">
+                    <!-- <div class="forget-title">{{restaurant.translated_text.forgot_password}}</div> -->
+                    <form role="form" class="angular-login-section">
+                        <div class="form-group">
+                            <i class="fa fa-user"></i>
+                            <input type="text" class="form-control"
+                                   id="exampleInputEmail1" placeholder="{{restaurant.translated_text.email_mobile}}" ng-model="forgot_pass_username"/>
+                        </div>
+                        <div class="angular-login-forgot-password-button">
+                            <button type="submit" class="btn btn-default forget-password-button" ng-click="forgotPasswordUser(forgot_pass_username)">{{restaurant.translated_text.submit}}</button>
+                        </div>
+                        <div class="angular-popup-login-link" data-dismiss="modal" data-toggle="modal" data-target="#myModalNorm">
+                            <a href="">{{restaurant.translated_text.login}}</a>
+                        </div>
+                        <div class="angular-create-login-button" data-dismiss="modal" data-toggle="modal" data-target="#CreateAccountModal">
+                            <a href="">{{restaurant.translated_text.create_account}}</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

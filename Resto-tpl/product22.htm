@@ -1,0 +1,183 @@
+﻿<div ng-repeat="menu in restaurant.menu" class="angular-catergory-list angular1-category-title-{{menu.id}} angular-catergory-list-child">
+  <div class="angular-category-name angular-category-name-21" ng-class="{active:$first}" data="{{ menu.id }}" ng-click="updateProduct(menu.id); CategoryScrollTop();"><div class="category-count-section" ng-if="restaurant.order_settings.show_cat_count == 1">{{menu.count}}.</div> <span ng-bind-html="menu.title|html"></span><i class="fa fa-chevron-right right-toggle-menu"></i><i class="fa fa-chevron-down down-toggle-menu"></i></div>
+  <div ng-if="selectedCategoryId==menu.id" class="category-full-items">
+
+    <div class="angular-category-discription" ng-bind-html="menu.description|html"></div>
+
+    <!--   Product level -->
+    <div ng-repeat="menuitem in categorys.menu_item | filter:search" class="col-lg-4 col-sm-6 col-md-4 col-xs-6 {{menu.title}} product-section {{categorys.id}} $index">
+
+      <div class="product-section-div {{menuitem.id}}">
+
+        <div class="product-image"><img ng-src="{{menuitem.image_url}}"></div>
+        <div class="product-name-price">
+          <div class="product-name"><div ng-repeat="restaurant in restaurants" class="count-menu-item-section"><div class="count-menu-item" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div></div><span ng-bind-html="menuitem.title|html"></span></div>
+          <div class="product-price"><div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign|html"></span></div>{{menuitem.price | number:2}}</div>
+        </div>
+        <div class="product-price-cart">
+          <div class="product-description" ng-bind-html="menuitem.description|html"></div>
+          <div ng-if="menuitem.variant.length || menuitem.attribute.length" class="product-add-button-type">
+            <div ng-repeat="restaurant in restaurants" class="category-level-timing">
+              <div ng-if="restaurant.timings_set == 1 && preorder_option=='0' && restaurant.rest_open == 1">
+               <div ng-init = "timing_validate(restaurant.timings)">
+                <div ng-if="restaurant_open_now == 1">
+                  <div ng-if="categorys.timings_set == 1">
+                    <div ng-init="category_timing_validate(categorys.timings)">
+                      <div ng-if="catergory_open_now == 1">
+                       <div ng-if="menuitem.combo == 0">
+                         <div class="product-customize {{menuitem.id}}" ng-click="updateTopping(menuitem.id); ClearCheckbox(menuitem.id); clearcomment(menuitem.id); commentinput = null" id="product-customize-id" ng-bind-html="restaurant.translated_text.customize|html"></div>
+                       </div>
+                       <div ng-if="menuitem.combo == 1">
+                         <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id); commentinput = null" id="product-customize-id" ng-bind-html="restaurant.translated_text.customize|html"></div>
+                       </div>
+                     </div>
+                     <div ng-if="catergory_open_now == 0">
+                      <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed|html">  </span>
+                    </div>
+                  </div>
+                </div>
+                <div ng-if="categorys.timings_set == 0">
+                  <div ng-if="menuitem.combo == 0">
+                   <div class="product-customize {{menuitem.id}}" ng-click="updateTopping(menuitem.id); ClearCheckbox(menuitem.id); clearcomment(menuitem.id); commentinput = null" id="product-customize-id" ng-bind-html="restaurant.translated_text.customize|html"></div>
+                 </div>
+                 <div ng-if="menuitem.combo == 1">
+                   <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id); commentinput = null" id="product-customize-id" ng-bind-html="restaurant.translated_text.customize|html"></div>
+                 </div>
+               </div>
+               <div ng-if="categorys.timings_set == 2">
+                <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed|html">    </span>
+              </div>
+            </div>
+            <div ng-if="restaurant_open_now == 0">
+             <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed|html"></span>
+           </div>
+         </div>
+       </div> 
+       <div ng-if="(restaurant.timings_set == 2 && preorder_option=='0') || restaurant.rest_open == 0">
+         <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed|html"></span>
+       </div>
+       <div ng-if="(restaurant.timings_set == 0 && restaurant.rest_open == 1) || (preorder_option=='1' && restaurant.rest_open == 1)">
+         <div ng-if="categorys.timings_set == 1">
+          <div ng-init="category_timing_validate(categorys.timings)">
+            <div ng-if="catergory_open_now == 1">
+              <div ng-if="menuitem.combo == 0">
+               <div class="product-customize {{menuitem.id}}" ng-click="updateTopping(menuitem.id); ClearCheckbox(menuitem.id); clearcomment(menuitem.id); commentinput = null" id="product-customize-id" ng-bind-html="restaurant.translated_text.customize|html"></div>
+             </div>
+             <div ng-if="menuitem.combo == 1">
+               <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id); commentinput = null" id="product-customize-id" ng-bind-html="restaurant.translated_text.customize|html"></div>
+             </div>
+           </div>
+           <div ng-if="catergory_open_now == 0">
+            <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed|html"></span>
+          </div>
+        </div>
+      </div>
+      <div ng-if="categorys.timings_set == 0">
+       <div ng-if="menuitem.combo == 0">
+         <div class="product-customize {{menuitem.id}}" ng-click="updateTopping(menuitem.id); ClearCheckbox(menuitem.id); clearcomment(menuitem.id); commentinput = null" id="product-customize-id" ng-bind-html="restaurant.translated_text.customize|html"></div>
+       </div>
+       <div ng-if="menuitem.combo == 1">
+         <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id); commentinput = null" id="product-customize-id" ng-bind-html="restaurant.translated_text.customize|html"></div>
+       </div>
+     </div>
+     <div ng-if="categorys.timings_set == 2">
+       <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed|html"></span>
+     </div>
+   </div>
+ </div>
+</div>
+
+<!-- Normal Add to cart -->
+<div ng-if="!menuitem.variant.length && !menuitem.attribute.length" class="product-add-button-type">
+  <div class="product-add-to-cart">
+
+   <div class="category-timing">
+     <div ng-repeat="restaurant in restaurants" class="category-level-timing">
+       <div ng-if="restaurant.timings_set == 1 && preorder_option=='0' && restaurant.rest_open == 1">
+         <div ng-init = "timing_validate(restaurant.timings)">
+          <div ng-if="restaurant_open_now == 1">
+            <div ng-if="categorys.timings_set == 1">
+              <div ng-init="category_timing_validate(categorys.timings)">
+                <div ng-if="catergory_open_now == 1">
+                  <div ng-if="menuitem.combo == 0">
+                    <a href="" ng-click="cart.addItem(menuitem.id ,menuitem.title ,menuitem.price, menuitem.min_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id, null, null, null, null, null, null, null, null, menuitem.min_qty, null)"  class="product-cart-item-update" data="{{menuitem.id}}" ng-bind-html="restaurant.translated_text.add|html"> </a>
+                  </div>
+                  <div ng-if="menuitem.combo == 1">
+                   <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id); commentinput = null" id="product-customize-id" ng-bind-html="restaurant.translated_text.customize|html"></div>
+                 </div>
+               </div>
+               <div ng-if="catergory_open_now == 0">
+                 <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed|html">     </span>
+               </div>
+             </div>
+           </div>
+           <div ng-if="categorys.timings_set == 0">
+             <div ng-if="menuitem.combo == 0">
+              <a href="" ng-click="cart.addItem(menuitem.id ,menuitem.title ,menuitem.price, menuitem.min_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id, null, null, null, null, null, null, null, null, menuitem.min_qty, null)"  class="product-cart-item-update" data="{{menuitem.id}}" ng-bind-html="restaurant.translated_text.add|html"> </a>
+            </div>
+            <div ng-if="menuitem.combo == 1">
+             <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id); commentinput = null" id="product-customize-id" ng-bind-html="restaurant.translated_text.customize|html"></div>
+           </div>
+         </div>
+         <div ng-if="categorys.timings_set == 2">
+           <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed|html"></span>
+         </div>
+       </div>
+       <div ng-if="restaurant_open_now == 0">
+        <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed|html"></span>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="(restaurant.timings_set == 2 && preorder_option=='0') || restaurant.rest_open == 0">
+   <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed|html"></span>
+ </div>
+ <div ng-if="(restaurant.timings_set == 0 && restaurant.rest_open == 1) || (preorder_option=='1' && restaurant.rest_open == 1)">
+   <div ng-if="categorys.timings_set == 1">
+    <div ng-init="category_timing_validate(categorys.timings)">
+      <div ng-if="catergory_open_now == 1">
+        <div ng-if="menuitem.combo == 0">
+          <a href="" ng-click="cart.addItem(menuitem.id ,menuitem.title ,menuitem.price, menuitem.min_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id, null, null, null, null, null, null, null, null, menuitem.min_qty, null)"  class="product-cart-item-update" data="{{menuitem.id}}" ng-bind-html="restaurant.translated_text.add|html"> </a>
+        </div>
+        <div ng-if="menuitem.combo == 1">
+         <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id); commentinput = null" id="product-customize-id" ng-bind-html="restaurant.translated_text.customize|html"></div>
+       </div>
+     </div> 
+     <div ng-if="catergory_open_now == 0">
+      <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed|html"></span>
+    </div>
+  </div>
+</div>
+<div ng-if="categorys.timings_set == 0">
+  <div ng-if="menuitem.combo == 0">
+    <a href="" ng-click="cart.addItem(menuitem.id ,menuitem.title ,menuitem.price, menuitem.min_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id, null, null, null, null, null, null, null, null, menuitem.min_qty, null)"  class="product-cart-item-update" data="{{menuitem.id}}" ng-bind-html="restaurant.translated_text.add|html"> </a>
+  </div>
+  <div ng-if="menuitem.combo == 1">
+   <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id); commentinput = null" id="product-customize-id" ng-bind-html="restaurant.translated_text.customize|html"></div>
+ </div>
+</div>
+<div ng-if="categorys.timings_set == 2">
+ <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed|html"></span>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<!-- Normal Add to cart code End-->
+
+
+
+</div>
+<div class="product-added-to-cart-text">
+  <div ng-repeat="restaurant in restaurants">
+    <span ng-bind-html="restaurant.translated_text.added_to_cart|html"></span>
+  </div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>

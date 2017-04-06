@@ -1,0 +1,174 @@
+﻿
+<!--   Product level -->
+<!--
+<input ng-model="search" class="product-search-input-box" placeholder="Search Products">-->
+
+<div ng-repeat="menuitem in categorys.menu_item" class="{{menu.title}} product-section {{categorys.id}} $index" ng-class="tags_array(menuitem.tags)">
+    <div class="product-section-div {{menuitem.id}}" >
+
+        <div ng-repeat="restaurant in restaurants" class="count-menu-item-section"><div class="count-menu-item" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div></div>
+
+        <div class="product-title-description-section">
+            <div class="product-image">
+                <img ng-src="{{menuitem.image_url}}">
+            </div>
+            <span ng-bind-html="menuitem.title | html"></span>
+            <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+        </div> 
+        <div class="product-select-add-to-cart">
+            <div ng-if="menuitem.variant.length">
+                <div ng-repeat="restaurant in restaurants" class="category-level-timing">
+                    <div ng-if="restaurant.timings_set == 1 && preorder_option == '0' && restaurant.rest_open == 1">
+                        <div ng-init = "timing_validate(restaurant.timings)">
+                            <div ng-if="restaurant_open_now == 1">
+                                <div ng-if="categorys.timings_set == 1">
+                                    <div ng-init="category_timing_validate(categorys.timings)">
+                                        <div ng-if="catergory_open_now == 1">
+                                            <div ng-include="'/' + folder_name + '/partials/grocery_variant.htm'"></div>
+                                        </div>
+                                        <div ng-if="catergory_open_now == 0">
+                                            <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed | html">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="categorys.timings_set == 0">
+                                    <div ng-include="'/' + folder_name + '/partials/grocery_variant.htm'"></div>
+                                </div>
+                                <div ng-if="categorys.timings_set == 2">
+                                    <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed | html"></span>
+                                </div>
+                            </div>
+                            <div ng-if="restaurant_open_now == 0">
+                                <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed | html"></span>
+                            </div>
+                        </div>
+                    </div> 
+                    <div ng-if="(restaurant.timings_set == 2 && preorder_option == '0') || restaurant.rest_open == 0">
+                        <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed | html"></span>
+                    </div>
+                    <div ng-if="(restaurant.timings_set == 0 && restaurant.rest_open == 1) || (preorder_option == '1' && restaurant.rest_open == 1)">
+                        <div ng-if="categorys.timings_set == 1">
+                            <div ng-init="category_timing_validate(categorys.timings)">
+                                <div ng-if="catergory_open_now == 1">
+                                    <div ng-include="'/' + folder_name + '/partials/grocery_variant.htm'"></div>
+                                </div>
+                                <div ng-if="catergory_open_now == 0">
+                                    <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed | html"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="categorys.timings_set == 0">
+                            <div ng-include="'/' + folder_name + '/partials/grocery_variant.htm'"></div>
+                        </div>
+                        <div ng-if="categorys.timings_set == 2">
+                            <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed | html"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Normal Add to cart -->
+            <div ng-if="!menuitem.variant.length">
+                <div class="product-add-to-cart">
+
+                    <div class="category-timing">
+                        <div ng-repeat="restaurant in restaurants" class="category-level-timing">
+                            <div ng-if="restaurant.timings_set == 1 && preorder_option == '0' && restaurant.rest_open == 1">
+                                <div ng-init = "timing_validate(restaurant.timings)">
+                                    <div ng-if="restaurant_open_now == 1">
+                                        <div ng-if="categorys.timings_set == 1">
+                                            <div ng-init="category_timing_validate(categorys.timings)">
+                                                <div ng-if="catergory_open_now == 1">
+
+                                                    <a href="" ng-click="cart.addItem(menuitem.id, menuitem.title, menuitem.price, product_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id)"  class="product-cart-item-update" data="{{menuitem.id}}">{{restaurant.translated_text.add}}<i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+
+
+                                                </div>
+                                                <div ng-if="catergory_open_now == 0">
+                                                    <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed | html"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div ng-if="categorys.timings_set == 0">
+                                            <a href="" ng-click="cart.addItem(menuitem.id, menuitem.title, menuitem.price, product_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id)"  class="product-cart-item-update" data="{{menuitem.id}}">{{restaurant.translated_text.add}}<i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                        </div>
+                                        <div ng-if="categorys.timings_set == 2">
+                                            <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed | html"></span>
+                                        </div>
+                                    </div>
+                                    <div ng-if="restaurant_open_now == 0">
+                                        <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed | html"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="(restaurant.timings_set == 2 && preorder_option == '0') || restaurant.rest_open == 0">
+                                <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed | html"></span>
+                            </div>
+                            <div ng-if="(restaurant.timings_set == 0 && restaurant.rest_open == 1) || (preorder_option == '1' && restaurant.rest_open == 1)">
+                                <div ng-if="categorys.timings_set == 1">
+                                    <div ng-init="category_timing_validate(categorys.timings)">
+                                        <div ng-if="catergory_open_now == 1">
+
+                                            <a href="" ng-click="cart.addItem(menuitem.id, menuitem.title, menuitem.price, product_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id)"  class="product-cart-item-update" data="{{menuitem.id}}">
+                                                {{restaurant.translated_text.add}}<i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+
+
+                                        </div> 
+                                        <div ng-if="catergory_open_now == 0">
+                                            <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed | html"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="categorys.timings_set == 0">
+
+
+                                    <a href="" ng-click="cart.addItem(menuitem.id, menuitem.title, menuitem.price, product_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id)"  class="product-cart-item-update" data="{{menuitem.id}}">{{restaurant.translated_text.add}}<i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+
+
+                                </div>
+                                <div ng-if="categorys.timings_set == 2">
+                                    <span class="restaurant-closed-button" ng-bind-html="restaurant.translated_text.closed | html"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Normal Add to cart code End-->
+
+
+
+        </div>
+
+        <div class="product-price-quantity-section">
+
+
+            <div ng-if="!menuitem.variant.length" class="product-price"><div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span></div>{{menuitem.price| number:2}}</div>
+
+            <div ng-if="menuitem.variant.length" class="product-price"><div ng-repeat="restaurant in restaurants" class="currency-sign"><span ng-bind-html="restaurant.currency_sign | html"></span></div>{{SelectedGrocery(menuitem.id)['price'] | number:2}}</div>
+
+            <div class="product-quantity" ng-init="product_qty = 1">
+                <button class="btn btn-inverse angular-cart-product-quantity-delete" type="button" 
+                        ng-click="product_qty = product_qty - 1" ng-disabled="product_qty < 2"><img src="/angular/img/theme23/minus.png"></button>
+                <div class="product-qty-text" ng-model="product_qty">{{product_qty}}</div>
+                <button class="btn btn-success angular-cart-product-quantity-add" type="button" ng-click="product_qty = product_qty + 1"><img src="/angular/img/theme23/add.png"></button>
+            </div>
+
+        </div>
+
+
+        <div class="product-added-to-cart-text">
+            <div ng-repeat="restaurant in restaurants">
+                <span ng-bind-html="restaurant.translated_text.added_to_cart | html"></span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="restaurant-page-overlay"></div>

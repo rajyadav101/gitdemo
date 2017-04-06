@@ -1,0 +1,98 @@
+<div class="angular-restaurant-logo-search">
+    <div class="left-corner"></div>
+    <div class="right-corner"></div>
+    <div ng-repeat="restaurant in restaurants">
+        <div class="grocery-mobile-menu"><i class="fa fa-bars" aria-hidden="true"></i><span class="grocery-mobile-menu-title"> Menu</span></div>
+        <div class="angular-restaurant-logo">
+
+            <div ng-if="restaurant.profile_id != '17162'" >
+                <img ng-src="{{restaurant.image_url}}"/>
+            </div>
+            <div ng-if="restaurant.profile_id == '17162'" >
+                <a href="http://app1.zeuslabs.co.uk/en/onlineorder/groceronlinekelty"><img ng-src="{{restaurant.image_url}}"/></a>
+            </div>
+
+            <span class="angular-restaurant-name">{{restaurant.title}}</span>  		
+        </div>
+
+        <div class="angular-restaurant-header-data-section" ng-if="restaurant.profile_id == 15307">
+            <div class="angular-restaurant-header-sub-title angular-restaurant-header-data-list">
+                Home-Style Indian Cuisine
+            </div>
+            <div class="angular-restaurant-header-url angular-restaurant-header-data-list display-phone">
+                <a href="http://800thali.com/" target="_blank">www.800thali.com</a><br>
+                <a href="tel:043659959">043659959</a>
+            </div>
+            <div class="angular-restaurant-header-facebook angular-restaurant-header-data-list">
+                <a href="https://www.facebook.com/800thali/" target="_blank"> <i class="fa fa-facebook" aria-hidden="true"></i> 800Thali</a>
+            </div>
+            <div class="angular-restaurant-header-twitter angular-restaurant-header-data-list">
+                <a href="https://twitter.com/800thali" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i> 800Thali</a>
+            </div>
+            <div class="angular-restaurant-header-phone angular-restaurant-header-data-list">
+                <a href="https://www.instagram.com/800thali/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i> 800Thali</a>
+            </div>
+        </div>
+        <div class="angular-restaurant-header-data-section" ng-if="restaurant.profile_id == 33479">
+            <div class="angular-restaurant-header-facebook angular-restaurant-header-data-list">
+            <a href="https://www.facebook.com/breadandolivesdubai/" target="_blank"> <i class="fa fa-facebook" aria-hidden="true"></i></a>
+        </div>
+            <div class="angular-restaurant-header-insta angular-restaurant-header-data-list">
+                <a href="https://www.instagram.com/breadandolivesdxb/" target="_blank"> <i class="fa fa-instagram" aria-hidden="true"></i></a>
+            </div>
+        </div>
+        <div class="angularjs-login-section">
+
+            <div ng-if="restaurant.user.logged_in == 0">
+                <span ng-if="restaurant.profile_id == 21892" class="btn btn-primary btn-lg angular-login-button page-login-login">
+                    <a ng-href="/bamboos_menu/1888-bamboos_menu.pdf"  target="_blank"><i class="fa fa-download" aria-hidden="true"></i> pdf Menu</a>
+                </span>
+                <span ng-if="restaurant.profile_id == 29765" class="btn btn-primary btn-lg angular-login-button page-login-login">
+                    <a ng-href="/goodies_poolside_menu/goodies_poolside_menu.pdf"  target="_blank"><i class="fa fa-download" aria-hidden="true"></i> pdf Menu</a>
+                </span>
+                <button class="btn btn-primary btn-lg angular-login-button page-login-login" data-toggle="modal" data-target="#myModalNorm" ng-click="loginvalidate_field()" ng-if="(restaurant.como.allow_register == 1 && restaurant.como.is_como == 1) || restaurant.como.is_como == 0">
+                    {{restaurant.translated_text.login}}
+                </button>
+                <span ng-if="restaurant.como.is_como == 1" class="page-login-create-separate">
+                    &nbsp;/&nbsp;
+                </span>
+                <button class="btn btn-primary btn-lg angular-login-button page-login-create" data-dismiss="modal" data-toggle="modal" data-target="#CreateAccountModal" ng-if="restaurant.como.allow_register == 1 && restaurant.como.is_como == 1">
+                    {{restaurant.translated_text.create_account}}
+                </button>
+
+            </div>
+            <div ng-if="restaurant.user.logged_in == 1">
+                <span ng-if="restaurant.profile_id == 21892" class="btn btn-primary btn-lg angular-login-button page-login-login">
+                    <a ng-href="/bamboos_menu/1888-bamboos_menu.pdf"  target="_blank"><i class="fa fa-download" aria-hidden="true"></i> pdf Menu</a>
+                </span>
+                
+                <span ng-if="restaurant.profile_id == 29765" class="btn btn-primary btn-lg angular-login-button page-login-login">
+                    <a ng-href="/goodies_poolside_menu/goodies_poolside_menu.pdf"  target="_blank"><i class="fa fa-download" aria-hidden="true"></i> pdf Menu</a>
+                </span>
+                <div class="angular-logout-section" ng-mouseenter="show = true" ng-mouseleave="show = false">
+                    <div class="angular-user-login-details">
+                        <div class="angular-user-login-img">
+                            <img ng-src="{{restaurant.user.user_info.image_url}}">
+                        </div>
+                        <div class="angular-user-login-name">
+                            {{restaurant.translated_text.hi_msg}} {{restaurant.user.user_info.first_name}}
+                        </div>
+                    </div>
+                    <div class="angular-user-login-divs-section" ng-show="show" ng-if="restaurant.como.is_como == 0 || restaurant.como.allow_logout == 1">
+                        <div class="arrow-widget"></div>
+                        <div class="angular-user-login-divs">
+                            <a  ng-if="restaurant.como.is_como != 1" href="/user/{{restaurant.user.user_id}}/myprofile"><div class="user-info-link">{{restaurant.translated_text.my_profile}}</div></a>
+                            <a ng-if="restaurant.como.is_como != 1 && restaurant.order_settings.show_coupons == 1" href="/user/{{restaurant.user.user_id}}/mycoupons" ng-if="restaurant.profile_id != 12606"><div class="user-info-link">{{restaurant.translated_text.my_coupon}}</div></a>
+                            <a  ng-if="restaurant.como.is_como != 1" href="/user/{{restaurant.user.user_id}}/orders"><div class="user-info-link">{{restaurant.translated_text.my_orders}}</div></a>
+                            <a ng-if="restaurant.como.is_como == 0 || restaurant.como.allow_logout == 1" href="javascript:void(0)" class="angular-logout-button user-info-link" ng-click="cart.clearItems();
+                                    logoutvalidate()">{{restaurant.translated_text.logout}}</a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

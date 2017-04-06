@@ -1,0 +1,29 @@
+  <div ng-repeat="restaurant in restaurants" ng-if="restaurant.parent_menu.length > 0 && restaurant.grocery == 1" class="category-section grocery-category-section">
+    <div class="category-section-title grocery-category-section-title">Browse Store<i class="fa fa-close grocery-category-close"></i></div>
+    <div ng-repeat="parent_category in restaurant.parent_menu" class="parent-category-title-section grocery-parent-category-title-section">
+      <div class="parent-category-title grocery-parent-category-title" ng-class="{active:$first}" 
+      ng-click="GroceryParentCategory(parent_category.id)">
+      {{parent_category.title}}
+    </div>
+    <div class="category-title-section grocery-category-title-section grocery-category-title-section-{{category.id}}" ng-repeat="category in parent_category.info">
+      <div class="category-name grocery-category-name" data="{{ category.id }}" ng-click="updateProduct(category.id)">
+       - <span>{{category.name}}</span>
+     </div>
+   </div>
+ </div>
+</div>
+
+
+<div ng-repeat="tags in categorys.tags_info" class="tags-section" ng-init="ClearTagCheckbox()">
+  <div class="tags-section-list">
+    <div class="tags-title">{{tags.label}}<i class="fa fa-close grocery-category-close"></i></div>
+    <input ng-model="tagsearch" placeholder="filter by brand" class="tag-search-input">
+    <div class="tag-search-section">
+      <div ng-repeat="(key, value) in tags.tags | Find: tagsearch||'' " class="tags-list">
+        <input type="checkbox" ng-model="tagselected[key]" id="{{key}}" ng-click="TagCheckbox(key, categorys.id)" ng-true-value="'{{key}}'" ng-false-value="'-1'"> 
+        <label for="{{key}}">{{value}}</label>
+      </div>
+      <div class="grocery-category-apply grocery-category-close">Done</div>
+    </div>
+  </div>
+</div>

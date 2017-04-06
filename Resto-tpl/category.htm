@@ -1,0 +1,13 @@
+  <!-- catergory filter print -->
+  <div class="angular-sidebar-category-filter">
+    <div class="angular-category-filter" ng-class="{hovering: open}" ng-mouseover="open=true" ng-mouseleave="open=false">
+      <div class="angular-category-link" ng-click="activeButton()">
+      <div class="angular-category-link-title" ng-if="restaurant.parent_menu.length == 0">{{restaurant.translated_text.category}}</div><div class="angular-category-link-title" ng-if="restaurant.parent_menu.length > 0">{{restaurant.translated_text.sub_category}}</div> <span class="bredcrumb-arrow"> > </span> <span class="category-bredcrumb" ng-bind-html="bredcrumb | html"></span><i class="fa fa-sort-desc"></i>
+      </div>
+      <div class="angular-catergory" ng-class="{'active': isActive}">
+        <div ng-repeat="menu in restaurant.menu" ng-class="{active:$first}" class="angular-catergory-list"> 
+                <div class="angular-category-name angular-catergory-list-child angular1-category-title-{{menu.id}}" data="{{ menu.id}}" ng-click="updateProduct(menu.id)" ><div class="category-count-section" ng-if="restaurant.order_settings.show_cat_count == 1">{{menu.count}}</div> <span ng-bind-html="menu.title | html"></div>
+        </div>
+      </div>
+    </div>
+  </div>

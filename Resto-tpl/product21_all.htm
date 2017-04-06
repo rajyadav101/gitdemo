@@ -1,0 +1,534 @@
+
+<!--   Product level -->
+
+<div ng-repeat="current_menu in filtered_menu">
+    <div ng-repeat="menuitem in current_menu.menu_item| filter:search" class="col-lg-4 col-sm-6 col-md-4 col-xs-6 {{current_menu.title}} product-section {{current_menu.id}} product-section-{{current_menu.id}} $index">
+
+        <div class="product-section-div">
+            <div ng-if="menuitem.variant.length || menuitem.attribute.length">
+                <div ng-repeat="restaurant in restaurants" class="category-level-timing">
+
+                    <div ng-if="restaurant.timings_set == 1 && preorder_option == '0' && restaurant.rest_open == 1">
+                        <div ng-init = "timing_validate(restaurant.timings)">
+
+                            <div ng-if="restaurant_open_now == 1">
+                                <div ng-if="current_menu.timings_set == 1">
+                                    <div ng-init="category_timing_validate(current_menu.timings)">
+                                        <div ng-if="catergory_open_now == 1">
+
+                                            <div ng-if="menuitem.combo == 0">
+                                                <div class="product-customize {{menuitem.id}}" ng-click="updateTopping(menuitem.id);
+                                                                ClearCheckbox(menuitem.id);
+                                                                clearcomment(menuitem.id);
+                                                                commentinput = null" id="product-customize-id">
+                                                    <div class="product-name-price-dis">
+                                                        <div class="product-name-price">
+                                                            <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                            <div class="product-price" ng-if="menuitem.price > 0">
+                                                                <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                        <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div ng-if="menuitem.combo == 1">
+                                                <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id);
+                                                                ClearCheckbox(menuitem.id);
+                                                                clearcomment(menuitem.id);
+                                                                commentinput = null" id="product-customize-id">
+                                                    <div class="product-name-price-dis">
+                                                        <div class="product-name-price">
+                                                            <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                            <div class="product-price" ng-if="menuitem.price > 0">
+                                                                <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                        <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div ng-if="catergory_open_now == 0">
+                                            <span class="restaurant-closed-button">
+                                                <div class="product-name-price-dis">
+                                                    <div class="product-name-price">
+                                                        <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                        <div class="restaurant-closed" ng-bind-html="restaurant.translated_text.closed | html">  </div>
+                                                        <div class="product-price"  ng-if="menuitem.price > 0">
+                                                            <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="current_menu.timings_set == 0">
+
+                                    <div ng-if="menuitem.combo == 0">
+                                        <div class="product-customize {{menuitem.id}}" ng-click="updateTopping(menuitem.id);
+                                                        ClearCheckbox(menuitem.id);
+                                                        clearcomment(menuitem.id);
+                                                        commentinput = null" id="product-customize-id">
+                                            <div class="product-name-price-dis">
+                                                <div class="product-name-price">
+                                                    <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                    <div class="product-price" ng-if="menuitem.price > 0">
+                                                        <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                    </div>
+                                                </div>
+                                                <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if="menuitem.combo == 1">
+                                        <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id);
+                                                        ClearCheckbox(menuitem.id);
+                                                        clearcomment(menuitem.id);
+                                                        commentinput = null" id="product-customize-id">
+                                            <div class="product-name-price-dis">
+                                                <div class="product-name-price">
+                                                    <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                    <div class="product-price" ng-if="menuitem.price > 0">
+                                                        <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                    </div>
+                                                </div>
+                                                <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div ng-if="current_menu.timings_set == 2">
+                                    <span class="restaurant-closed-button">
+                                        <div class="product-name-price-dis">
+                                            <div class="product-name-price">
+                                                <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                <div class="restaurant-closed" ng-bind-html="restaurant.translated_text.closed | html"></div>
+                                                <div class="product-price" ng-if="menuitem.price > 0">
+                                                    <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                </div>
+                                            </div>
+                                            <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                        </div>
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <div ng-if="restaurant_open_now == 0">
+                                <span class="restaurant-closed-button">
+                                    <div class="product-name-price-dis">
+                                        <div class="product-name-price">
+                                            <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                            <div class="restaurant-closed" ng-bind-html="restaurant.translated_text.closed | html"></div>
+                                            <div class="product-price" ng-if="menuitem.price > 0">
+                                                <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                            </div>
+                                        </div>
+                                        <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div> 
+
+                    <div ng-if="(restaurant.timings_set == 2 && preorder_option == '0') || restaurant.rest_open == 0">
+                        <span class="restaurant-closed-button">
+                            <div class="product-name-price-dis">
+                                <div class="product-name-price">
+                                    <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                    <div class="restaurant-closed" ng-bind-html="restaurant.translated_text.closed | html"></div>
+                                    <div class="product-price" ng-if="menuitem.price > 0">
+                                        <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                    </div>
+                                </div>
+                                <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                            </div>
+                        </span>
+                    </div>
+
+                    <div ng-if="(restaurant.timings_set == 0 && restaurant.rest_open == 1) || (preorder_option == '1' && restaurant.rest_open == 1)">
+                        <div ng-if="current_menu.timings_set == 1">
+                            <div ng-init="category_timing_validate(current_menu.timings)">
+                                <div ng-if="catergory_open_now == 1">
+
+                                    <div ng-if="menuitem.combo == 0">
+                                        <div class="product-customize {{menuitem.id}}" ng-click="updateTopping(menuitem.id);
+                                                        ClearCheckbox(menuitem.id);
+                                                        clearcomment(menuitem.id);
+                                                        commentinput = null" id="product-customize-id">
+                                            <div class="product-name-price-dis">
+                                                <div class="product-name-price">
+                                                    <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                    <div class="product-price"  ng-if="menuitem.price > 0">
+                                                        <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                    </div>
+                                                </div>
+                                                <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if="menuitem.combo == 1">
+                                        <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id);
+                                                        ClearCheckbox(menuitem.id);
+                                                        clearcomment(menuitem.id);
+                                                        commentinput = null" id="product-customize-id">
+                                            <div class="product-name-price-dis">
+                                                <div class="product-name-price">
+                                                    <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                    <div class="product-price" ng-if="menuitem.price > 0">
+                                                        <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                    </div>
+                                                </div>
+                                                <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div ng-if="catergory_open_now == 0">
+                                    <span class="restaurant-closed-button">
+                                        <div class="product-name-price-dis">
+                                            <div class="product-name-price">
+                                                <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                <div class="restaurant-closed" ng-bind-html="restaurant.translated_text.closed | html"></div>
+                                                <div class="product-price" ng-if="menuitem.price > 0">
+                                                    <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                </div>
+                                            </div>
+                                            <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="current_menu.timings_set == 0">
+
+                            <div ng-if="menuitem.combo == 0">
+                                <div class="product-customize {{menuitem.id}}" ng-click="updateTopping(menuitem.id);
+                                                ClearCheckbox(menuitem.id);
+                                                clearcomment(menuitem.id);
+                                                commentinput = null" id="product-customize-id">
+                                    <div class="product-name-price-dis">
+                                        <div class="product-name-price">
+                                            <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                            <div class="product-price" ng-if="menuitem.price > 0">
+                                                <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                            </div>
+                                        </div>
+                                        <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                        <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="menuitem.combo == 1">
+                                <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id);
+                                                ClearCheckbox(menuitem.id);
+                                                clearcomment(menuitem.id);
+                                                commentinput = null" id="product-customize-id">
+                                    <div class="product-name-price-dis">
+                                        <div class="product-name-price">
+                                            <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                            <div class="product-price" ng-if="menuitem.price > 0">
+                                                <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                            </div>
+                                        </div>
+                                        <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                        <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div ng-if="current_menu.timings_set == 2">
+                            <span class="restaurant-closed-button">
+                                <div class="product-name-price-dis">
+                                    <div class="product-name-price">
+                                        <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                        <div class="restaurant-closed" ng-bind-html="restaurant.translated_text.closed | html"></div>
+                                        <div class="product-price" ng-if="menuitem.price > 0">
+                                            <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                        </div>
+                                    </div>
+                                    <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Normal Add to cart -->
+            <div ng-if="!menuitem.variant.length && !menuitem.attribute.length">
+                <div class="product-add-to-cart">
+
+                    <div class="category-timing">
+                        <div ng-repeat="restaurant in restaurants" class="category-level-timing">
+                            <div ng-if="restaurant.timings_set == 1 && preorder_option == '0' && restaurant.rest_open == 1">
+                                <div ng-init = "timing_validate(restaurant.timings)">
+                                    <div ng-if="restaurant_open_now == 1">
+                                        <div ng-if="current_menu.timings_set == 1">
+                                            <div ng-init="category_timing_validate(current_menu.timings)">
+                                                <div ng-if="catergory_open_now == 1">
+
+                                                    <div ng-if="menuitem.combo == 0">
+                                                        <div ng-click="cart.addItem(menuitem.id, menuitem.title, menuitem.price, menuitem.min_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id, null, null, null, null, null, null, null, null, menuitem.min_qty)" class="product-cart-item-update">
+                                                            <div class="product-name-price-dis">
+                                                                <div class="product-name-price">
+                                                                    <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                                    <div class="product-price" ng-if="menuitem.price > 0">
+                                                                        <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}</div>
+                                                                </div>
+                                                                <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                                <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div ng-if="menuitem.combo == 1">
+                                                        <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id);
+                                                                        ClearCheckbox(menuitem.id);
+                                                                        clearcomment(menuitem.id);
+                                                                        commentinput = null" id="product-customize-id">
+                                                            <div class="product-name-price-dis">
+                                                                <div class="product-name-price">
+                                                                    <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                                    <div class="product-price" ng-if="menuitem.price > 0">
+                                                                        <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                                <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div ng-if="catergory_open_now == 0">
+                                                    <span class="restaurant-closed-button">
+                                                        <div class="product-name-price-dis">
+                                                            <div class="product-name-price">
+                                                                <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                                <div class="restaurant-closed" ng-bind-html="restaurant.translated_text.closed | html">  </div>
+                                                                <div class="product-price" ng-if="menuitem.price > 0">
+                                                                    <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-if=" current_menu.timings_set == 0">
+
+                                            <div ng-if="menuitem.combo == 0">
+                                                <div ng-click="cart.addItem(menuitem.id, menuitem.title, menuitem.price, menuitem.min_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id, null, null, null, null, null, null, null, null, menuitem.min_qty)" class="product-cart-item-update">
+                                                    <div class="product-name-price-dis">
+                                                        <div class="product-name-price">
+                                                            <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                            <div class="product-price" ng-if="menuitem.price > 0">
+                                                                <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}</div>
+                                                        </div>
+                                                        <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                        <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div ng-if="menuitem.combo == 1">
+                                                <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id);
+                                                                ClearCheckbox(menuitem.id);
+                                                                clearcomment(menuitem.id);
+                                                                commentinput = null" id="product-customize-id">
+                                                    <div class="product-name-price-dis">
+                                                        <div class="product-name-price">
+                                                            <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                            <div class="product-price" ng-if="menuitem.price > 0">
+                                                                <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                        <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div ng-if=" current_menu.timings_set == 2">
+                                            <span class="restaurant-closed-button">
+                                                <div class="product-name-price-dis">
+                                                    <div class="product-name-price">
+                                                        <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                        <div class="restaurant-closed" ng-bind-html="restaurant.translated_text.closed | html"></div>
+                                                        <div class="product-price" ng-if="menuitem.price > 0">
+                                                            <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div ng-if="restaurant_open_now == 0">
+                                        <span class="restaurant-closed-button">
+                                            <div class="product-name-price-dis">
+                                                <div class="product-name-price">
+                                                    <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                    <div class="restaurant-closed" ng-bind-html="restaurant.translated_text.closed | html"></div>
+                                                    <div class="product-price" ng-if="menuitem.price > 0">
+                                                        <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                    </div>
+                                                </div>
+                                                <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div ng-if="(restaurant.timings_set == 2 && preorder_option == '0') || restaurant.rest_open == 0">
+                                <span class="restaurant-closed-button">
+                                    <div class="product-name-price-dis">
+                                        <div class="product-name-price">
+                                            <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                            <div class="restaurant-closed" ng-bind-html="restaurant.translated_text.closed | html"></div>
+                                            <div class="product-price" ng-if="menuitem.price > 0">
+                                                <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                            </div>
+                                        </div>
+                                        <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                    </div>
+                                </span>
+                            </div>
+
+                            <div ng-if="(restaurant.timings_set == 0 && restaurant.rest_open == 1) || (preorder_option == '1' && restaurant.rest_open == 1)">
+
+                                <div ng-if="current_menu.timings_set == 1">
+                                    <div ng-init="category_timing_validate(current_menu.timings)">
+                                        <div ng-if="catergory_open_now == 1">
+
+                                            <div ng-if="menuitem.combo == 0">
+                                                <div ng-click="cart.addItem(menuitem.id, menuitem.title, menuitem.price, menuitem.min_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id, null, null, null, null, null, null, null, null, menuitem.min_qty)" class="product-cart-item-update">
+                                                    <div class="product-name-price-dis">
+                                                        <div class="product-name-price">
+                                                            <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                            <div class="product-price" ng-if="menuitem.price > 0">
+                                                                <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}</div>
+                                                        </div>
+                                                        <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                        <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div ng-if="menuitem.combo == 1">
+                                                <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id);
+                                                                ClearCheckbox(menuitem.id);
+                                                                clearcomment(menuitem.id);
+                                                                commentinput = null" id="product-customize-id">
+                                                    <div class="product-name-price-dis">
+                                                        <div class="product-name-price">
+                                                            <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                            <div class="product-price" ng-if="menuitem.price > 0">
+                                                                <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                        <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div ng-if="catergory_open_now == 0">
+                                            <span class="restaurant-closed-button">
+                                                <div class="product-name-price-dis">
+                                                    <div class="product-name-price">
+                                                        <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                        <div class="restaurant-closed" ng-bind-html="restaurant.translated_text.closed | html"></div>
+                                                        <div class="product-price" ng-if="menuitem.price > 0">
+                                                            <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="current_menu.timings_set == 0">
+
+                                    <div ng-if="menuitem.combo == 0">
+                                        <div ng-click="cart.addItem(menuitem.id, menuitem.title, menuitem.price, menuitem.min_qty, menuitem.image_url, menuitem.id, updatedSize(menuitem.id)['variantid'], updatedValue(menuitem.id)['opval'], categorys.id, null, null, null, null, null, null, null, null, menuitem.min_qty)" class="product-cart-item-update">
+                                            <div class="product-name-price-dis">
+                                                <div class="product-name-price">
+                                                    <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                    <div class="product-price" ng-if="menuitem.price > 0">
+                                                        <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}</div>
+                                                </div>
+                                                <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if="menuitem.combo == 1">
+                                        <div class="product-customize {{menuitem.id}}" ng-click="updateCombo(menuitem.id);
+                                                        ClearCheckbox(menuitem.id);
+                                                        clearcomment(menuitem.id);
+                                                        commentinput = null" id="product-customize-id">
+                                            <div class="product-name-price-dis">
+                                                <div class="product-name-price">
+                                                    <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                    <div class="product-price" ng-if="menuitem.price > 0">
+                                                        <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                    </div>
+                                                </div>
+                                                <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                                <div class="item-added-to-cart" ng-bind-html="restaurant.translated_text.added_to_cart | html"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div ng-if=" current_menu.timings_set == 2">
+                                    <span class="restaurant-closed-button">
+                                        <div class="product-name-price-dis">
+                                            <div class="product-name-price">
+                                                <div class="product-name"><div class="count-current_menu-item-section" ng-if="restaurant.order_settings.show_item_count == 1">{{menuitem.count}}. </div><span ng-bind-html="menuitem.title | html"></span></div>
+                                                <div class="restaurant-closed" ng-bind-html="restaurant.translated_text.closed | html"></div>
+                                                <div class="product-price" ng-if="menuitem.price > 0">
+                                                    <span class="currency-sign" ng-bind-html="restaurant.currency_sign | html"></span>{{menuitem.price| number:2}}
+                                                </div>
+                                            </div>
+                                            <div class="product-description" ng-bind-html="menuitem.description | html"></div>
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Normal Add to cart code End-->
+
+        </div>
+    </div>
+</div>
