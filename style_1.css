@@ -1,0 +1,146 @@
+@font-face{
+    font-family: WagamamaBold;
+    src: url('/sites/default/files/external_assets/18548/17/WagamamaBold.ttf');
+        
+}
+body{
+   font-family: WagamamaBold !important; 
+   background: url(/sites/default/files/external_assets/18548/17/oliva.jpg) no-repeat center center fixed;
+    background-size: 100% 100%;
+    text-transform: lowercase !important;
+}
+.angular-restaurant-logo-search
+{
+	background: #000;
+}
+.angular-category-link 
+{
+	background: #000;
+	box-shadow: 0 -2px 1px #000 inset;
+	border-bottom: 1px solid #484444;
+	color: white;
+}
+.angular-catergory
+{
+	background: #000;
+	box-shadow: 0 1px 1px transparent inset;
+}
+.angular-category-name
+{
+	border-bottom: 1px solid #484444;
+}
+.angular-login-button, .product-customize, .restaurant-closed-button, 
+.product-add-to-cart a, .variant-attribute-add-to-cart-section a, .variant-attribute-popup-close, 
+.angular-cart-order-now, .angular-login-button-submit button
+{
+	background: #E82D39 !important;
+        text-transform: lowercase;
+}
+.angular-login-button:hover, .product-customize:hover,
+.restaurant-closed-button:hover, .product-add-to-cart a:hover,
+.variant-attribute-add-to-cart-section a:hover,
+.variant-attribute-popup-close:hover, .angular-cart-order-now:hover
+{
+	background: #E82D39;
+}
+
+.product-section-div, .angular-cart-section{
+    background:rgba(255,255,255,.85);
+}
+
+
+.page-cart-checkout .main-container .page-header {
+	background: #000;
+}
+
+.page-cart-checkout .main-container .panel .panel-heading {
+	background: #000;
+	border-color: #000;
+	color: white;
+        text-transform: lowercase;
+}
+.page-cart-checkout .cart-order-link a, .page-cart-checkout .popup-login-login-link a {
+	background: #E82D39;
+	border-color: #E82D39;
+	box-shadow: none;
+}
+.page-cart-checkout .btn-primary, .page-cart-checkout .btn-default, .page-cart-checkout .btn-info, .page-cart-checkout .btn-widget, .page-cart-checkout .btn-primary:hover, .page-cart-checkout .btn-default:hover, .page-cart-checkout .btn-info:hover, .page-cart-checkout .btn-widget:hover, .page-cart-checkout .btn-primary:focus, .page-cart-checkout .btn-default:focus, .page-cart-checkout .btn-info:focus, .page-cart-checkout .btn-widget:focus {
+	background: #E82D39;
+	border-color: transparent;
+}
+.page-cart-checkout #dropdown-login .login.btn.btn-widget, .page-cart-checkout #dropdown-login .btn-default, .page-cart-checkout #dropdown-login .btn-default:hover, .page-cart-checkout #dropdown-login .btn-default:focus {
+	background: #E82D39;
+	border-color: transparent;
+	margin-top: 5px;
+}
+.page-cart-checkout #dropdown-login a.facebook-login-icon {
+	color: #E82D39;
+}
+.order-review-table .pane-title-row {
+	background: #E82D39;
+	border-color: transparent;
+	color: white;
+}
+.page-cart-checkout-review .order-review-table .pane-title-row td {
+	background: #000 none repeat scroll 0 0 !important;
+	color: white;
+}
+body.page-cart-checkout .main-container .popup-login-login-link a,
+body.page-cart-checkout .main-container .popup-login-login-link a:focus,
+body.page-cart-checkout .main-container .popup-login-login-link a:hover,
+body.page-cart-checkout .main-container .btn-widget,
+body.page-cart-checkout .main-container .btn-info,
+body.page-cart-checkout .main-container .btn-default,
+body.page-cart-checkout .main-container .btn-primary,
+body.page-cart-checkout .main-container .btn-widget:hover,
+body.page-cart-checkout .main-container .btn-info:hover,
+body.page-cart-checkout .main-container .btn-default:hover, 
+body.page-cart-checkout .main-container .btn-primary:hover
+{
+	background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0, #E82D39), color-stop(100%, #E82D39));
+	background-image: -moz-linear-gradient(#E82D39, #E82D39);
+	background-image: -webkit-linear-gradient(#E82D39, #E82D39);
+	background-image: linear-gradient(#E82D39, #E82D39);
+        text-transform: lowercase;
+}
+.activelocation .location-chooser-submit-button{
+    background-image: linear-gradient(#E82D39, #E82D39);
+    background-color:#E82D39;
+}
+
+input[type=radio]:checked + label:before{
+	background: #000;
+}
+.attribute-option input:checked + label, .variant-options input:checked + label,
+input:checked + label
+{
+	color: #000;
+}
+.angular-catergory-list.active .angular-category-name{
+    
+}
+.angular-category-name, .page-header, .page-cart-checkout #delivery-pane .form-control, .page-cart-checkout #customer-pane .form-control, .page-cart-checkout #coupon-pane .form-control, .page-cart-checkout #billing-pane .form-control{
+    text-transform: lowercase !important;
+}
+
+.activelocation .ui-autocomplete.ui-widget .ui-menu-item a.ui-state-focus {
+    background: #de3130;
+    padding: 9px 12px;
+    border: none;
+    font-size: 13px;
+    color: white;
+    line-height: 20px;
+}
+.promotion-close-button{
+    left:1px;
+}
+@media screen and (min-width: 320px) and (max-width: 420px)  {
+   .promotion-close-button{
+    left:10px;
+    
+} 
+body {
+    background: url(/sites/default/files/external_assets/18548/17/oliva.jpg) repeat;
+    text-transform: lowercase !important;
+}
+}
