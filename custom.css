@@ -1,104 +1,310 @@
-body{
-   
-    font-family: 'Futura PT Multilingual W01', Futura, sans-serif;
-    font-weight: 400;
+body.theme_17
+{
+	background: url(http://app1.restolabs.com/italiano_images/ITALIANO_5.jpg) no-repeat fixed;
+	background-size: cover;
+}
+.theme_17 .angular-restaurant-logo-search
+{
+	height: 115px;
+	background:transparent;
+	background-size: 100%;
+    -webkit-border-radius: 1px;
+    border-radius: 1px;
+    background: transparent;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.25) 0 5px 5px;
+    box-shadow: none;
+    -moz-background-clip: content;
+    -o-background-clip: content-box;
+    -webkit-background-clip: content;
+    background-clip: content-box;
     
- }
+}
+.theme_17 .angular-restaurant-logo img {
+    max-width: 785px;
+    max-height: 150px;
+    margin-top: -30px;
+}
 
- .angular-restaurant-logo img {
-    max-height: 90px;
-    margin-top: 0px;
-    margin-left: 0px;
-    
+.theme_17 .angular-category-name {
+   color: #eeecec;
+    border-bottom: 1px solid #eeecec;
 }
-.angular-login-button, .product-customize, .restaurant-closed-button, .product-add-to-cart a, .variant-attribute-add-to-cart-section a, .variant-attribute-popup-close, .angular-cart-order-now, .angular-login-button-submit button{
-    background:rgb(235,32,45);
+.theme_17 .angular-category-name:hover {
+    color: #eeecec;
+    background: #FF4700;
 }
-.angular-login-button:hover, .product-customize:hover, .restaurant-closed-button:hover, .product-add-to-cart a:hover, .variant-attribute-add-to-cart-section a:hover, .variant-attribute-popup-close:hover, .angular-cart-order-now:hover, .lolarosa-submit button:hover {
-    background:rgb(235,32,45);
-/*    background-image: -webkit-gradient(#EB202D, #EB202D);
-    background-image: -moz-linear-gradient(#EB202D, #EB202D);
-    background-image: -webkit-linear-gradient(#EB202D, #EB202D);
-    background-image: linear-gradient(#EB202D, #EB202D);*/
+.theme_17 .angular-category-link 
+{
+	background: #ff692e;
+	box-shadow: 0 -2px 1px #ff692e inset;
+	border-bottom: 1px solid #ff692e;
+	color: white;
 }
-.product-customize, .restaurant-closed-button {
-     background:rgb(235,32,45);
-/*    background-image: -webkit-gradient(#EB202D, #EB202D);
-    background-image: -moz-linear-gradient(#EB202D, #EB202D);
-    background-image: -webkit-linear-gradient(#EB202D, #EB202D);
-    background-image: linear-gradient(#EB202D, #EB202D);*/
+.theme_17 .angular-catergory-list.active .angular-category-name 
+{
+	color: #150404;
 }
-.angular-restaurant-logo-search {   
-    background: #fff;
-    height: 90px;
+.theme_17 .angular-catergory 
+{
+	background: #ff692e;
 }
-.angular-category-link {
-    padding: 10px 10%;
-    display: block;
-    font-size: 15px;
-    border: 1px solid transparent;
-    background: #EB202D;
-    box-shadow: 0 -2px 1px #EB202D inset;
-    border-bottom: 1px solid #EB202D;
-    border-top-left-radius: 1px;
-    border-top-right-radius: 1px;
+.theme_17 .product-price 
+{
+	color: #ff3e04;
+}
+.theme_17 .product-size-topping-section
+{
+	background: #f5f5f5;
+}
+.theme_17 .angularjs-login-section 
+{
+	
+	margin-top: 30px;
+	margin-right: 20px;
+}
+.theme_17 .angularjs-login-section button, .theme_17 .angularjs-login-section button:hover,
+.theme_17 .angularjs-login-section button:focus
+{
+	outline: none;
+	background: #ff692e;
+	color: #fff;
+	font-size: 17px;
+	letter-spacing: 1px;
+	text-shadow: rgba(0, 0, 0, 0.5) 0 1px 1px;
+}
+.theme_17 .variant-attribute-add-to-cart-section button{
+     display: inline-block;
+    padding: 6.5px 18.5px;
+    font-size: 13px;
     font-weight: 500;
+    text-transform: uppercase;
+    border: none;
+    color: #ffffff;
+    border-radius: 2px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 500;
+    margin-right: 10px;
+     background: linear-gradient(#FF4700, #CF3A00, #7C2300);
+    box-shadow: 2px 3px 4px rgb(20, 16, 16);
+
 }
-.parent-category-title{
-    color:rgb(235,32,45);
-    background:#fff;
-    border:1px solid rgb(235,32,45);
-    border:1px solid rgb(235,32,45);
+.theme_17 .variant-attribute-add-to-cart-section button:hover{
+      background: linear-gradient(#7C2300, #CF3A00, #FF4700);
 }
-.parent-category-title.active{
-    background:rgb(235,32,45);
-    color:#fff;
+.theme_17 .angular-login-button, .theme_17 .product-customize, .theme_17 .restaurant-closed-button, 
+.theme_17 .product-add-to-cart a, .theme_17 .variant-attribute-add-to-cart-section a,
+.theme_17 .variant-attribute-popup-close, .theme_17 .angular-cart-order-now,
+.theme_17 .angular-login-button-submit button, .theme_17 .angular-login-button-submit button,
+.theme_17 .angular-login-forgot-password-button button
+{
+    
+    background: linear-gradient(#FF4700, #CF3A00, #7C2300);
+    box-shadow: 2px 3px 4px rgb(20, 16, 16);
 }
-.angular-category-link {
-    background: #fff;
-    box-shadow: 0 -2px 1px #EB202D inset;
-    border-bottom: 1px solid #EB202D;
-    color: #EB202D;
+.theme_17 .angular-login-button:hover, .theme_17 .product-customize:hover,
+.theme_17 .restaurant-closed-button:hover, .theme_17 .product-add-to-cart a:hover,
+.theme_17 .variant-attribute-add-to-cart-section a:hover, 
+.theme_17 .variant-attribute-popup-close:hover, .theme_17 .angular-cart-order-now:hover, 
+.theme_17 .lolarosa-submit button:hover 
+{
+   
+    
+    background: linear-gradient(#7C2300, #CF3A00, #FF4700);
 }
-.angular-category-name {
-    color: #EB202D;
-    border-bottom: 1px solid #EB202D;
-    background: #fff;
+.theme_17 .angular-cart-product-price
+{
+	color: #ff3e04;
 }
-.angular-catergory-list.active .angular-category-name {
-    color: #fff;
-    background: #EB202D;
+.theme_17 .scroll-to-cart-mobile
+{
+	background:#ff3e04;
+}
+.theme_17 .attribute-option input:checked + label, .theme_17 .variant-options input:checked + label
+{
+	color: #ff3e04;
+}
+.page-cart-checkout .user-info{
+    top:30px;
+}
+.theme_17  input[type=radio]:checked + label:before 
+{
+	background: #ff3e04;
+}
+.controller-section {
+    padding: 8px;
+    border-radius: 2px;
+    background: #ff692e;
+    cursor: pointer;
+    height: 36px;
+    box-shadow: 2px 2px 2px 2px rgba(51, 51, 51, 0.89);
+}
+.theme_21 .switcher-value .theme2, .theme_17 .switcher-value .theme1, .theme_18 .switcher-value .theme3, .theme_19 .switcher-value .theme5, .theme_20 .switcher-value .theme4, .switcher-value span:hover {
+    background: #ff692e;
+    color: white;
 }
 input[type=radio]:checked + label:before {
-    box-shadow: none;
-    border-radius: 50%;
-    background: #EB202D;
-    border: 3px solid #C7C7C7;
+   
+    background: #ff692e;
+   
 }
-.attribute-option input:checked + label, .variant-options input:checked + label {
-    color: #EB202D;
+/*#close-trial{
+    display:none;
+}*/
+.page-cart-checkout .btn-primary, .page-cart-checkout .btn-default, .page-cart-checkout .btn-info, .page-cart-checkout .btn-widget, .page-cart-checkout .btn-primary:hover, .page-cart-checkout .btn-default:hover, .page-cart-checkout .btn-info:hover, .page-cart-checkout .btn-widget:hover, .page-cart-checkout .btn-primary:focus, .page-cart-checkout .btn-default:focus, .page-cart-checkout .btn-info:focus, .page-cart-checkout .btn-widget:focus {
+   background: linear-gradient(#FF4700, #CF3A00, #7C2300);
 }
-
-body.page-cart-checkout {
-
-}
-
 .page-cart-checkout .panel .panel-heading {
-   
-    background: #EB202D;
+    background: #ff692e;
+    border-color: #ff692e;
     color: #fff;
-   
 }
-.variant-options, .attribute-option {
-    
-    width: 50%;
-    
+ .nation-flag img.active {
+    opacity: 1.5;
+}
+.select-you-language{
+color: white;
 }
 
-@media screen and (max-width: 768px) and (min-width: 100px){
-.variant-options, .attribute-option {
-    
-    width: 100%;
-   
+
+.upper-cart-details-section {
+    max-height: none;
+    overflow-y: hidden;
+    margin-left: -10px;
+    padding-left: 10px;
+    margin-right: -10px;
+    padding-right: 10px;
 }
+
+.angular-cart-product-rows{
+    max-height: 230px;
+    overflow-y: auto;
+}
+@media screen and (min-width: 10px) and (max-width: 1000px){
+	body.theme_17{
+	background: url(http://app1.restolabs.com/italiano_images/ITALIANO_6.jpg) no-repeat fixed;
+	background-size: cover;
+    }
+}
+
+@media screen and (min-width: 383px) and (max-width: 768px)  {
+	body
+	{
+		background-position-y: -76px;
+	}
+	.theme_17 .angular-restaurant-logo-search
+	{
+		height: 90px;
+	}
+	.theme_17 .angular-restaurant-logo img 
+	{
+		max-height: 80px;
+		margin-top: 5px;
+	}
+	.theme_17 .angularjs-login-section 
+	{
+		margin-top: 30px;
+		margin-right: 0px;
+	}
+	.trail-fix {
+    bottom: 0;
+    position: fixed;
+    background: rgba(0,0,0,.6);
+    background-size: 100% 100%;
+    color: #FFf;
+    width: 100%;
+    padding-top: 4px;
+    padding-bottom: 20px;
+    text-align: center;
+    left:0;
+}
+
+}
+
+@media screen and (min-width: 113px) and (max-width: 382px)  {
+	body
+	{
+		background-position-y: -94px;
+	}
+	.theme_17 .angular-restaurant-logo-search
+	{
+		height: 90px;
+	}
+	.theme_17 .angular-restaurant-logo img 
+	{
+		max-height: 60px;
+		margin-top: 5px;
+	}
+	.theme_17 .angularjs-login-section 
+	{
+		margin-top: 10px;
+		margin-right: 0px;
+	}
+}
+
+body.page-cart-checkout
+{
+	background: url(http://dev-rws-restolabs.pantheonsite.io/italiano/Italiano1.jpg) no-repeat fixed;
+	background-size: cover;
+	
+}
+
+body.page-cart-checkout .main-container .popup-login-login-link a,
+body.page-cart-checkout .main-container .btn-widget, 
+body.page-cart-checkout .main-container .btn-info, 
+body.page-cart-checkout .main-container .btn-default, 
+body.page-cart-checkout .main-container .btn-primary
+{
+    background-image: linear-gradient(#fd3d03, #be5839);
+}
+body.page-cart-checkout .main-container .popup-login-login-link a:focus,
+body.page-cart-checkout .main-container .popup-login-login-link a:hover,
+body.page-cart-checkout .main-container .btn-widget:hover,
+body.page-cart-checkout .main-container .btn-info:hover,
+body.page-cart-checkout .main-container .btn-default:hover,
+body.page-cart-checkout .main-container .btn-primary:hover
+{
+    background-image: linear-gradient(#be5839, #fd3d03);
+}
+.page-cart-checkout .page-header {
+   
+    background: url(http://app1.restolabs.com/italiano_images/ITALIANO_0.jpg);
+    padding: 45px;
+    padding-top: 45px !important;
+}
+.trail-fix {
+    bottom: 0;
+    position: fixed;
+    background: rgba(0,0,0,.6);
+    background-size: 100% 100%;
+    color: #FFf;
+    width: 100%;
+    padding-top: 4px;
+    padding-bottom: 20px;
+    text-align: center;
+    left:0;
+    right:0;
+}
+.rtl .trail-fix{
+    margin-left: 0% !important;
+    margin-right: -10% !important;
+}
+@media screen and (min-width: 100px) and (max-width: 768px)  {
+	
+	.trail-fix {
+    bottom: 0;
+    position: fixed;
+    background: rgba(0,0,0,.6);
+    background-size: 100% 100%;
+    color: #FFf;
+    width: 100%;
+    padding-top: 4px;
+    text-align: center;
+    left:0;
+}
+.rtl .trail-fix{
+    margin-left: 0% !important;
+    margin-right: -5% !important;
+}
+
 }

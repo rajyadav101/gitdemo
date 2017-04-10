@@ -760,7 +760,7 @@ body.lemongrass.bodyscrollshow.activelocation {
 }
 
 .zeus-controller-data.open {
-    display: block;
+    display: block !important;
 }
 
 .switcher-title {
@@ -1371,14 +1371,26 @@ body.bodyscrollshow.activelocation {
         max-height: 100%;
         width:auto;
     }
+    .variant-attribute-add-to-cart-section{
+        padding:2px 15px !important;
+    }
+    .product-details-topping-disc{
+        height:50px;
+        margin-bottom:5px;
+        overflow-y:auto;
+    }
+    .page-cart-checkout .alert{
+        max-width:100%;
+    }
 }
+   
 @media screen and (min-width: 620px) and (max-width: 1280px){
     #close-trial{
         margin-right:2%;
     }
     
 }
-// zoom css start
+/*// zoom css start*/
 .zoomed{
     margin-left: 4em;
 }
@@ -1417,4 +1429,4 @@ aside {
     margin: 0 .5em;    
     padding: 0;
 }
-//zoom css end
+/*//zoom css end*/
